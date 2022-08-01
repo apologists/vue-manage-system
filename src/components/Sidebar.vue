@@ -43,6 +43,16 @@ export default {
                 index: "/dashboard",
                 title: "系统首页",
             },
+          {
+            icon: "el-icon-lx-cascades",
+            index: "/createProject",
+            title: "创建项目",
+          },
+          {
+            icon: "el-icon-lx-cascades",
+            index: "/projectList",
+            title: "项目列表",
+          },
             {
                 icon: "el-icon-lx-cascades",
                 index: "/table",

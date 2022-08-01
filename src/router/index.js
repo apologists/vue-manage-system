@@ -17,7 +17,23 @@ const routes = [
                     title: '系统首页'
                 },
                 component: () => import ( /* webpackChunkName: "dashboard" */ "../views/Dashboard.vue")
-            }, {
+            },{
+                path: "/createProject",
+                name: "creatProject",
+                meta: {
+                    title: '创建项目'
+                },
+                component: () => import ( /* webpackChunkName: "table" */ "../views/CreateProject.vue")
+            },
+            {
+                path: "/projectList",
+                name: "projectList",
+                meta: {
+                    title: '项目列表'
+                },
+                component: () => import ( /* webpackChunkName: "table" */ "../views/ProjectList.vue")
+            },
+            {
                 path: "/table",
                 name: "basetable",
                 meta: {
