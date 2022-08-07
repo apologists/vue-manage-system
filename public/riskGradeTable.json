@@ -1,0 +1,63 @@
+{
+    "list": [
+        {
+            "riskGradeId": "1",
+            "riskGradeCode": "低（1）",
+            "riskGradeColor": "1",
+            "riskGradeDesc": "极地风险Low risk:补充措施或者不需要补充措施",
+            "riskGrade": "A",
+            "riskGradeMeasure": "不需要补充措施",
+            "term": "2022-03-03 10:00:00",
+            "remark": "不需要补充措施"
+        },{
+            "riskGradeId": "2",
+            "riskGradeCode": "低（2）",
+            "riskGradeColor": "1",
+            "riskGradeDesc": "极地风险Low risk:补充措施或者不需要补充措施",
+            "riskGrade": "B",
+            "riskGradeMeasure": "不需要补充措施",
+            "term": "2022-03-03 10:00:00",
+            "remark": "不需要补充措施"
+        },{
+            "riskGradeId": "1",
+            "riskGradeCode": "中（6）",
+            "riskGradeColor": "1",
+            "riskGradeDesc": "极地风险Low risk:补充措施或者不需要补充措施",
+            "riskGrade": "C",
+            "riskGradeMeasure": "不需要补充措施",
+            "term": "2022-03-03 10:00:00",
+            "remark": "不需要补充措施"
+        },{
+            "riskGradeId": "1",
+            "riskGradeCode": "中（8）",
+            "riskGradeColor": "1",
+            "riskGradeDesc": "极地风险Low risk:补充措施或者不需要补充措施",
+            "riskGrade": "A",
+            "riskGradeMeasure": "不需要补充措施",
+            "term": "2022-03-03 10:00:00",
+            "remark": "不需要补充措施"
+        },{
+            "riskGradeId": "1",
+            "riskGradeCode": "高（20）",
+            "riskGradeColor": "D",
+            "riskGradeDesc": "极地风险Low risk:补充措施或者不需要补充措施",
+            "riskGrade": "A"
+
+        },{
+            "riskGradeId": "1",
+            "riskGradeCode": "高（25）",
+            "riskGradeColor": "1",
+            "riskGradeDesc": "极地风险Low risk:补充措施或者不需要补充措施",
+            "riskGrade": "A",
+            "riskGradeMeasure": "不需要补充措施"
+        },{
+            "riskGradeId": "1",
+            "riskGradeCode": "很高（30）",
+            "riskGradeColor": "1",
+            "riskGradeDesc": "极地风险Low risk:补充措施或者不需要补充措施",
+            "riskGrade": "A",
+            "riskGradeMeasure": "不需要补充措施"
+        }
+    ],
+    "pageTotal": 6
+}

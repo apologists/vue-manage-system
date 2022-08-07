@@ -1,0 +1,46 @@
+{
+    "list": [
+        {
+        "adverseOutcomesId": "1",
+        "pullOffNode": "缓冲罐入口流量",
+        "deviate": "正",
+        "VariableName": "缓冲罐液位",
+        "deviation": "正",
+        "evolutionaryPath": "",
+        "adverseOutcomes": "液位变高，罐压变大"
+    },{
+            "adverseOutcomesId": "2",
+            "pullOffNode": "缓冲罐入口流量",
+            "deviate": "正",
+            "VariableName": "缓冲罐出口流量",
+            "deviation": "正",
+            "evolutionaryPath": "",
+            "adverseOutcomes": "输送管道压力变大，加热炉压力变大，能耗增加"
+        }, {
+            "adverseOutcomesId": "3",
+            "pullOffNode": "缓冲罐入口流量",
+            "deviate": "负",
+            "VariableName": "缓冲罐液位",
+            "deviation": "正",
+            "evolutionaryPath": "",
+            "adverseOutcomes": "液位变低，罐压变小"
+        }, {
+            "adverseOutcomesId": "4",
+            "pullOffNode": "缓冲罐入口流量",
+            "deviate": "负",
+            "VariableName": "缓冲罐出口流量",
+            "deviation": "正",
+            "evolutionaryPath": "",
+            "adverseOutcomes": "出口流量下限报警"
+        }, {
+            "adverseOutcomesId": "5",
+            "pullOffNode": "释放阀",
+            "deviate": "负",
+            "VariableName": "缓冲罐压力",
+            "deviation": "负",
+            "evolutionaryPath": "",
+            "adverseOutcomes": "压力变大，容易爆炸"
+        }
+    ],
+    "pageTotal": 5
+}

@@ -61,6 +61,20 @@ const routes = [
                     title: 'tab标签'
                 },
                 component: () => import ( /* webpackChunkName: "tabs" */ "../views/Tabs.vue")
+            },{
+                path: "/matrix",
+                name: "matrix",
+                meta: {
+                    title: '风险矩阵'
+                },
+                component: () => import ( /* webpackChunkName: "tabs" */ "../views/Matrix.vue")
+            }, {
+                path: "/variable",
+                name: "variable",
+                meta: {
+                    title: '变量'
+                },
+                component: () => import ( /* webpackChunkName: "tabs" */ "../views/Variable.vue")
             }, {
                 path: "/donate",
                 name: "donate",

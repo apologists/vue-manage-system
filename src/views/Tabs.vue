@@ -83,6 +83,47 @@
                     </el-dialog>
                   </div>
                 </el-tab-pane>
+                <el-tab-pane :label="`变量关系`" name="relationships">
+                  <div class="container">
+                    <div>
+                      <el-button type="text" @click="editVisible = true">编辑</el-button>
+                    </div>
+                    <el-table :data="tableData" border class="table" ref="multipleTable" header-cell-class-name="table-header">
+                      <el-table-column prop="id" label="变量编号" width="55" align="center"></el-table-column>
+                      <el-table-column prop="Pid" label="变量公式" align="center"></el-table-column>
+                      <el-table-column label="操作" width="180" align="center">
+                        <template #default="scope">
+                          <el-button type="text" icon="el-icon-delete" class="red"
+                                     @click="handleDelete(scope.$index, scope.row)">删除</el-button>
+                        </template>
+                      </el-table-column>
+                    </el-table>
+                    <div class="pagination">
+                      <el-pagination background layout="total, prev, pager, next" :current-page="query.pageIndex"
+                                     :page-size="query.pageSize" :total="pageTotal" @current-change="handlePageChange"></el-pagination>
+                    </div>
+                    <!-- 编辑弹出框 -->
+                    <el-dialog title="编辑" v-model="editVisible" width="30%">
+                      <el-form label-width="70px">
+                        <el-form-item label="节点名称">
+                          <el-input v-model="form.name"></el-input>
+                        </el-form-item>
+                        <el-form-item label="节点描述">
+                          <el-input v-model="form.desc"></el-input>
+                        </el-form-item>
+                        <el-form-item label="节点Pid">
+                          <el-input v-model="form.Pid"></el-input>
+                        </el-form-item>
+                      </el-form>
+                      <template #footer>
+                <span class="dialog-footer">
+                    <el-button @click="editVisible = false">取 消</el-button>
+                    <el-button type="primary" @click="saveEdit">确 定</el-button>
+                </span>
+                      </template>
+                    </el-dialog>
+                  </div>
+              </el-tab-pane>
                 <el-tab-pane :label="`风险矩阵设置`" name="matrix">
                     <template v-if="message === 'third'">
                         <el-table :data="state.recycle" :show-header="false" style="width: 100%">
@@ -289,9 +330,9 @@ export default {
       // 表格编辑时弹窗和保存
       const editVisible = ref(false);
       let form2 = reactive({
-        name: "",
-        desc: "",
-        Pid: "",
+        id: "",
+        dsc: "",
+        Pd: "",
       });
       let idx = -1;
       const handleEdit = (index, row) => {

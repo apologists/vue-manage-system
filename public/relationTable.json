@@ -1,0 +1,41 @@
+{
+    "list": [
+        {
+        "frequencyId": "1",
+        "frequencyLevel": "A",
+        "frequencyValue": "10^-6~10^-7",
+        "frequencyDesc": "1000000至10000000年1次，1E-1"
+    },{
+            "frequencyId": "2",
+            "frequencyLevel": "B",
+            "frequencyValue": "10^-5~10^-6",
+            "frequencyDesc": "100000至1000000年1次，1E-1"
+        },{
+            "frequencyId": "3",
+            "frequencyLevel": "C",
+            "frequencyValue": "10^-4~10^-5",
+            "frequencyDesc": "10000至100000年1次，1E-1"
+        },{
+            "frequencyId": "1",
+            "frequencyLevel": "D",
+            "frequencyValue": "10^-3~10^-4",
+            "frequencyDesc": "1000至10000年1次，1E-1"
+        },{
+            "frequencyId": "1",
+            "frequencyLevel": "EE",
+            "frequencyValue": "10^-2~10^-3",
+            "frequencyDesc": "100至1000年1次，1E-1"
+        },{
+            "frequencyId": "1",
+            "frequencyLevel": "F",
+            "frequencyValue": "10^-1~10^-2",
+            "frequencyDesc": "10至100年1次，1E-1"
+        },{
+            "frequencyId": "1",
+            "frequencyLevel": "G",
+            "frequencyValue": "1~10^-1",
+            "frequencyDesc": "1至10年1次，1E-1"
+        }
+    ],
+    "pageTotal": 6
+}

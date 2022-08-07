@@ -1,0 +1,66 @@
+{
+    "list": [
+        {
+        "id": "1",
+        "grade": 1,
+        "severity": "低后果",
+        "personnel": "医疗处理，不需要住院；短时间身体不适",
+        "property": "损失极小（2万元以下）",
+        "environment": "事件影响未超过界区",
+        "reputation": "企业内部关注；形象没有受损",
+        "laws": "",
+        "lockout":""
+    }, {
+            "id": "2",
+            "grade": 1,
+            "severity": "低后果",
+            "personnel": "医疗处理，不需要住院；短时间身体不适",
+            "property": "损失极小（2万元以下）",
+            "environment": "事件影响未超过界区",
+            "reputation": "企业内部关注；形象没有受损",
+            "laws": "",
+            "lockout":""
+        }, {
+            "id": "3",
+            "grade": 1,
+            "severity": "低后果",
+            "personnel": "医疗处理，不需要住院；短时间身体不适",
+            "property": "损失极小（2万元以下）",
+            "environment": "事件影响未超过界区",
+            "reputation": "企业内部关注；形象没有受损",
+            "laws": "",
+            "lockout":""
+        }, {
+            "id": "4",
+            "grade": 1,
+            "severity": "低后果",
+            "personnel": "医疗处理，不需要住院；短时间身体不适",
+            "property": "损失极小（2万元以下）",
+            "environment": "事件影响未超过界区",
+            "reputation": "企业内部关注；形象没有受损",
+            "laws": "",
+            "lockout":""
+        }, {
+            "id": "5",
+            "grade": 1,
+            "severity": "低后果",
+            "personnel": "医疗处理，不需要住院；短时间身体不适",
+            "property": "损失极小（2万元以下）",
+            "environment": "事件影响未超过界区",
+            "reputation": "企业内部关注；形象没有受损",
+            "laws": "",
+            "lockout":""
+        }, {
+            "id": "6",
+            "grade": 5,
+            "severity": "高后果",
+            "personnel": "3人以上死亡，10人以上重伤",
+            "property": "损失极大（2000万元以下）",
+            "environment": "事件影响未超过界区",
+            "reputation": "国际影响",
+            "laws": "",
+            "lockout":""
+        }
+    ],
+    "pageTotal": 6
+}
