@@ -43,78 +43,82 @@
                 </el-tab-pane>
                 <el-tab-pane :label="`变量设置`" name="variableInfo">
                   <div class="container">
-                    <el-table :data="tableData" border class="table" ref="multipleTable" header-cell-class-name="table-header">
-                      <el-table-column prop="id" label="节点编号" width="55" align="center"></el-table-column>
-                      <el-table-column prop="name" label="节点名称"></el-table-column>
-                      <el-table-column prop="desc" label="节点描述"></el-table-column>
-                      <el-table-column prop="Pid" label="节点Pid"></el-table-column>
+                    <div>
+                      <el-button type="primary" @click="editVisible = true" style="float:right">新增</el-button>
+                    </div>
+                    <el-table :data="variableData" border class="table" ref="multipleTable" header-cell-class-name="table-header">
+                      <el-table-column prop="variableId" label="变量编号" width="55" align="center"></el-table-column>
+                      <el-table-column prop="variableCN" label="中文名称"></el-table-column>
+                      <el-table-column prop="variableEN" label="英文缩写"></el-table-column>
                       <el-table-column label="操作" width="180" align="center">
                         <template #default="scope">
-                          <el-button type="text" icon="el-icon-edit" @click="handleEdit(scope.$index, scope.row)">编辑
-                          </el-button>
+<!--                          <el-button type="text" icon="el-icon-edit" @click="variableEdit(scope.$index, scope.row)">编辑-->
+<!--                          </el-button>-->
                           <el-button type="text" icon="el-icon-delete" class="red"
-                                     @click="handleDelete(scope.$index, scope.row)">删除</el-button>
+                                     @click="variableDelete(scope.$index, scope.row)">删除</el-button>
                         </template>
                       </el-table-column>
                     </el-table>
                     <!-- 编辑弹出框 -->
                     <el-dialog title="编辑" v-model="editVisible" width="30%">
-                      <el-form label-width="70px">
-                        <el-form-item label="节点名称">
-                          <el-input v-model="form.name"></el-input>
+                      <el-form ref="variableFormRef" :rules="rules" :model="variableForm" label-width="70px">
+                        <el-form-item label="中文名称">
+                          <el-input v-model="variableForm.variableCN"></el-input>
                         </el-form-item>
-                        <el-form-item label="节点描述">
-                          <el-input v-model="form.desc"></el-input>
-                        </el-form-item>
-                        <el-form-item label="节点Pid">
-                          <el-input v-model="form.Pid"></el-input>
+                        <el-form-item label="英文缩写">
+                          <el-input v-model="variableForm.variableEN"></el-input>
                         </el-form-item>
                       </el-form>
                       <template #footer>
                 <span class="dialog-footer">
                     <el-button @click="editVisible = false">取 消</el-button>
-                    <el-button type="primary" @click="saveEdit">确 定</el-button>
+                    <el-button type="primary" @click="variableOnSubmit">确 定</el-button>
                 </span>
                       </template>
                     </el-dialog>
                   </div>
                 </el-tab-pane>
-                <el-tab-pane :label="`变量关系`" name="relationships">
+                <el-tab-pane :label="`变量关系`" name="formula">
                   <div class="container">
                     <div>
-                      <el-button type="text" @click="editVisible = true">编辑</el-button>
+                      <el-button type="primary" @click="editVisible = true" style="float:right">新增</el-button>
                     </div>
-                    <el-table :data="tableData" border class="table" ref="multipleTable" header-cell-class-name="table-header">
-                      <el-table-column prop="id" label="变量编号" width="55" align="center"></el-table-column>
-                      <el-table-column prop="Pid" label="变量公式" align="center"></el-table-column>
+                    <el-table :data="formulaData" border class="table" ref="multipleTable" header-cell-class-name="table-header">
+                      <el-table-column prop="formulaId" label="变量公式编号" width="55" align="center"></el-table-column>
+                      <el-table-column prop="formula" label="变量公式" align="center"></el-table-column>
                       <el-table-column label="操作" width="180" align="center">
                         <template #default="scope">
                           <el-button type="text" icon="el-icon-delete" class="red"
-                                     @click="handleDelete(scope.$index, scope.row)">删除</el-button>
+                                     @click="formulaDelete(scope.$index, scope.row)">删除</el-button>
                         </template>
                       </el-table-column>
                     </el-table>
                     <!-- 编辑弹出框 -->
                     <el-dialog title="编辑" v-model="editVisible" width="30%">
-                      <el-form label-width="70px">
-                        <el-form-item label="节点名称">
-                          <el-input v-model="form.name"></el-input>
-                        </el-form-item>
-                        <el-form-item label="节点描述">
-                          <el-input v-model="form.desc"></el-input>
-                        </el-form-item>
-                        <el-form-item label="节点Pid">
-                          <el-input v-model="form.Pid"></el-input>
+                      <el-form ref="formulaFormRef" :rules="rules" :model="formulaForm" label-width="70px">
+                        <el-form-item label="变量公式">
+                          <el-input v-model="formulaForm.formula"></el-input>
                         </el-form-item>
                       </el-form>
                       <template #footer>
                 <span class="dialog-footer">
                     <el-button @click="editVisible = false">取 消</el-button>
-                    <el-button type="primary" @click="saveEdit">确 定</el-button>
+                    <el-button type="primary" @click="formulaOnSubmit">确 定</el-button>
                 </span>
                       </template>
                     </el-dialog>
                   </div>
+              </el-tab-pane>
+                <el-tab-pane :label="`变量关系表`" name="variableMatrix">
+                <el-table :data="variableMatrixData" border stripe style="width: 100%">
+                  <el-table-column
+                      :prop="index"
+                      :label="item"
+                      v-for="(item, index) in variableMatrixList"
+                      :key="index"
+                  >
+                  </el-table-column>
+                </el-table>
               </el-tab-pane>
                 <el-tab-pane :label="`不利结果`" name="adverseOutcomes">
                   <div>
@@ -222,7 +226,13 @@
 <script>
 import { ref, reactive } from "vue";
 import {ElMessage, ElMessageBox} from "element-plus";
-import {fetchData, fetchAdverseOutcomesData, fetchAbnormalCausesData} from "../api";
+import {
+  fetchData,
+  fetchAdverseOutcomesData,
+  fetchAbnormalCausesData,
+  fetchVariableData,
+  fetchFormulaData, fetchMatrixData, fetchVariableMatrixData
+} from "../api";
 export default {
     name: "tabs",
     setup() {
@@ -261,7 +271,23 @@ export default {
       });
         const tableData = ref([]);
         const pageTotal = ref(0);
+        //变量
+        const variableFormRef = ref(null);
+        const variableForm = reactive({
+          variableCN:"",
+          variableEN:""
+      });
+        const variableData = ref([]);
 
+       //变量公式
+        const formulaFormRef = ref(null);
+        const formulaForm = reactive({
+          formula:""
+      });
+        const formulaData = ref([]);
+
+        const variableMatrixData = ref([]);
+        const variableMatrixList = ref();
         //不利结果
         const adverseOutcomesFormRef = ref(null);
         const adverseOutcomesForm = reactive({
@@ -285,21 +311,21 @@ export default {
           abnormalCauses:""
       });
         const abnormalCausesData = ref([]);
-      // 获取表格数据
-      const getData = () => {
+        // 获取表格数据
+        const getData = () => {
         fetchData().then((res) => {
           tableData.value = res.list;
           pageTotal.value = res.pageTotal || 50;
         });
       };
-      getData();
-      // 分页导航
-      const handlePageChange = (val) => {
+        getData();
+        // 分页导航
+        const handlePageChange = (val) => {
         getData();
       };
 
-      // 删除操作
-      const handleDelete = (index) => {
+        // 删除操作
+        const handleDelete = (index) => {
         // 二次确认删除
         ElMessageBox.confirm("确定要删除吗？", "提示", {
           type: "warning",
@@ -311,22 +337,22 @@ export default {
             .catch(() => {});
       };
 
-      // 表格编辑时弹窗和保存
-      const editVisible = ref(false);
-      let form2 = reactive({
+        // 表格编辑时弹窗和保存
+        const editVisible = ref(false);
+        let form2 = reactive({
         id: "",
         dsc: "",
         Pd: "",
       });
-      let idx = -1;
-      const handleEdit = (index, row) => {
+        let idx = -1;
+        const handleEdit = (index, row) => {
         idx = index;
         Object.keys(form).forEach((item) => {
           form[item] = row[item];
         });
         editVisible.value = true;
       };
-      const saveEdit = () => {
+        const saveEdit = () => {
         editVisible.value = false;
         ElMessage.success(`修改第 ${idx + 1} 行成功`);
         Object.keys(form).forEach((item) => {
@@ -351,16 +377,126 @@ export default {
       };
         const message = ref("first");
 
+        //获取变量数据
+        const getVariableData = () => {
+        fetchVariableData().then((res) => {
+          variableData.value = res.list;
+          pageTotal.value = res.pageTotal || 50;
+        });
+      };
+        getVariableData();
+        // 变量提交
+        const variableOnSubmit = () => {
+        editVisible.value = false;
+        // 表单校验
+        variableFormRef.value.validate((valid) => {
+          if (valid) {
+            variableData.value.push({
+              variableCN: variableForm.variableCN,
+              variableEN: variableForm.variableEN
+            });
+            console.log(variableForm);
+            ElMessage.success("提交成功！");
+          } else {
+            return false;
+          }
+        });
+      };
+        // 变量重置
+        const  variableOnReset = () => {
+        variableFormRef.value.resetFields();
+      };
+        // 删除变量
+        const variableDelete = (index) => {
+        // 二次确认删除
+        ElMessageBox.confirm("确定要删除吗？", "提示", {
+          type: "warning",
+        })
+            .then(() => {
+              ElMessage.success("删除成功");
+              variableData.value.splice(index, 1);
+            })
+            .catch(() => {});
+      };
+        //打开变量弹窗
+        const variableEdit = (index, row) => {
+        idx = index;
+        Object.keys(variableForm).forEach((item) => {
+          variableForm[item] = row[item];
+        });
+        editVisible.value = true;
+      };
+
+
+       //获取公式数据
+        const getFormulaData = () => {
+        fetchFormulaData().then((res) => {
+          formulaData.value = res.list;
+          pageTotal.value = res.pageTotal || 50;
+        });
+      };
+        getFormulaData();
+        // 公式提交
+        const formulaOnSubmit = () => {
+        editVisible.value = false;
+        // 表单校验
+        formulaFormRef.value.validate((valid) => {
+          if (valid) {
+            formulaData.value.push({
+              formula: formulaForm.formula
+            });
+            console.log(formulaForm);
+            ElMessage.success("提交成功！");
+          } else {
+            return false;
+          }
+        });
+      };
+        // 公式重置
+        const  formulaOnReset = () => {
+        formulaFormRef.value.resetFields();
+      };
+        // 删除公式
+        const formulaDelete = (index) => {
+        // 二次确认删除
+        ElMessageBox.confirm("确定要删除吗？", "提示", {
+          type: "warning",
+        })
+            .then(() => {
+              ElMessage.success("删除成功");
+              formulaData.value.splice(index, 1);
+            })
+            .catch(() => {});
+      };
+        //打开公式弹窗
+        const formulaEdit = (index, row) => {
+        idx = index;
+        Object.keys(formulaForm).forEach((item) => {
+          formulaForm[item] = row[item];
+        });
+        editVisible.value = true;
+      };
+
+        //获取变量关系表数据
+        const getVariableMatrixData = () => {
+          fetchVariableMatrixData().then((res) => {
+            variableMatrixData.value = res.variableMatrixData;
+            variableMatrixList.value = res.variableMatrixList;
+          });
+        };
+        getVariableMatrixData();
+
+
         //获取不利结果数据
-      const getAdverseOutcomesData = () => {
+        const getAdverseOutcomesData = () => {
         fetchAdverseOutcomesData().then((res) => {
           adverseOutcomesData.value = res.list;
           pageTotal.value = res.pageTotal || 50;
         });
       };
-      getAdverseOutcomesData();
-      // 不利结果提交
-      const adverseOutcomesOnSubmit = () => {
+        getAdverseOutcomesData();
+        // 不利结果提交
+        const adverseOutcomesOnSubmit = () => {
         editVisible.value = false;
         // 表单校验
         adverseOutcomesFormRef.value.validate((valid) => {
@@ -380,12 +516,12 @@ export default {
           }
         });
       };
-      // 不利结果重置
-      const  adverseOutcomesOnReset = () => {
+        // 不利结果重置
+        const  adverseOutcomesOnReset = () => {
         adverseOutcomesFormRef.value.resetFields();
       };
-      // 删除不利结果
-      const adverseOutcomesDelete = (index) => {
+        // 删除不利结果
+        const adverseOutcomesDelete = (index) => {
         // 二次确认删除
         ElMessageBox.confirm("确定要删除吗？", "提示", {
           type: "warning",
@@ -397,16 +533,16 @@ export default {
             .catch(() => {});
       };
 
-      //非正常因素数据获取
-      const getAbnormalCausesData = () => {
+        //非正常因素数据获取
+        const getAbnormalCausesData = () => {
         fetchAbnormalCausesData().then((res) => {
           abnormalCausesData.value = res.list;
           pageTotal.value = res.pageTotal || 50;
         });
       };
-      getAbnormalCausesData();
-      // 非正常因素提交
-      const abnormalCausesOnSubmit = () => {
+        getAbnormalCausesData();
+        // 非正常因素提交
+        const abnormalCausesOnSubmit = () => {
         editVisible.value = false;
         // 表单校验
         abnormalCausesFormRef.value.validate((valid) => {
@@ -426,12 +562,12 @@ export default {
           }
         });
       };
-      // 非正常因素重置
-      const  abnormalCausesOnReset = () => {
+        // 非正常因素重置
+        const  abnormalCausesOnReset = () => {
         abnormalCausesFormRef.value.resetFields();
       };
-      // 删除非正常因素
-      const abnormalCausesDelete = (index) => {
+        // 删除非正常因素
+        const abnormalCausesDelete = (index) => {
         // 二次确认删除
         ElMessageBox.confirm("确定要删除吗？", "提示", {
           type: "warning",
@@ -451,6 +587,14 @@ export default {
             pageTotal,
             editVisible,
             form2,
+            variableFormRef,
+            variableForm,
+            variableData,
+            formulaFormRef,
+            formulaForm,
+            formulaData,
+            variableMatrixData,
+            variableMatrixList,
             adverseOutcomesFormRef,
             adverseOutcomesForm,
             adverseOutcomesData,
@@ -463,6 +607,14 @@ export default {
             handleDelete,
             handleEdit,
             saveEdit,
+            variableOnSubmit,
+            variableOnReset,
+            variableDelete,
+            variableEdit,
+            formulaDelete,
+            formulaOnReset,
+            formulaOnSubmit,
+            formulaEdit,
             adverseOutcomesOnSubmit,
             adverseOutcomesOnReset,
             adverseOutcomesDelete,

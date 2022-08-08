@@ -1,0 +1,38 @@
+{
+    "list": [
+        {
+            "variableId": "1",
+            "variableCN": "物流进口流量",
+            "variableEN": "FI2"
+        }, {
+            "variableId": "2",
+            "variableCN": "物流出口流量",
+            "variableEN": "FE2"
+        }, {
+            "variableId": "3",
+            "variableCN": "加热炉节气阀",
+            "variableEN": "V1"
+        }, {
+            "variableId": "4",
+            "variableCN": "燃烧炉空气流量",
+            "variableEN": "F1"
+        }, {
+            "variableId": "5",
+            "variableCN": "燃烧室温度",
+            "variableEN": "T1"
+        }, {
+            "variableId": "6",
+            "variableCN": "燃烧室压力",
+            "variableEN": "P2"
+        }, {
+            "variableId": "7",
+            "variableCN": "燃料压力",
+            "variableEN": "P3"
+        }, {
+            "variableId": "8",
+            "variableCN": "物流温度",
+            "variableEN": "T2"
+        }
+    ],
+    "pageTotal": 8
+}
