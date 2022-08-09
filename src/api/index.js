@@ -80,3 +80,19 @@ export const fetchVariableMatrixData = query => {
     });
 };
 
+export const fetchHazopData = query => {
+    return request({
+        url: './hazopTable.json',
+        method: 'get',
+        params: query
+    });
+};
+
+export const fetchLopaData = query => {
+    return request({
+        url: './lopaTable.json',
+        method: 'get',
+        params: query
+    });
+};
+

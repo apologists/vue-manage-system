@@ -92,6 +92,16 @@ export default {
             index: "/variable",
             title: "变量",
           },
+          {
+            icon: "el-icon-lx-copy",
+            index: "/hazop",
+            title: "hazop分析",
+          },
+          {
+            icon: "el-icon-lx-copy",
+            index: "/lopa",
+            title: "lopa分析",
+          },
             // {
             //     icon: "el-icon-lx-calendar",
             //     index: "3",

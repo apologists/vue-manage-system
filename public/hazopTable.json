@@ -1,0 +1,25 @@
+{
+    "list": [{
+            "hazopId": 1,
+            "pullOffNode": "缓冲罐入口流量",
+            "deviation": "正",
+            "abnormalCauses": "入口流量大",
+            "adverseOutcomes": "液位变高，罐压变大"
+        },
+        {
+            "hazopId": 2,
+            "pullOffNode": "缓冲罐入口流量",
+            "deviation": "正",
+            "abnormalCauses": "入口流量大",
+            "adverseOutcomes": "液位变高，罐压变大"
+        },
+        {
+            "hazopId": 3,
+            "pullOffNode": "缓冲罐入口流量",
+            "deviation": "正",
+            "abnormalCauses": "入口流量大",
+            "adverseOutcomes": "液位变高，罐压变大"
+        }
+    ],
+    "pageTotal": 2
+}
