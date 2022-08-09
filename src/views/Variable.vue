@@ -7,7 +7,7 @@
         </div>
         <div class="container">
             <el-tabs v-model="message">
-                <el-tab-pane :label="`基本信息`" name="baseInfo">
+                <el-tab-pane :label="`基本信息`" name="first">
                   <el-form ref="formRef" :rules="rules" :model="form" label-width="80px">
                     <el-form-item label="公司名称" prop="name">
                       <el-input v-model="form.name"></el-input>

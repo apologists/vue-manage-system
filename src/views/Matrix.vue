@@ -7,7 +7,7 @@
         </div>
         <div class="container">
             <el-tabs v-model="message">
-                <el-tab-pane :label="`一般信息`" name="baseInfo">
+                <el-tab-pane :label="`一般信息`" name="first">
                   <el-form ref="matrixFormRef" :rules="rules" :model="matrixForm" label-width="80px">
                     <el-form-item label="矩阵名称" prop="name">
                       <el-input v-model="matrixForm.name"></el-input>

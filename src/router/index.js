@@ -82,14 +82,16 @@ const routes = [
                     title: 'lopa'
                 },
                 component: () => import ( /* webpackChunkName: "tabs" */ "../views/Lopa.vue")
-            },{
+            },
+            {
                 path: "/hazop",
                 name: "hazop",
                 meta: {
                     title: 'hazop分析'
                 },
                 component: () => import ( /* webpackChunkName: "tabs" */ "../views/Hazop.vue")
-            }, {
+            },
+            {
                 path: "/donate",
                 name: "donate",
                 meta: {

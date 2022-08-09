@@ -55,21 +55,7 @@ export default {
               {
                 index: "/projectList",
                 title: "项目列表",
-              },
-              {
-                index: "4",
-                title: "三级菜单",
-                subs: [
-                  {
-                    index: "/editor",
-                    title: "富文本编辑器",
-                  },
-                  {
-                    index: "/markdown",
-                    title: "markdown编辑器",
-                  },
-                ],
-              },
+              }
             ],
           },
             // {
@@ -84,22 +70,22 @@ export default {
             // },
           {
             icon: "el-icon-lx-copy",
-            index: "/matrix",
+            // index: "/matrix",
             title: "风险矩阵",
           },
           {
             icon: "el-icon-lx-copy",
-            index: "/variable",
+            // index: "/variable",
             title: "变量",
           },
           {
             icon: "el-icon-lx-copy",
-            index: "/hazop",
+            // index: "/hazop",
             title: "hazop分析",
           },
           {
             icon: "el-icon-lx-copy",
-            index: "/lopa",
+            // index: "/lopa",
             title: "lopa分析",
           },
             // {
@@ -138,7 +124,7 @@ export default {
             // },
             {
                 icon: "el-icon-pie-chart",
-                index: "/charts",
+                // index: "/charts",
                 title: "schart图表",
             },
             // {

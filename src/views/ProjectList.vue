@@ -18,10 +18,25 @@
           </template>
         </el-table-column>
         <el-table-column prop="desc" label="项目简介"></el-table-column>
-        <el-table-column label="操作" width="180" align="center">
+        <el-table-column label="操作" width="300" align="center">
           <template #default="scope">
             <el-button type="text" icon="el-icon-edit" @click="handleEdit(scope.$index, scope.row)">编辑
             </el-button>
+            <router-link :to="{path:'./matrix',query:{id:1}}">
+              <el-button type="text" icon="el-icon-edit">风险矩阵</el-button>
+            </router-link>
+            <router-link :to="{path:'./variable',query:{id:1}}">
+              <el-button type="text" icon="el-icon-edit">变量</el-button>
+            </router-link>
+            <router-link :to="{path:'./hazop',query:{id:1}}">
+              <el-button type="text" icon="el-icon-edit">hazop分析</el-button>
+            </router-link>
+            <router-link :to="{path:'./lopa',query:{id:1}}">
+              <el-button type="text" icon="el-icon-edit">lopa分析</el-button>
+            </router-link>
+            <router-link :to="{path:'./charts',query:{id:1}}">
+              <el-button type="text" icon="el-icon-edit">schart图表</el-button>
+            </router-link>
             <el-button type="text" icon="el-icon-delete" class="red"
                        @click="handleDelete(scope.$index, scope.row)">删除</el-button>
           </template>
@@ -116,6 +131,12 @@ export default {
       });
       editVisible.value = true;
     };
+
+    const LopaEdit = (index, row) => {
+        this.$router.push({
+        path: '/lopa'
+      })
+    };
     const saveEdit = () => {
       editVisible.value = false;
       ElMessage.success(`修改第 ${idx + 1} 行成功`);
@@ -135,6 +156,7 @@ export default {
       handleDelete,
       handleEdit,
       saveEdit,
+      LopaEdit,
     };
   },
 };
