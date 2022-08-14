@@ -34,6 +34,14 @@ const routes = [
                 component: () => import ( /* webpackChunkName: "table" */ "../views/ProjectList.vue")
             },
             {
+                path: "/variable2",
+                name: "variable2",
+                meta: {
+                    title: '表格'
+                },
+                component: () => import ( /* webpackChunkName: "table" */ "../views/Variable2.vue")
+            },
+            {
                 path: "/table",
                 name: "basetable",
                 meta: {

@@ -22,7 +22,7 @@
                 <el-card shadow="hover" style="height:252px;">
                     <template #header>
                         <div class="clearfix">
-                            <span>语言详情</span>
+                            <span>项目详情</span>
                         </div>
                     </template>
                     Vue
@@ -39,8 +39,8 @@
                             <div class="grid-content grid-con-1">
                                 <i class="el-icon-user-solid grid-con-icon"></i>
                                 <div class="grid-cont-right">
-                                    <div class="grid-num">1234</div>
-                                    <div>用户访问量</div>
+                                    <div class="grid-num">6</div>
+                                    <div>项目数量</div>
                                 </div>
                             </div>
                         </el-card>
@@ -144,29 +144,13 @@ export default {
         ]);
         const todoList = reactive([
             {
-                title: "今天要修复100个bug",
+                title: "今天5个项目待分析",
                 status: false,
             },
             {
-                title: "今天要修复100个bug",
-                status: false,
-            },
-            {
-                title: "今天要写100行代码加几个bug吧",
-                status: false,
-            },
-            {
-                title: "今天要修复100个bug",
-                status: false,
-            },
-            {
-                title: "今天要修复100个bug",
+                title: "今天2个项目待分析",
                 status: true,
-            },
-            {
-                title: "今天要写100行代码加几个bug吧",
-                status: true,
-            },
+            }
         ]);
 
         return {

@@ -88,6 +88,11 @@ export default {
             // index: "/lopa",
             title: "lopa分析",
           },
+          {
+            icon: "el-icon-lx-copy",
+            index: "/variable2",
+            title: "variable2",
+          },
             // {
             //     icon: "el-icon-lx-calendar",
             //     index: "3",
