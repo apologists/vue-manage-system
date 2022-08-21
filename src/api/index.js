@@ -1,8 +1,34 @@
 import request from '../utils/request';
 
+export const createProject = query => {
+    return request({
+        url: 'http://localhost:8080/projectSummary/save',
+        method: 'post',
+        params: query
+        // params: JSON.stringify(query)
+    });
+};
+
+export const deleteProject = query => {
+    return request({
+        url: 'http://localhost:8080/projectSummary/remove',
+        method: 'get',
+        params: query
+    });
+};
+
+export const updateProject = query => {
+    return request({
+        url: 'http://localhost:8080/projectSummary/update',
+        method: 'post',
+        params: query
+    });
+};
+
+
 export const fetchData = query => {
     return request({
-        url: './table.json',
+        url: 'http://localhost:8080/projectSummary/page',
         method: 'get',
         params: query
     });

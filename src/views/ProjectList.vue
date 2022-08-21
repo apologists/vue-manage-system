@@ -9,15 +9,15 @@
     </div>
     <div class="container">
       <el-table :data="tableData" border class="table" ref="multipleTable" header-cell-class-name="table-header">
-        <el-table-column prop="id" label="项目编号" width="55" align="center"></el-table-column>
-        <el-table-column prop="name" label="项目名称"></el-table-column>
+        <el-table-column prop="projectId" label="项目编号" width="55" align="center"></el-table-column>
+        <el-table-column prop="projectName" label="项目名称"></el-table-column>
         <el-table-column label="项目封面" align="center">
           <template #default="scope">
             <el-image class="table-td-thumb" :src="scope.row.thumb" :preview-src-list="[scope.row.thumb]">
             </el-image>
           </template>
         </el-table-column>
-        <el-table-column prop="desc" label="项目简介"></el-table-column>
+        <el-table-column prop="projectDesc" label="项目简介"></el-table-column>
         <el-table-column label="操作" width="300" align="center">
           <template #default="scope">
             <el-button type="text" icon="el-icon-edit" @click="handleEdit(scope.$index, scope.row)">编辑
@@ -38,7 +38,7 @@
               <el-button type="text" icon="el-icon-edit">schart图表</el-button>
             </router-link>
             <el-button type="text" icon="el-icon-delete" class="red"
-                       @click="handleDelete(scope.$index, scope.row)">删除</el-button>
+                       @click="handleDelete(scope.row)">删除</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -52,10 +52,10 @@
     <el-dialog title="编辑" v-model="editVisible" width="30%">
       <el-form label-width="70px">
         <el-form-item label="项目名称">
-          <el-input v-model="form.name"></el-input>
+          <el-input v-model="form.projectName"></el-input>
         </el-form-item>
         <el-form-item label="项目简介">
-          <el-input v-model="form.address"></el-input>
+          <el-input v-model="form.projectDesc"></el-input>
         </el-form-item>
       </el-form>
       <template #footer>
@@ -71,7 +71,7 @@
 <script>
 import { ref, reactive } from "vue";
 import { ElMessage, ElMessageBox } from "element-plus";
-import { fetchData } from "../api/index";
+import {deleteProject,updateProject, fetchData} from "../api/index";
 
 export default {
   name: "projectList",
@@ -87,8 +87,10 @@ export default {
     // 获取表格数据
     const getData = () => {
       fetchData(query).then((res) => {
-        tableData.value = res.list;
-        pageTotal.value = res.pageTotal || 50;
+        if (res.code === "200") {
+          tableData.value = res.data.records;
+          pageTotal.value = res.data.total || 50;
+        }
       });
     };
     getData();
@@ -110,8 +112,11 @@ export default {
       ElMessageBox.confirm("确定要删除吗？", "提示", {
         type: "warning",
       })
-          .then(() => {
-            ElMessage.success("删除成功");
+          .then(async () => {
+            const res = await deleteProject( {projectId : index.projectId});
+            if (res.code === "200") {
+              ElMessage.success("删除成功");
+            }
             tableData.value.splice(index, 1);
           })
           .catch(() => {});
@@ -120,8 +125,9 @@ export default {
     // 表格编辑时弹窗和保存
     const editVisible = ref(false);
     let form = reactive({
-      name: "",
-      address: "",
+      projectId:"",
+      projectName: "",
+      projectDesc: "",
     });
     let idx = -1;
     const handleEdit = (index, row) => {
@@ -129,6 +135,7 @@ export default {
       Object.keys(form).forEach((item) => {
         form[item] = row[item];
       });
+      console.log(form);
       editVisible.value = true;
     };
 
@@ -137,9 +144,13 @@ export default {
         path: '/lopa'
       })
     };
-    const saveEdit = () => {
+    const saveEdit = async () => {
       editVisible.value = false;
-      ElMessage.success(`修改第 ${idx + 1} 行成功`);
+      const res = await updateProject(form);
+      console.log(res + "================" + res.code === "200");
+      if (res.code === "200") {
+        ElMessage.success(`修改第 ${idx + 1} 行成功`);
+      }
       Object.keys(form).forEach((item) => {
         tableData.value[idx][item] = form[item];
       });

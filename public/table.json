@@ -1,76 +1,23 @@
 {
-    "list": [{
-            "id": 1,
-            "name": "液压炉分析",
-            "money": 123,
-            "address": "分析液压炉使用情况",
-            "state": "成功",
-            "date": "2019-11-1",
-            "thumb": "https://lin-xin.gitee.io/images/post/wms.png"
-        },
-        {
-            "id": 2,
-            "name": "液压炉分析",
-            "money": 456,
-            "address": "分析液压炉使用情况",
-            "state": "成功",
-            "date": "2019-10-11",
-            "thumb": "https://lin-xin.gitee.io/images/post/node3.png"
-        },
-        {
-            "id": 3,
-            "name": "液压炉分析",
-            "money": 789,
-            "address": "分析液压炉使用情况",
-            "state": "失败",
-            "date": "2019-11-11",
-            "thumb": "https://lin-xin.gitee.io/images/post/parcel.png"
-        },
-        {
-            "id": 4,
-            "name": "液压炉分析",
-            "money": 1011,
-            "address": "福建省厦门市鼓浪屿",
-            "state": "成功",
-            "date": "2019-10-20",
-            "thumb": "https://lin-xin.gitee.io/images/post/notice.png"
-        },
-        {
-            "id": 5,
-            "name": "液压炉分析",
-            "money": 123,
-            "address": "广东省东莞市长安镇",
-            "state": "成功",
-            "date": "2019-11-1",
-            "thumb": "https://lin-xin.gitee.io/images/post/wms.png"
-        },
-        {
-            "id": 6,
-            "name": "液压炉分析",
-            "money": 123,
-            "address": "广东省东莞市长安镇",
-            "state": "成功",
-            "date": "2019-11-1",
-            "thumb": "https://lin-xin.gitee.io/images/post/wms.png"
-        },
-        {
-            "id": 7,
-            "name": "液压炉分析",
-            "money": 123,
-            "address": "广东省东莞市长安镇",
-            "state": "成功",
-            "date": "2019-11-1",
-            "thumb": "https://lin-xin.gitee.io/images/post/wms.png"
-        },
-        {
-            "id": 8,
-            "name": "液压炉分析",
-            "money": 123,
-            "address": "广东省东莞市长安镇",
-            "state": "成功",
-            "date": "2019-11-1",
-            "thumb": "https://lin-xin.gitee.io/images/post/wms.png"
-        }
-    ],
-    "pageTotal": 4
+    "code": "200",
+    "data": {
+        "records": [
+            {
+                "created": "2022-02-02 10:00:00",
+                "updated": null,
+                "deleted": 0,
+                "projectId": 1,
+                "projectName": "安全评价系统",
+                "projectDesc": "安全评价",
+                "projectImage": "1"
+            }
+        ],
+        "total": 1,
+        "size": 10,
+        "current": 1,
+        "orders": [],
+        "searchCount": true,
+        "pages": 1
+    },
+    "msg": "操作成功"
 }

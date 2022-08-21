@@ -11,13 +11,13 @@
     <div class="container">
       <div class="form-box">
         <el-form ref="formRef" :rules="rules" :model="form" label-width="80px">
-          <el-form-item label="项目名称" prop="name">
-            <el-input v-model="form.name"></el-input>
+          <el-form-item label="项目名称" prop="projectName">
+            <el-input v-model="form.projectName"></el-input>
           </el-form-item>
-          <el-form-item label="项目简介" prop="desc">
-            <el-input type="textarea" rows="5" v-model="form.desc"></el-input>
+          <el-form-item label="项目简介" prop="projectDesc">
+            <el-input type="textarea" rows="5" v-model="form.projectDesc"></el-input>
           </el-form-item>
-          <el-form-item label="项目封面" prop="image">
+          <el-form-item label="项目封面" prop="projectImage">
             <el-upload class="upload-demo" drag action="http://jsonplaceholder.typicode.com/api/posts/" multiple>
               <i class="el-icon-upload"></i>
               <div class="el-upload__text">
@@ -42,27 +42,31 @@
 <script>
 import { reactive, ref } from "vue";
 import { ElMessage } from "element-plus";
+import {createProject} from "../api";
 export default {
   name: "createProject",
   setup() {
     const rules = {
-      name: [
+      projectName: [
         { required: true, message: "请输入项目名称", trigger: "blur" },
       ],
     };
     const formRef = ref(null);
     const form = reactive({
-      name: "",
-      desc: "",
-      image:""
+      projectName: "",
+      projectDesc: "",
+      projectImage:""
     });
     // 提交
     const onSubmit = () => {
       // 表单校验
-      formRef.value.validate((valid) => {
+      formRef.value.validate(async (valid) => {
         if (valid) {
           console.log(form);
-          ElMessage.success("提交成功！");
+          const res = await createProject(form);
+          if (res.code === "200") {
+            ElMessage.success("提交成功！");
+          }
         } else {
           return false;
         }

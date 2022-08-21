@@ -1,70 +1,79 @@
 {
-    "list": [
-        {
-        "abnormalCausesId": "1",
-        "consequenceNode": "缓冲罐液位",
-        "deviate": "正",
-        "VariableName": "缓冲罐入口流量",
-        "deviation": "正",
-        "evolutionaryPath": "",
-        "abnormalCauses": "入口流量大"
-    }, {
-            "abnormalCausesId": "2",
-            "consequenceNode": "缓冲罐液位",
-            "deviate": "正",
-            "VariableName": "缓冲罐出口流量",
-            "deviation": "负",
-            "evolutionaryPath": "",
-            "abnormalCauses": "入口流量小"
-        }, {
-            "abnormalCausesId": "3",
-            "consequenceNode": "缓冲罐液位",
-            "deviate": "负",
-            "VariableName": "缓冲罐入口流量",
-            "deviation": "正",
-            "evolutionaryPath": "",
-            "abnormalCauses": "入口流量小"
-        },{
-            "abnormalCausesId": "4",
-            "consequenceNode": "缓冲罐液位",
-            "deviate": "负",
-            "VariableName": "缓冲罐出口流量",
-            "deviation": "正",
-            "evolutionaryPath": "",
-            "abnormalCauses": "入口流量大"
-        }, {
-            "abnormalCausesId": "5",
-            "consequenceNode": "燃烧室温度",
-            "deviate": "正",
-            "VariableName": "燃烧室压力",
-            "deviation": "正",
-            "evolutionaryPath": "",
-            "abnormalCauses": "燃烧室压力变大"
-        }, {
-            "abnormalCausesId": "6",
-            "consequenceNode": "燃烧室温度",
-            "deviate": "正",
-            "VariableName": "燃烧室空气流量",
-            "deviation": "负",
-            "evolutionaryPath": "",
-            "abnormalCauses": "流量小"
-        }, {
-            "abnormalCausesId": "7",
-            "consequenceNode": "燃烧室温度",
-            "deviate": "负",
-            "VariableName": "燃烧室压力",
-            "deviation": "正",
-            "evolutionaryPath": "",
-            "abnormalCauses": "燃烧室压力变小"
-        },{
-            "abnormalCausesId": "8",
-            "consequenceNode": "燃烧室温度",
-            "deviate": "负",
-            "VariableName": "燃烧室空气流量",
-            "deviation": "正",
-            "evolutionaryPath": "",
-            "abnormalCauses": "流量大"
-        }
-    ],
-    "pageTotal": 8
+    "code": "200",
+    "data": {
+        "records": [
+            {
+                "abnormalCausesId": "1",
+                "consequenceNode": "缓冲罐液位",
+                "deviate": "正",
+                "VariableName": "缓冲罐入口流量",
+                "deviation": "正",
+                "evolutionaryPath": "",
+                "abnormalCauses": "入口流量大"
+            }, {
+                "abnormalCausesId": "2",
+                "consequenceNode": "缓冲罐液位",
+                "deviate": "正",
+                "VariableName": "缓冲罐出口流量",
+                "deviation": "负",
+                "evolutionaryPath": "",
+                "abnormalCauses": "入口流量小"
+            }, {
+                "abnormalCausesId": "3",
+                "consequenceNode": "缓冲罐液位",
+                "deviate": "负",
+                "VariableName": "缓冲罐入口流量",
+                "deviation": "正",
+                "evolutionaryPath": "",
+                "abnormalCauses": "入口流量小"
+            },{
+                "abnormalCausesId": "4",
+                "consequenceNode": "缓冲罐液位",
+                "deviate": "负",
+                "VariableName": "缓冲罐出口流量",
+                "deviation": "正",
+                "evolutionaryPath": "",
+                "abnormalCauses": "入口流量大"
+            }, {
+                "abnormalCausesId": "5",
+                "consequenceNode": "燃烧室温度",
+                "deviate": "正",
+                "VariableName": "燃烧室压力",
+                "deviation": "正",
+                "evolutionaryPath": "",
+                "abnormalCauses": "燃烧室压力变大"
+            }, {
+                "abnormalCausesId": "6",
+                "consequenceNode": "燃烧室温度",
+                "deviate": "正",
+                "VariableName": "燃烧室空气流量",
+                "deviation": "负",
+                "evolutionaryPath": "",
+                "abnormalCauses": "流量小"
+            }, {
+                "abnormalCausesId": "7",
+                "consequenceNode": "燃烧室温度",
+                "deviate": "负",
+                "VariableName": "燃烧室压力",
+                "deviation": "正",
+                "evolutionaryPath": "",
+                "abnormalCauses": "燃烧室压力变小"
+            },{
+                "abnormalCausesId": "8",
+                "consequenceNode": "燃烧室温度",
+                "deviate": "负",
+                "VariableName": "燃烧室空气流量",
+                "deviation": "正",
+                "evolutionaryPath": "",
+                "abnormalCauses": "流量大"
+            }
+        ],
+        "total": 1,
+        "size": 10,
+        "current": 1,
+        "orders": [],
+        "searchCount": true,
+        "pages": 1
+    },
+    "msg": "操作成功"
 }
