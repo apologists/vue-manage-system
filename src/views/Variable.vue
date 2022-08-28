@@ -48,12 +48,10 @@
                     </div>
                     <el-table :data="variableData" border class="table" ref="multipleTable" header-cell-class-name="table-header">
                       <el-table-column prop="variableId" label="变量编号" width="55" align="center"></el-table-column>
-                      <el-table-column prop="variableCN" label="中文名称"></el-table-column>
-                      <el-table-column prop="variableEN" label="英文缩写"></el-table-column>
+                      <el-table-column prop="variableCn" label="中文名称"></el-table-column>
+                      <el-table-column prop="variableEn" label="英文缩写"></el-table-column>
                       <el-table-column label="操作" width="180" align="center">
                         <template #default="scope">
-<!--                          <el-button type="text" icon="el-icon-edit" @click="variableEdit(scope.$index, scope.row)">编辑-->
-<!--                          </el-button>-->
                           <el-button type="text" icon="el-icon-delete" class="red"
                                      @click="variableDelete(scope.$index, scope.row)">删除</el-button>
                         </template>
@@ -63,10 +61,10 @@
                     <el-dialog title="编辑" v-model="editVisible" width="30%">
                       <el-form ref="variableFormRef" :rules="rules" :model="variableForm" label-width="70px">
                         <el-form-item label="中文名称">
-                          <el-input v-model="variableForm.variableCN"></el-input>
+                          <el-input v-model="variableForm.variableCn"></el-input>
                         </el-form-item>
                         <el-form-item label="英文缩写">
-                          <el-input v-model="variableForm.variableEN"></el-input>
+                          <el-input v-model="variableForm.variableEn"></el-input>
                         </el-form-item>
                       </el-form>
                       <template #footer>
@@ -131,13 +129,13 @@
                     <el-button type="primary" style="float:right">SDG图</el-button>
                   </router-link>
                 <el-table :data="adverseOutcomesData" border class="table" ref="multipleTable" header-cell-class-name="table-header">
-                  <el-table-column prop="adverseOutcomesId" label="编号" width="55" align="center"></el-table-column>
+                  <el-table-column prop="adverseOutComesId" label="编号" width="55" align="center"></el-table-column>
                   <el-table-column prop="pullOffNode" label="原始拉偏点" align="center"></el-table-column>
                   <el-table-column prop="deviate" label="偏离" width="55" align="center"></el-table-column>
-                  <el-table-column prop="VariableName" label="变量名称" align="center"></el-table-column>
+                  <el-table-column prop="variableName" label="变量名称" align="center"></el-table-column>
                   <el-table-column prop="deviation" label="偏差" width="55" align="center"></el-table-column>
                   <el-table-column prop="evolutionaryPath" label="演变路径" align="center"></el-table-column>
-                  <el-table-column prop="adverseOutcomes" label="不利后果" width="55" align="center"></el-table-column>
+                  <el-table-column prop="adverseOutComes" label="不利后果" width="55" align="center"></el-table-column>
                   <el-table-column label="操作" width="180" align="center">
                     <template #default="scope">
                       <el-button type="text" icon="el-icon-delete" class="red"
@@ -155,7 +153,7 @@
                       <el-input v-model="adverseOutcomesForm.deviate"></el-input>
                     </el-form-item>
                     <el-form-item label="变量名称">
-                      <el-input v-model="adverseOutcomesForm.VariableName"></el-input>
+                      <el-input v-model="adverseOutcomesForm.variableName"></el-input>
                     </el-form-item>
                     <el-form-item label="偏差">
                       <el-input v-model="adverseOutcomesForm.deviation"></el-input>
@@ -164,7 +162,7 @@
                       <el-input v-model="adverseOutcomesForm.evolutionaryPath"></el-input>
                     </el-form-item>
                     <el-form-item label="不利后果">
-                      <el-input v-model="adverseOutcomesForm.adverseOutcomes"></el-input>
+                      <el-input v-model="adverseOutcomesForm.adverseOutComes"></el-input>
                     </el-form-item>
                   </el-form>
                   <template #footer>
@@ -186,10 +184,10 @@
                   <el-table-column prop="abnormalCausesId" label="编号" width="55" align="center"></el-table-column>
                   <el-table-column prop="consequenceNode" label="原始拉偏点" align="center"></el-table-column>
                   <el-table-column prop="deviate" label="偏离" width="55" align="center"></el-table-column>
-                  <el-table-column prop="VariableName" label="变量名称" align="center"></el-table-column>
+                  <el-table-column prop="variableName" label="变量名称" align="center"></el-table-column>
                   <el-table-column prop="deviation" label="偏差" width="55" align="center"></el-table-column>
                   <el-table-column prop="evolutionaryPath" label="演变路径" align="center"></el-table-column>
-                  <el-table-column prop="abnormalCauses" label="不利后果" width="55" align="center"></el-table-column>
+                  <el-table-column prop="abnormalCauses" label="非正常因素" width="55" align="center"></el-table-column>
                   <el-table-column label="操作" width="180" align="center">
                     <template #default="scope">
                       <el-button type="text" icon="el-icon-delete" class="red"
@@ -207,7 +205,7 @@
                       <el-input v-model="abnormalCausesForm.deviate"></el-input>
                     </el-form-item>
                     <el-form-item label="变量名称">
-                      <el-input v-model="abnormalCausesForm.VariableName"></el-input>
+                      <el-input v-model="abnormalCausesForm.variableName"></el-input>
                     </el-form-item>
                     <el-form-item label="偏差">
                       <el-input v-model="abnormalCausesForm.deviation"></el-input>
@@ -242,10 +240,11 @@ import { DataSet, Network } from 'vis';
 import {ElMessage, ElMessageBox} from "element-plus";
 import {
   fetchData,
-  fetchAdverseOutcomesData,
-  fetchAbnormalCausesData,
-  fetchVariableData,
-  fetchFormulaData, fetchVariableMatrixData
+  fetchAdverseOutcomesData, deleteAdverseOutcomes, createAdverseOutcomes,
+  fetchAbnormalCausesData, deleteAbnormalCauses, createAbnormalCauses,
+  fetchVariableData,deleteVariable,createVariable,
+  fetchFormulaData,deleteFormula,createFormula,
+  fetchVariableMatrixData,
 } from "../api";
 export default {
     name: "tabs",
@@ -288,8 +287,8 @@ export default {
         //变量
         const variableFormRef = ref(null);
         const variableForm = reactive({
-          variableCN:"",
-          variableEN:""
+          variableCn:"",
+          variableEn:""
       });
         const variableData = ref([]);
 
@@ -307,10 +306,10 @@ export default {
         const adverseOutcomesForm = reactive({
           pullOffNode: "",
           deviate:"",
-          VariableName:"",
+          variableName:"",
           deviation:"",
           evolutionaryPath: "",
-          adverseOutcomes:""
+          adverseOutComes:""
       });
         const adverseOutcomesData = ref([]);
 
@@ -319,7 +318,7 @@ export default {
         const abnormalCausesForm = reactive({
           consequenceNode: "",
           deviate:"",
-          VariableName:"",
+          variableName:"",
           deviation:"",
           evolutionaryPath: "",
           abnormalCauses:""
@@ -355,63 +354,26 @@ export default {
 
         // 表格编辑时弹窗和保存
         const editVisible = ref(false);
-        let form2 = reactive({
-        id: "",
-        dsc: "",
-        Pd: "",
-      });
-        let idx = -1;
-        const handleEdit = (index, row) => {
-        idx = index;
-        Object.keys(form).forEach((item) => {
-          form[item] = row[item];
-        });
-        editVisible.value = true;
-      };
-        const saveEdit = () => {
-        editVisible.value = false;
-        ElMessage.success(`修改第 ${idx + 1} 行成功`);
-        Object.keys(form).forEach((item) => {
-          tableData.value[idx][item] = form[item];
-        });
-      };
-        // 提交
-        const onSubmit = () => {
-        // 表单校验
-        formRef.value.validate((valid) => {
-          if (valid) {
-            console.log(form);
-            ElMessage.success("提交成功！");
-          } else {
-            return false;
-          }
-        });
-      };
-        // 重置
-        const onReset = () => {
-        formRef.value.resetFields();
-      };
         const message = ref("first");
 
         //获取变量数据
         const getVariableData = () => {
         fetchVariableData().then((res) => {
-          variableData.value = res.list;
-          pageTotal.value = res.pageTotal || 50;
+          variableData.value = res.data.records;
+          pageTotal.value = res.data.total || 50;
         });
       };
         getVariableData();
         // 变量提交
         const variableOnSubmit = () => {
         editVisible.value = false;
-        // 表单校验
-        variableFormRef.value.validate((valid) => {
+        variableFormRef.value.validate(async (valid) => {
           if (valid) {
             variableData.value.push({
-              variableCN: variableForm.variableCN,
-              variableEN: variableForm.variableEN
+              variableCn: variableForm.variableCn,
+              variableEn: variableForm.variableEn
             });
-            console.log(variableForm);
+            await createVariable(variableForm);
             ElMessage.success("提交成功！");
           } else {
             return false;
@@ -423,32 +385,25 @@ export default {
         variableFormRef.value.resetFields();
       };
         // 删除变量
-        const variableDelete = (index) => {
+        const variableDelete = (index,data) => {
         // 二次确认删除
         ElMessageBox.confirm("确定要删除吗？", "提示", {
           type: "warning",
         })
-            .then(() => {
+            .then(async () => {
+              await deleteVariable({variableId: data.variableId});
               ElMessage.success("删除成功");
               variableData.value.splice(index, 1);
             })
             .catch(() => {});
       };
-        //打开变量弹窗
-        const variableEdit = (index, row) => {
-        idx = index;
-        Object.keys(variableForm).forEach((item) => {
-          variableForm[item] = row[item];
-        });
-        editVisible.value = true;
-      };
 
 
-       //获取公式数据
+        //获取公式数据
         const getFormulaData = () => {
         fetchFormulaData().then((res) => {
-          formulaData.value = res.list;
-          pageTotal.value = res.pageTotal || 50;
+          formulaData.value = res.data.records;
+          pageTotal.value = res.data.total || 50;
         });
       };
         getFormulaData();
@@ -456,11 +411,12 @@ export default {
         const formulaOnSubmit = () => {
         editVisible.value = false;
         // 表单校验
-        formulaFormRef.value.validate((valid) => {
+        formulaFormRef.value.validate(async (valid) => {
           if (valid) {
             formulaData.value.push({
               formula: formulaForm.formula
             });
+            await createFormula(formulaForm);
             console.log(formulaForm);
             ElMessage.success("提交成功！");
           } else {
@@ -473,41 +429,33 @@ export default {
         formulaFormRef.value.resetFields();
       };
         // 删除公式
-        const formulaDelete = (index) => {
+        const formulaDelete = (index,data) => {
         // 二次确认删除
         ElMessageBox.confirm("确定要删除吗？", "提示", {
           type: "warning",
         })
             .then(() => {
+              deleteFormula({formulaId : data.formulaId});
               ElMessage.success("删除成功");
               formulaData.value.splice(index, 1);
             })
             .catch(() => {});
       };
-        //打开公式弹窗
-        const formulaEdit = (index, row) => {
-        idx = index;
-        Object.keys(formulaForm).forEach((item) => {
-          formulaForm[item] = row[item];
-        });
-        editVisible.value = true;
-      };
 
         //获取变量关系表数据
         const getVariableMatrixData = () => {
           fetchVariableMatrixData().then((res) => {
-            variableMatrixData.value = res.variableMatrixData;
-            variableMatrixList.value = res.variableMatrixList;
+            variableMatrixData.value = res.data.records;
+            variableMatrixList.value = res.data.total;
           });
         };
         getVariableMatrixData();
 
-
         //获取不利结果数据
         const getAdverseOutcomesData = () => {
         fetchAdverseOutcomesData().then((res) => {
-          adverseOutcomesData.value = res.list;
-          pageTotal.value = res.pageTotal || 50;
+          adverseOutcomesData.value = res.data.records;
+          pageTotal.value = res.data.total || 50;
         });
       };
         getAdverseOutcomesData();
@@ -515,16 +463,17 @@ export default {
         const adverseOutcomesOnSubmit = () => {
         editVisible.value = false;
         // 表单校验
-        adverseOutcomesFormRef.value.validate((valid) => {
+        adverseOutcomesFormRef.value.validate(async (valid) => {
           if (valid) {
             adverseOutcomesData.value.push({
               pullOffNode: adverseOutcomesForm.pullOffNode,
-              deviate:adverseOutcomesForm.deviate,
-              VariableName:adverseOutcomesForm.VariableName,
-              deviation:adverseOutcomesForm.deviation,
+              deviate: adverseOutcomesForm.deviate,
+              variableName: adverseOutcomesForm.variableName,
+              deviation: adverseOutcomesForm.deviation,
               evolutionaryPath: adverseOutcomesForm.evolutionaryPath,
-              adverseOutcomes:adverseOutcomesForm.adverseOutcomes
+              adverseOutComes: adverseOutcomesForm.adverseOutComes
             });
+            await createAdverseOutcomes(adverseOutcomesForm);
             console.log(adverseOutcomesForm);
             ElMessage.success("提交成功！");
           } else {
@@ -537,12 +486,13 @@ export default {
         adverseOutcomesFormRef.value.resetFields();
       };
         // 删除不利结果
-        const adverseOutcomesDelete = (index) => {
+        const adverseOutcomesDelete = (index,data) => {
         // 二次确认删除
         ElMessageBox.confirm("确定要删除吗？", "提示", {
           type: "warning",
         })
-            .then(() => {
+            .then(async () => {
+              await deleteAdverseOutcomes({adverseOutComesId: data.adverseOutComesId});
               ElMessage.success("删除成功");
               adverseOutcomesData.value.splice(index, 1);
             })
@@ -563,16 +513,17 @@ export default {
         const abnormalCausesOnSubmit = () => {
         editVisible.value = false;
         // 表单校验
-        abnormalCausesFormRef.value.validate((valid) => {
+        abnormalCausesFormRef.value.validate(async (valid) => {
           if (valid) {
             abnormalCausesData.value.push({
-              consequenceNode:  abnormalCausesForm.consequenceNode,
+              consequenceNode: abnormalCausesForm.consequenceNode,
               deviate: abnormalCausesForm.deviate,
-              VariableName: abnormalCausesForm.VariableName,
+              variableName: abnormalCausesForm.variableName,
               deviation: abnormalCausesForm.deviation,
-              evolutionaryPath:  abnormalCausesForm.evolutionaryPath,
+              evolutionaryPath: abnormalCausesForm.evolutionaryPath,
               abnormalCauses: abnormalCausesForm.abnormalCauses
             });
+            await createAbnormalCauses(abnormalCausesForm);
             console.log(abnormalCausesForm);
             ElMessage.success("提交成功！");
           } else {
@@ -585,19 +536,19 @@ export default {
         abnormalCausesFormRef.value.resetFields();
       };
         // 删除非正常因素
-        const abnormalCausesDelete = (index) => {
+        const abnormalCausesDelete = (index,data) => {
         // 二次确认删除
         ElMessageBox.confirm("确定要删除吗？", "提示", {
           type: "warning",
         })
-            .then(() => {
+            .then(async () => {
+              await deleteAbnormalCauses({abnormalCausesId: data.abnormalCausesId});
               ElMessage.success("删除成功");
               abnormalCausesData.value.splice(index, 1);
             })
             .catch(() => {});
       };
         return {
-            // methods,
             rules,
             formRef,
             form,
@@ -605,7 +556,6 @@ export default {
             tableData,
             pageTotal,
             editVisible,
-            form2,
             variableFormRef,
             variableForm,
             variableData,
@@ -620,20 +570,14 @@ export default {
             abnormalCausesFormRef,
             abnormalCausesForm,
             abnormalCausesData,
-            onSubmit,
-            onReset,
             handlePageChange,
             handleDelete,
-            handleEdit,
-            saveEdit,
             variableOnSubmit,
             variableOnReset,
             variableDelete,
-            variableEdit,
             formulaDelete,
             formulaOnReset,
             formulaOnSubmit,
-            formulaEdit,
             adverseOutcomesOnSubmit,
             adverseOutcomesOnReset,
             adverseOutcomesDelete,

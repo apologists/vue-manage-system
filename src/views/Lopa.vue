@@ -9,7 +9,7 @@
     </div>
     <div class="container">
       <el-table :data="tableData" border class="table" ref="multipleTable" header-cell-class-name="table-header">
-        <el-table-column prop="id" label="编号" v-if="false" align="center"></el-table-column>
+        <el-table-column prop="lopaId" label="编号" v-if="false" align="center"></el-table-column>
         <el-table-column prop="scenarioDesc" label="场景描述" width="55" align="center"></el-table-column>
         <el-table-column prop="consequencesDesc" label="后果描述"></el-table-column>
         <el-table-column prop="eventIE" label="初始事件IE"></el-table-column>
@@ -80,7 +80,7 @@
 <script>
 import { ref, reactive } from "vue";
 import { ElMessage, ElMessageBox } from "element-plus";
-import {fetchLopaData} from "../api/index";
+import {deleteLopa, fetchLopaData, updateLopa} from "../api/index";
 
 export default {
   name: "projectList",
@@ -96,8 +96,8 @@ export default {
     // 获取表格数据
     const getData = () => {
       fetchLopaData(query).then((res) => {
-        tableData.value = res.list;
-        pageTotal.value = res.pageTotal || 50;
+        tableData.value = res.data.records;
+        pageTotal.value = res.data.total || 50;
       });
     };
     getData();
@@ -114,12 +114,13 @@ export default {
     };
 
     // 删除操作
-    const handleDelete = (index) => {
+    const handleDelete = (index,data) => {
       // 二次确认删除
       ElMessageBox.confirm("确定要删除吗？", "提示", {
         type: "warning",
       })
-          .then(() => {
+          .then(async () => {
+            await deleteLopa({lopaId: data.lopaId});
             ElMessage.success("删除成功");
             tableData.value.splice(index, 1);
           })
@@ -129,6 +130,7 @@ export default {
     // 表格编辑时弹窗和保存
     const editVisible = ref(false);
     let form = reactive({
+      lopaId:"",
       scenarioDesc: "",
       consequencesDesc: "",
       eventIE:"",
@@ -149,15 +151,16 @@ export default {
       });
       editVisible.value = true;
     };
-    const saveEdit = () => {
+    const saveEdit = async () => {
       editVisible.value = false;
+      await updateLopa(form);
       ElMessage.success(`修改第 ${idx + 1} 行成功`);
       Object.keys(form).forEach((item) => {
-        if(item==="accidentRate"){
-          tableData.value[idx][item] = form["eventIE"]*form["ignitionProbability"]*form["exposureProbability"]*form["lethalityRate"]*form["protectionRate"];
-        }else if(item==="SILGrade"){
-          tableData.value[idx][item] = form["eventIE"]*form["ignitionProbability"]*form["exposureProbability"]*form["lethalityRate"]*form["protectionRate"]/form["allowAccidentRate"];
-        } else{
+        if (item === "accidentRate") {
+          tableData.value[idx][item] = form["eventIE"] * form["ignitionProbability"] * form["exposureProbability"] * form["lethalityRate"] * form["protectionRate"];
+        } else if (item === "SILGrade") {
+          tableData.value[idx][item] = form["eventIE"] * form["ignitionProbability"] * form["exposureProbability"] * form["lethalityRate"] * form["protectionRate"] / form["allowAccidentRate"];
+        } else {
           tableData.value[idx][item] = form[item];
         }
       });

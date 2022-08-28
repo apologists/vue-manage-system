@@ -14,7 +14,7 @@
         <el-table-column prop="deviation" label="偏差"></el-table-column>
         <el-table-column prop="abnormalCauses" label="非正常原因"></el-table-column>
         <el-table-column prop="adverseOutcomes" label="不利后果"></el-table-column>
-        <el-table-column prop="relationships" label="可能性"></el-table-column>
+        <el-table-column prop="relationShips" label="可能性"></el-table-column>
         <el-table-column prop="riskSeverity" label="严重度"></el-table-column>
         <el-table-column prop="riskGrade" label="风险等级"></el-table-column>
         <el-table-column prop="existingMeasures" label="现有措施"></el-table-column>
@@ -38,7 +38,7 @@
     <el-dialog title="编辑" v-model="editVisible" width="30%">
       <el-form label-width="70px">
         <el-form-item label="可能性">
-          <el-input v-model="form.relationships"></el-input>
+          <el-input v-model="form.relationShips"></el-input>
         </el-form-item>
         <el-form-item label="严重度">
           <el-input v-model="form.riskSeverity"></el-input>
@@ -63,7 +63,7 @@
 <script>
 import { ref, reactive } from "vue";
 import { ElMessage, ElMessageBox } from "element-plus";
-import {fetchHazopData} from "../api/index";
+import {deleteHazop, updateHazop, fetchHazopData} from "../api/index";
 
 export default {
   name: "projectList",
@@ -79,8 +79,8 @@ export default {
     // 获取表格数据
     const getData = () => {
       fetchHazopData(query).then((res) => {
-        tableData.value = res.list;
-        pageTotal.value = res.pageTotal || 50;
+        tableData.value = res.data.records;
+        pageTotal.value = res.data.total || 50;
       });
     };
     getData();
@@ -97,12 +97,13 @@ export default {
     };
 
     // 删除操作
-    const handleDelete = (index) => {
+    const handleDelete = (index,data) => {
       // 二次确认删除
       ElMessageBox.confirm("确定要删除吗？", "提示", {
         type: "warning",
       })
-          .then(() => {
+          .then(async () => {
+            await deleteHazop({hazopId: data.hazopId});
             ElMessage.success("删除成功");
             tableData.value.splice(index, 1);
           })
@@ -112,11 +113,12 @@ export default {
     // 表格编辑时弹窗和保存
     const editVisible = ref(false);
     let form = reactive({
-      relationships: "",
+      relationShips: "",
       riskSeverity: "",
       riskGrade:"",
       existingMeasures: "",
       suggestedActions: "",
+      hazopId:"",
     });
     let idx = -1;
     const handleEdit = (index, row) => {
@@ -126,13 +128,14 @@ export default {
       });
       editVisible.value = true;
     };
-    const saveEdit = () => {
+    const saveEdit = async () => {
       editVisible.value = false;
+      await updateHazop(form);
       ElMessage.success(`修改第 ${idx + 1} 行成功`);
       Object.keys(form).forEach((item) => {
-        if(item==="riskGrade"){
-          tableData.value[idx][item] = form["riskSeverity"]*form["relationships"];
-        }else{
+        if (item === "riskGrade") {
+          tableData.value[idx][item] = form["riskSeverity"] * form["relationShips"];
+        } else {
           tableData.value[idx][item] = form[item];
         }
       });

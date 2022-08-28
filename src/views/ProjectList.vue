@@ -22,19 +22,19 @@
           <template #default="scope">
             <el-button type="text" icon="el-icon-edit" @click="handleEdit(scope.$index, scope.row)">编辑
             </el-button>
-            <router-link :to="{path:'./matrix',query:{id:1}}">
+            <router-link :to="{path:'./matrix',query:{projectId:scope.row.projectId}}">
               <el-button type="text" icon="el-icon-edit">风险矩阵</el-button>
             </router-link>
-            <router-link :to="{path:'./variable',query:{id:1}}">
+            <router-link :to="{path:'./variable',query:{projectId:scope.row.projectId}}">
               <el-button type="text" icon="el-icon-edit">变量</el-button>
             </router-link>
-            <router-link :to="{path:'./hazop',query:{id:1}}">
+            <router-link :to="{path:'./hazop',query:{projectId:scope.row.projectId}}">
               <el-button type="text" icon="el-icon-edit">hazop分析</el-button>
             </router-link>
-            <router-link :to="{path:'./lopa',query:{id:1}}">
+            <router-link :to="{path:'./lopa',query:{projectId:scope.row.projectId}}">
               <el-button type="text" icon="el-icon-edit">lopa分析</el-button>
             </router-link>
-            <router-link :to="{path:'./charts',query:{id:1}}">
+            <router-link :to="{path:'./charts',query:{projectId:scope.row.projectId}}">
               <el-button type="text" icon="el-icon-edit">schart图表</el-button>
             </router-link>
             <el-button type="text" icon="el-icon-delete" class="red"
@@ -116,8 +116,8 @@ export default {
             const res = await deleteProject( {projectId : index.projectId});
             if (res.code === "200") {
               ElMessage.success("删除成功");
+              window.location.reload();
             }
-            tableData.value.splice(index, 1);
           })
           .catch(() => {});
     };
@@ -147,7 +147,6 @@ export default {
     const saveEdit = async () => {
       editVisible.value = false;
       const res = await updateProject(form);
-      console.log(res + "================" + res.code === "200");
       if (res.code === "200") {
         ElMessage.success(`修改第 ${idx + 1} 行成功`);
       }

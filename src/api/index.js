@@ -25,6 +25,13 @@ export const updateProject = query => {
     });
 };
 
+export const createMatrix = query => {
+    return request({
+        url: 'http://localhost:8080/matrixSummary/save',
+        method: 'post',
+        params: query
+    });
+};
 
 export const fetchData = query => {
     return request({
@@ -36,7 +43,22 @@ export const fetchData = query => {
 
 export const fetchMatrixData = query => {
     return request({
-        url: './matrixTable.json',
+        url: 'http://localhost:8080/matrix/page',
+        method: 'get',
+        params: query
+    });
+};
+export const createRelation = query => {
+    return request({
+        url: 'http://localhost:8080/relation/save',
+        method: 'post',
+        params: query
+    });
+};
+
+export const deleteRelation = query => {
+    return request({
+        url: 'http://localhost:8080/relation/remove',
         method: 'get',
         params: query
     });
@@ -44,7 +66,7 @@ export const fetchMatrixData = query => {
 
 export const fetchRelationData = query => {
     return request({
-        url: './relationTable.json',
+        url: 'http://localhost:8080/relation/page',
         method: 'get',
         params: query
     });
@@ -52,7 +74,23 @@ export const fetchRelationData = query => {
 
 export const fetchRiskData = query => {
     return request({
-        url: './riskTable.json',
+        url: 'http://localhost:8080/risk/page',
+        method: 'get',
+        params: query
+    });
+};
+
+export const createRisk = query => {
+    return request({
+        url: 'http://localhost:8080/risk/save',
+        method: 'post',
+        params: query
+    });
+};
+
+export const deleteRisk = query => {
+    return request({
+        url: 'http://localhost:8080/risk/remove',
         method: 'get',
         params: query
     });
@@ -60,15 +98,39 @@ export const fetchRiskData = query => {
 
 export const fetchRiskGradeData = query => {
     return request({
-        url: './riskGradeTable.json',
+        url: 'http://localhost:8080/riskGrade/page',
         method: 'get',
         params: query
     });
 };
 
+export const updateRiskGrade = query => {
+    return request({
+        url: 'http://localhost:8080/riskGrade/update',
+        method: 'post',
+        params: query
+    });
+};
+
+
+export const createAdverseOutcomes = query => {
+    return request({
+        url: 'http://localhost:8080/adverseOutComes/save',
+        method: 'post',
+        params: query
+    });
+};
+
+export const deleteAdverseOutcomes = query => {
+    return request({
+        url: 'http://localhost:8080/adverseOutComes/remove',
+        method: 'get',
+        params: query
+    });
+};
 export const fetchAdverseOutcomesData = query => {
     return request({
-        url: './adverseOutcomesTable.json',
+        url: 'http://localhost:8080/adverseOutComes/page',
         method: 'get',
         params: query
     });
@@ -76,7 +138,23 @@ export const fetchAdverseOutcomesData = query => {
 
 export const fetchAbnormalCausesData = query => {
     return request({
-        url: './abnormalCausesTable.json',
+        url: 'http://localhost:8080/abnormalCauses/page',
+        method: 'get',
+        params: query
+    });
+};
+
+export const createAbnormalCauses = query => {
+    return request({
+        url: 'http://localhost:8080/abnormalCauses/save',
+        method: 'post',
+        params: query
+    });
+};
+
+export const deleteAbnormalCauses = query => {
+    return request({
+        url: 'http://localhost:8080/abnormalCauses/remove',
         method: 'get',
         params: query
     });
@@ -84,7 +162,40 @@ export const fetchAbnormalCausesData = query => {
 
 export const fetchVariableData = query => {
     return request({
-        url: './variableTable.json',
+        url: 'http://localhost:8080/variable/page',
+        method: 'get',
+        params: query
+    });
+};
+
+export const createVariable = query => {
+    return request({
+        url: 'http://localhost:8080/variable/save',
+        method: 'post',
+        params: query
+    });
+};
+
+export const deleteVariable = query => {
+    return request({
+        url: 'http://localhost:8080/variable/remove',
+        method: 'get',
+        params: query
+    });
+};
+
+
+export const createFormula = query => {
+    return request({
+        url: 'http://localhost:8080/formula/save',
+        method: 'post',
+        params: query
+    });
+};
+
+export const deleteFormula = query => {
+    return request({
+        url: 'http://localhost:8080/formula/remove',
         method: 'get',
         params: query
     });
@@ -92,7 +203,7 @@ export const fetchVariableData = query => {
 
 export const fetchFormulaData = query => {
     return request({
-        url: './formulaTable.json',
+        url: 'http://localhost:8080/formula/page',
         method: 'get',
         params: query
     });
@@ -100,7 +211,7 @@ export const fetchFormulaData = query => {
 
 export const fetchVariableMatrixData = query => {
     return request({
-        url: './variableMatrixTable.json',
+        url: 'http://localhost:8080/variableMatrix/page',
         method: 'get',
         params: query
     });
@@ -108,7 +219,23 @@ export const fetchVariableMatrixData = query => {
 
 export const fetchHazopData = query => {
     return request({
-        url: './hazopTable.json',
+        url: 'http://localhost:8080/hazop/page',
+        method: 'get',
+        params: query
+    });
+};
+
+export const updateHazop = query => {
+    return request({
+        url: 'http://localhost:8080/hazop/update',
+        method: 'post',
+        params: query
+    });
+};
+
+export const deleteHazop = query => {
+    return request({
+        url: 'http://localhost:8080/hazop/remove',
         method: 'get',
         params: query
     });
@@ -116,9 +243,24 @@ export const fetchHazopData = query => {
 
 export const fetchLopaData = query => {
     return request({
-        url: './lopaTable.json',
+        url: 'http://localhost:8080/lopa/page',
         method: 'get',
         params: query
     });
 };
 
+export const updateLopa = query => {
+    return request({
+        url: 'http://localhost:8080/lopa/update',
+        method: 'post',
+        params: query
+    });
+};
+
+export const deleteLopa = query => {
+    return request({
+        url: 'http://localhost:8080/lopa/remove',
+        method: 'get',
+        params: query
+    });
+};
