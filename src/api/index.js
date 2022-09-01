@@ -264,3 +264,27 @@ export const deleteLopa = query => {
         params: query
     });
 };
+
+export const fetchOptions1Data = query => {
+    return request({
+        url: './option1.json',
+        method: 'get',
+        params: query
+    });
+};
+
+export const fetchOptions2Data = query => {
+    return request({
+        url: 'http://localhost:8080/lopa/page',
+        method: 'get',
+        params: query
+    });
+};
+
+export const fetchOptions3Data = query => {
+    return request({
+        url: 'http://localhost:8080/lopa/page',
+        method: 'get',
+        params: query
+    });
+};

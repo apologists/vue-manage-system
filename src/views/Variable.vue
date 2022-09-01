@@ -6,7 +6,7 @@
             </el-breadcrumb>
         </div>
         <div class="container">
-            <el-tabs v-model="message">
+            <el-tabs v-model="variableMessage" @tab-click="handleClick">
                 <el-tab-pane :label="`基本信息`" name="first2">
                   <el-form ref="formRef" :rules="rules" :model="form" label-width="80px">
                     <el-form-item label="公司名称" prop="name">
@@ -225,10 +225,6 @@
                   </template>
                 </el-dialog>
               </el-tab-pane>
-                <el-tab-pane :label="`SDG图`" onclick="mounted()"  name="first">
-                  <div id="view_content" onclick="mounted()"></div>
-                </el-tab-pane>
-
             </el-tabs>
         </div>
     </div>
@@ -282,24 +278,20 @@ export default {
         analyticalMethod:"",
         remark:""
       });
-        const tableData = ref([]);
-        const pageTotal = ref(0);
         //变量
         const variableFormRef = ref(null);
         const variableForm = reactive({
           variableCn:"",
-          variableEn:""
+          variableEn:"",
+          projectId:""
       });
-        const variableData = ref([]);
 
        //变量公式
         const formulaFormRef = ref(null);
         const formulaForm = reactive({
-          formula:""
+          formula:"",
+          projectId:""
       });
-        const formulaData = ref([]);
-
-        const variableMatrixData = ref([]);
         const variableMatrixList = ref();
         //不利结果
         const adverseOutcomesFormRef = ref(null);
@@ -309,9 +301,9 @@ export default {
           variableName:"",
           deviation:"",
           evolutionaryPath: "",
-          adverseOutComes:""
+          adverseOutComes:"",
+          projectId:""
       });
-        const adverseOutcomesData = ref([]);
 
         //非正常因素
         const abnormalCausesFormRef = ref(null);
@@ -321,60 +313,22 @@ export default {
           variableName:"",
           deviation:"",
           evolutionaryPath: "",
-          abnormalCauses:""
+          abnormalCauses:"",
+          projectId:""
       });
-        const abnormalCausesData = ref([]);
-        // 获取表格数据
-        const getData = () => {
-        fetchData().then((res) => {
-          if (res.code === "200") {
-            tableData.value = res.data.records;
-            pageTotal.value = res.data.total || 50;
-          }
-        });
-      };
-        getData();
-        // 分页导航
-        const handlePageChange = (val) => {
-        getData();
-      };
-
-        // 删除操作
-        const handleDelete = (index) => {
-        // 二次确认删除
-        ElMessageBox.confirm("确定要删除吗？", "提示", {
-          type: "warning",
-        })
-            .then(() => {
-              ElMessage.success("删除成功");
-              tableData.value.splice(index, 1);
-            })
-            .catch(() => {});
-      };
 
         // 表格编辑时弹窗和保存
         const editVisible = ref(false);
         const message = ref("first");
 
-        //获取变量数据
-        const getVariableData = () => {
-        fetchVariableData().then((res) => {
-          variableData.value = res.data.records;
-          pageTotal.value = res.data.total || 50;
-        });
-      };
-        getVariableData();
         // 变量提交
         const variableOnSubmit = () => {
         editVisible.value = false;
         variableFormRef.value.validate(async (valid) => {
           if (valid) {
-            variableData.value.push({
-              variableCn: variableForm.variableCn,
-              variableEn: variableForm.variableEn
-            });
             await createVariable(variableForm);
             ElMessage.success("提交成功！");
+            location.reload();
           } else {
             return false;
           }
@@ -393,32 +347,21 @@ export default {
             .then(async () => {
               await deleteVariable({variableId: data.variableId});
               ElMessage.success("删除成功");
-              variableData.value.splice(index, 1);
+              location.reload();
             })
             .catch(() => {});
       };
 
 
-        //获取公式数据
-        const getFormulaData = () => {
-        fetchFormulaData().then((res) => {
-          formulaData.value = res.data.records;
-          pageTotal.value = res.data.total || 50;
-        });
-      };
-        getFormulaData();
         // 公式提交
         const formulaOnSubmit = () => {
         editVisible.value = false;
         // 表单校验
         formulaFormRef.value.validate(async (valid) => {
           if (valid) {
-            formulaData.value.push({
-              formula: formulaForm.formula
-            });
             await createFormula(formulaForm);
-            console.log(formulaForm);
             ElMessage.success("提交成功！");
+            location.reload();
           } else {
             return false;
           }
@@ -437,45 +380,20 @@ export default {
             .then(() => {
               deleteFormula({formulaId : data.formulaId});
               ElMessage.success("删除成功");
-              formulaData.value.splice(index, 1);
+              location.reload();
             })
             .catch(() => {});
       };
 
-        //获取变量关系表数据
-        const getVariableMatrixData = () => {
-          fetchVariableMatrixData().then((res) => {
-            variableMatrixData.value = res.data.records;
-            variableMatrixList.value = res.data.total;
-          });
-        };
-        getVariableMatrixData();
-
-        //获取不利结果数据
-        const getAdverseOutcomesData = () => {
-        fetchAdverseOutcomesData().then((res) => {
-          adverseOutcomesData.value = res.data.records;
-          pageTotal.value = res.data.total || 50;
-        });
-      };
-        getAdverseOutcomesData();
         // 不利结果提交
         const adverseOutcomesOnSubmit = () => {
         editVisible.value = false;
         // 表单校验
         adverseOutcomesFormRef.value.validate(async (valid) => {
           if (valid) {
-            adverseOutcomesData.value.push({
-              pullOffNode: adverseOutcomesForm.pullOffNode,
-              deviate: adverseOutcomesForm.deviate,
-              variableName: adverseOutcomesForm.variableName,
-              deviation: adverseOutcomesForm.deviation,
-              evolutionaryPath: adverseOutcomesForm.evolutionaryPath,
-              adverseOutComes: adverseOutcomesForm.adverseOutComes
-            });
             await createAdverseOutcomes(adverseOutcomesForm);
-            console.log(adverseOutcomesForm);
             ElMessage.success("提交成功！");
+            location.reload();
           } else {
             return false;
           }
@@ -494,38 +412,20 @@ export default {
             .then(async () => {
               await deleteAdverseOutcomes({adverseOutComesId: data.adverseOutComesId});
               ElMessage.success("删除成功");
-              adverseOutcomesData.value.splice(index, 1);
+              location.reload();
             })
             .catch(() => {});
       };
 
-        //非正常因素数据获取
-        const getAbnormalCausesData = () => {
-        fetchAbnormalCausesData().then((res) => {
-          if (res.code ==="200") {
-            abnormalCausesData.value = res.data.records;
-            pageTotal.value = res.data.total || 50;
-          }
-        });
-      };
-        getAbnormalCausesData();
         // 非正常因素提交
         const abnormalCausesOnSubmit = () => {
         editVisible.value = false;
         // 表单校验
         abnormalCausesFormRef.value.validate(async (valid) => {
           if (valid) {
-            abnormalCausesData.value.push({
-              consequenceNode: abnormalCausesForm.consequenceNode,
-              deviate: abnormalCausesForm.deviate,
-              variableName: abnormalCausesForm.variableName,
-              deviation: abnormalCausesForm.deviation,
-              evolutionaryPath: abnormalCausesForm.evolutionaryPath,
-              abnormalCauses: abnormalCausesForm.abnormalCauses
-            });
             await createAbnormalCauses(abnormalCausesForm);
-            console.log(abnormalCausesForm);
             ElMessage.success("提交成功！");
+            location.reload();
           } else {
             return false;
           }
@@ -544,7 +444,7 @@ export default {
             .then(async () => {
               await deleteAbnormalCauses({abnormalCausesId: data.abnormalCausesId});
               ElMessage.success("删除成功");
-              abnormalCausesData.value.splice(index, 1);
+              location.reload();
             })
             .catch(() => {});
       };
@@ -553,25 +453,16 @@ export default {
             formRef,
             form,
             message,
-            tableData,
-            pageTotal,
             editVisible,
             variableFormRef,
             variableForm,
-            variableData,
             formulaFormRef,
             formulaForm,
-            formulaData,
-            variableMatrixData,
             variableMatrixList,
             adverseOutcomesFormRef,
             adverseOutcomesForm,
-            adverseOutcomesData,
             abnormalCausesFormRef,
             abnormalCausesForm,
-            abnormalCausesData,
-            handlePageChange,
-            handleDelete,
             variableOnSubmit,
             variableOnReset,
             variableDelete,
@@ -586,88 +477,82 @@ export default {
             abnormalCausesOnSubmit,
         };
     },
-    created() {
+  data(){
+    return{
+      formulaData:[],
+      variableMatrixData:[],
+      variableData:[],
+      adverseOutcomesData:[],
+      abnormalCausesData:[],
+      variableMessage: 'first'
+    }
   },
-    mounted() {
-    this.init()
+  methods: {
+    handleClick(tab, event) {
+      console.log(tab, event);
+      console.log(tab.props.name);
+      sessionStorage.setItem('current_name', tab.props.name)
+    }
   },
-    methods: {
-    init() {
-      // // create an array with nodes
-      const nodes = new DataSet([
-        {id: 1, label: 'Node 1'},
-        {id: 2, label: 'Node 2'},
-        {id: 3, label: 'Node 3'},
-        {id: 4, label: 'Node 4'},
-        {id: 5, label: 'Node 5'},
-      ]);
-      // // create an array with edges
-      const edges = new DataSet([
-        {from: 1, to: 3},
-        {from: 2, to: 4},
-        {from: 2, to: 5},
-        {from: 2, to: 3},
-      ]);
-      // create a network
-      const container = document.querySelector('#view_content');
-      // provide the data in the vis format
-      const data = {
-        nodes: nodes,
-        edges: edges,
-      };
-      const options = {
-        //节点样式
-        nodes: {
-          shape: 'circle', //设置节点node样式为矩形
-          fixed: false, //节点node固定可移动
-          color: '#faf8f8',
-          font: {
-            color: '#000000', //字体的颜色
-            size: 20, //显示字体大小
-          },
-          scaling: {
-            min: 16,
-            max: 32, //缩放效果比例
-          },
-        },
-        //连接线的样式
-        edges: {
-          color: {
-            color: 'rgb(10,10,10)',
-            highlight: 'rgb(10,10,10)',
-            hover: 'green',
-            inherit: 'from',
-            opacity: 1.0,
-          },
-          font: {
-            align: 'top', //连接线文字位置
-          },
-          smooth: true, //是否显示方向箭头
-          arrows: {to: true}, //箭头指向from节点
-          // physics:false
-        },
-        // layout: {
-        //   //以分层方式定位节点
-        //   hierarchical: {
-        //     direction: 'LR', //分层排序方向
-        //     sortMethod: 'directed', //分层排序方法
-        //     levelSeparation: 400, //不同级别之间的距离
-        //   },
-        // },
-        interaction: {
-          navigationButtons: true,
-          // hover: true, //鼠标移过后加粗该节点和连接线
-          selectConnectedEdges: false, //选择节点后是否显示连接线
-        },
-      };
-      // initialize your network!
-      this.network = new Network(container, data, options)
-      // this.network.on('click', (e) => this.showDetail(e)) //单击事件
-      // this.network.on('doubleClick', (e) => this.enterService(e)) //双击事件
-      //生成图后才生成canvas元素，此处设置画布大小
-      let element = document.getElementsByTagName('canvas')[0]
-      element.height = '1000'
-    },
+  created() {
+    this.variableMessage = sessionStorage.getItem('current_name')
+    if (sessionStorage.getItem('current_name') == null){
+      this.variableMessage = 'first'
+    }else{
+      this.variableMessage = sessionStorage.getItem('current_name')
+    }
+  },
+  mounted() {
+    var projectId = this.$route.query.projectId;
+    this.form.projectId = projectId;
+    this.adverseOutcomesForm.projectId = projectId;
+    this.abnormalCausesForm.projectId = projectId;
+    this.formulaForm.projectId = projectId;
+    this.variableForm.projectId = projectId;
+    const query = reactive({
+      projectId: projectId
+    });
+    //获取公式数据
+    const getFormulaData = () => {
+      fetchFormulaData(query).then((res) => {
+        this.formulaData = res.data.records;
+      });
+    };
+    getFormulaData();
+
+    //获取变量关系表数据
+    const getVariableMatrixData = () => {
+      fetchVariableMatrixData(query).then((res) => {
+        this.variableMatrixData = res.data.records;
+      });
+    };
+    getVariableMatrixData();
+
+    //获取变量数据
+    const getVariableData = () => {
+      fetchVariableData(query).then((res) => {
+        this.variableData = res.data.records;
+      });
+    };
+    getVariableData();
+
+    //获取不利结果数据
+    const getAdverseOutcomesData = () => {
+      fetchAdverseOutcomesData(query).then((res) => {
+        this.adverseOutcomesData = res.data.records;
+      });
+    };
+    getAdverseOutcomesData();
+
+    //非正常因素数据获取
+    const getAbnormalCausesData = () => {
+      fetchAbnormalCausesData(query).then((res) => {
+        if (res.code ==="200") {
+          this.abnormalCausesData = res.data.records
+        }
+      });
+    };
+    getAbnormalCausesData();
   },
 };
 </script>

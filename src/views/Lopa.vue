@@ -30,10 +30,6 @@
           </template>
         </el-table-column>
       </el-table>
-      <div class="pagination">
-        <el-pagination background layout="total, prev, pager, next" :current-page="query.pageIndex"
-                       :page-size="query.pageSize" :total="pageTotal" @current-change="handlePageChange"></el-pagination>
-      </div>
     </div>
 
     <!-- 编辑弹出框 -->
@@ -84,34 +80,26 @@ import {deleteLopa, fetchLopaData, updateLopa} from "../api/index";
 
 export default {
   name: "projectList",
-  setup() {
+  data(){
+    return{
+      tableData:[]
+    }
+  },
+  mounted() {
+    var projectId = this.$route.query.projectId;
+    this.form.projectId = projectId;
     const query = reactive({
-      desc: "",
-      name: "",
-      pageIndex: 1,
-      pageSize: 10,
+      projectId: projectId
     });
-    const tableData = ref([]);
-    const pageTotal = ref(0);
-    // 获取表格数据
+
     const getData = () => {
       fetchLopaData(query).then((res) => {
-        tableData.value = res.data.records;
-        pageTotal.value = res.data.total || 50;
+        this.tableData = res.data.records;
       });
     };
     getData();
-
-    // 查询操作
-    const handleSearch = () => {
-      query.pageIndex = 1;
-      getData();
-    };
-    // 分页导航
-    const handlePageChange = (val) => {
-      query.pageIndex = val;
-      getData();
-    };
+  },
+  setup() {
 
     // 删除操作
     const handleDelete = (index,data) => {
@@ -122,7 +110,6 @@ export default {
           .then(async () => {
             await deleteLopa({lopaId: data.lopaId});
             ElMessage.success("删除成功");
-            tableData.value.splice(index, 1);
           })
           .catch(() => {});
     };
@@ -142,6 +129,7 @@ export default {
       allowAccidentRate: "",
       accidentRate:"",
       SILGrade:"",
+      projectId:""
     });
     let idx = -1;
     const handleEdit = (index, row) => {
@@ -155,25 +143,12 @@ export default {
       editVisible.value = false;
       await updateLopa(form);
       ElMessage.success(`修改第 ${idx + 1} 行成功`);
-      Object.keys(form).forEach((item) => {
-        if (item === "accidentRate") {
-          tableData.value[idx][item] = form["eventIE"] * form["ignitionProbability"] * form["exposureProbability"] * form["lethalityRate"] * form["protectionRate"];
-        } else if (item === "SILGrade") {
-          tableData.value[idx][item] = form["eventIE"] * form["ignitionProbability"] * form["exposureProbability"] * form["lethalityRate"] * form["protectionRate"] / form["allowAccidentRate"];
-        } else {
-          tableData.value[idx][item] = form[item];
-        }
-      });
+      location.reload();
     };
 
     return {
-      query,
-      tableData,
-      pageTotal,
       editVisible,
       form,
-      handleSearch,
-      handlePageChange,
       handleDelete,
       handleEdit,
       saveEdit,

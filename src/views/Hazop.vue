@@ -28,10 +28,6 @@
           </template>
         </el-table-column>
       </el-table>
-      <div class="pagination">
-        <el-pagination background layout="total, prev, pager, next" :current-page="query.pageIndex"
-                       :page-size="query.pageSize" :total="pageTotal" @current-change="handlePageChange"></el-pagination>
-      </div>
     </div>
 
     <!-- 编辑弹出框 -->
@@ -67,35 +63,26 @@ import {deleteHazop, updateHazop, fetchHazopData} from "../api/index";
 
 export default {
   name: "projectList",
-  setup() {
+  data(){
+    return{
+      tableData:[]
+    }
+  },
+  mounted() {
+    var projectId = this.$route.query.projectId;
+    this.form.projectId = projectId;
     const query = reactive({
-      desc: "",
-      name: "",
-      pageIndex: 1,
-      pageSize: 10,
+      projectId: projectId
     });
-    const tableData = ref([]);
-    const pageTotal = ref(0);
     // 获取表格数据
     const getData = () => {
       fetchHazopData(query).then((res) => {
-        tableData.value = res.data.records;
-        pageTotal.value = res.data.total || 50;
+        this.tableData = res.data.records;
       });
     };
     getData();
-
-    // 查询操作
-    const handleSearch = () => {
-      query.pageIndex = 1;
-      getData();
-    };
-    // 分页导航
-    const handlePageChange = (val) => {
-      query.pageIndex = val;
-      getData();
-    };
-
+  },
+  setup() {
     // 删除操作
     const handleDelete = (index,data) => {
       // 二次确认删除
@@ -105,7 +92,7 @@ export default {
           .then(async () => {
             await deleteHazop({hazopId: data.hazopId});
             ElMessage.success("删除成功");
-            tableData.value.splice(index, 1);
+            location.reload();
           })
           .catch(() => {});
     };
@@ -119,6 +106,7 @@ export default {
       existingMeasures: "",
       suggestedActions: "",
       hazopId:"",
+      projectId:"",
     });
     let idx = -1;
     const handleEdit = (index, row) => {
@@ -132,23 +120,12 @@ export default {
       editVisible.value = false;
       await updateHazop(form);
       ElMessage.success(`修改第 ${idx + 1} 行成功`);
-      Object.keys(form).forEach((item) => {
-        if (item === "riskGrade") {
-          tableData.value[idx][item] = form["riskSeverity"] * form["relationShips"];
-        } else {
-          tableData.value[idx][item] = form[item];
-        }
-      });
+      location.reload();
     };
 
     return {
-      query,
-      tableData,
-      pageTotal,
       editVisible,
       form,
-      handleSearch,
-      handlePageChange,
       handleDelete,
       handleEdit,
       saveEdit,

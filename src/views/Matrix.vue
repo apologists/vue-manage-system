@@ -7,7 +7,7 @@
           <el-text v-model="query.projectId" placeholder="用户名" class="handle mr10"></el-text>
         </div>
         <div class="container">
-            <el-tabs v-model="message">
+            <el-tabs v-model="riskMessage" @tab-click="handleClick">
                 <el-tab-pane :label="`一般信息`" name="first">
                   <el-form ref="matrixFormRef" :rules="rules" :model="matrixForm" label-width="80px">
                     <el-form-item label="矩阵名称" prop="matrixName">
@@ -39,7 +39,7 @@
                     </el-form-item>
                   </el-form>
                 </el-tab-pane>
-                <el-tab-pane :label="`风险严重度`" @click="h" name="riskSeverity">
+                <el-tab-pane :label="`风险严重度`" name="second">
                   <div>
                     <el-button type="primary" @click="editVisible = true " style="float:right">新增</el-button>
                   </div>
@@ -60,10 +60,6 @@
                       </template>
                     </el-table-column>
                   </el-table>
-                  <div class="pagination">
-                    <el-pagination background layout="total, prev, pager, next" :current-page="query.pageIndex"
-                                   :page-size="query.pageSize" :total="pageTotal" @current-change="handlePageChange"></el-pagination>
-                  </div>
                   <!-- 编辑弹出框 -->
                   <el-dialog title="编辑" v-model="editVisible" width="30%">
                     <el-form ref="riskFormRef" :rules="rules" :model="riskForm" label-width="70px">
@@ -100,7 +96,7 @@
                     </template>
                   </el-dialog>
               </el-tab-pane>
-                <el-tab-pane :label="`可能性`" name="relationships">
+                <el-tab-pane :label="`可能性`" name="third">
                       <el-button type="primary" @click="editVisible = true " style="float:right">新增</el-button>
                       <el-dialog title="编辑" v-model="editVisible" width="30%">
                       <el-form ref="relationFormRef" :model="relationForm" label-width="80px">
@@ -133,12 +129,8 @@
                         </template>
                       </el-table-column>
                     </el-table>
-                    <div class="pagination">
-                      <el-pagination background layout="total, prev, pager, next" :current-page="query.pageIndex"
-                                     :page-size="query.pageSize" :total="pageTotal" @current-change="handlePageChange"></el-pagination>
-                    </div>
               </el-tab-pane>
-                <el-tab-pane :label="`风险等级`" name="riskGrade">
+                <el-tab-pane :label="`风险等级`" name="fourth">
                     <el-table :data="riskGradeData" border class="table" ref="multipleTable" header-cell-class-name="table-header">
                       <el-table-column prop="riskGradeId" label="编号" width="55" align="center"></el-table-column>
                       <el-table-column prop="riskGradeCode" label="Code" align="center"></el-table-column>
@@ -157,10 +149,6 @@
                         </template>
                       </el-table-column>
                     </el-table>
-                    <div class="pagination">
-                      <el-pagination background layout="total, prev, pager, next" :current-page="query.pageIndex"
-                                     :page-size="query.pageSize" :total="pageTotal" @current-change="handlePageChange"></el-pagination>
-                    </div>
                     <el-dialog title="编辑" v-model="editVisible" width="30%">
                       <el-form label-width="70px">
                         <el-form-item label="描述">
@@ -187,8 +175,8 @@
                       </template>
                     </el-dialog>
                 </el-tab-pane >
-                <el-tab-pane :label="`矩阵`" name="matrix">
-                  <el-table :data="testDatas" border stripe style="width: 100%">
+                <el-tab-pane :label="`矩阵`" name="fifth">
+                  <el-table :data="matrixData" border stripe style="width: 100%">
                     <el-table-column
                         :prop="index"
                         :label="item"
@@ -223,12 +211,69 @@ export default {
   name: "matrix",
   data() {
     return {
+      riskData:[],
+      relationData:[],
+      matrixData:[],
+      riskGradeData:[],
+      riskMessage: 'first'
+    }
+  },
+  methods: {
+    handleClick(tab, event) {
+      console.log(tab, event);
+      console.log(tab.props.name);
+      sessionStorage.setItem('current_name', tab.props.name)
     }
   },
   created() {
-    this.query.projectId = this.$route.query.projectId;
-    //获取上个页面传递的id,在下面获取数据的时候先提交id
+    this.riskMessage = sessionStorage.getItem('current_name')
+    if (sessionStorage.getItem('current_name') == null){
+      this.riskMessage = 'first'
+    }else{
+      this.riskMessage = sessionStorage.getItem('current_name')
+    }
   },
+  mounted() {
+    var projectId = this.$route.query.projectId;
+    this.relationForm.projectId = projectId;
+    this.riskForm.projectId = projectId;
+    this.riskGradeForm.projectId = projectId;
+    const query = reactive({
+      projectId:projectId
+    });
+
+    const getRiskData = () => {
+      fetchRiskData(query).then((res) => {
+        this.riskData = res.data.records;
+      });
+    };
+    getRiskData();
+
+    const getRelationData = () => {
+      fetchRelationData(query).then((res) => {
+        this.relationData = res.data.records;
+      });
+    };
+    getRelationData();
+
+    //获取矩阵
+    const getMatrixData = () => {
+      fetchMatrixData(query).then((res) => {
+        this.matrixData = res.data.records;
+      });
+    };
+    getMatrixData();
+
+    //获取风险等级
+    const getRiskGrafeData = () => {
+      fetchRiskGradeData(query).then((res) => {
+        this.riskGradeData = res.data.records;
+        console.info(this.riskGradeData.value)
+      });
+    };
+    getRiskGrafeData();
+  },
+
   setup: function () {
     const rules = {
       matrixName: [
@@ -270,45 +315,34 @@ export default {
       reputation: "",
       laws: "",
       lockout: "",
+      projectId:""
     });
     const relationFormRef = ref(null);
     const relationForm = reactive({
       frequencyLevel: "",
       frequencyValue: "",
       frequencyDesc: "",
+      projectId:""
     });
     const riskGradeForm = reactive({
       riskGradeDesc: "",
       riskGrade: "",
       riskGradeMeasure: "",
       term: "",
-      remark: ""
+      remark: "",
+      riskGradeId:"",
+      projectId:""
     });
     const riskGradeFormRef = ref(null);
     const query = reactive({
       projectId:""
     });
-    const matrixData = ref([]);
-    const relationData = ref([]);
-    const riskData = ref([]);
-    const riskGradeData = ref([]);
-    const testDatas = ref([]);
     const columnList = ref();
-    const pageTotal = ref(0);
 
     // 表格编辑时弹窗和保存
     const editVisible = ref(false);
     let idx = -1;
 
-    //获取矩阵
-    const getMatrixData = () => {
-      fetchMatrixData(query).then((res) => {
-        testDatas.value = res.testDatas;
-        columnList.value = res.columnList;
-        pageTotal.value = res.pageTotal || 50;
-      });
-    };
-    getMatrixData();
     // 矩阵提交
     const matrixOnSubmit = () => {
       // 表单校验
@@ -316,6 +350,7 @@ export default {
         if (valid) {
           const res = await createMatrix(matrixForm);
           if (res.code === "200") {
+            location.reload();
             ElMessage.success("提交成功！");
           }
         } else {
@@ -328,32 +363,15 @@ export default {
       matrixFormRef.value.resetFields();
     };
 
-    //获取风险
-    const getRiskData = () => {
-      fetchRiskData(query).then((res) => {
-        riskData.value = res.data.records;
-        pageTotal.value = res.data.total || 50;
-      });
-    };
-    getRiskData();
     // 风险提交
     const riskOnSubmit = () => {
       editVisible.value = false;
       // 表单校验
       riskFormRef.value.validate(async (valid) => {
         if (valid) {
-          riskData.value.push({
-            grade: riskForm.grade,
-            severity: riskForm.severity,
-            personnel: riskForm.personnel,
-            property: riskForm.property,
-            environment: riskForm.environment,
-            reputation: riskForm.reputation,
-            laws: riskForm.laws,
-            lockout: riskForm.lockout
-          });
           const res = await createRisk(riskForm);
           if (res.code === "200") {
+            location.reload();
             ElMessage.success("提交成功！");
           }
         } else {
@@ -372,36 +390,22 @@ export default {
         type: "warning",
       })
           .then(() => {
-            riskData.value.splice(index, 1);
             deleteRisk({riskId: data.riskId});
+            location.reload();
             ElMessage.success("删除成功");
           })
           .catch(() => {
           });
     };
 
-
-    //获取频率
-    const getRelationData = () => {
-      fetchRelationData(query).then((res) => {
-        relationData.value = res.data.records;
-        pageTotal.value = res.data.total || 50;
-      });
-    };
-    getRelationData();
-    // 频率提交
     const relationOnSubmit = () => {
       editVisible.value = false;
       // 表单校验
       relationFormRef.value.validate(async (valid) => {
         if (valid) {
-          relationData.value.push({
-            frequencyLevel: relationForm.frequencyLevel,
-            frequencyValue: relationForm.frequencyValue,
-            frequencyDesc: relationForm.frequencyDesc
-          });
           const res = await createRelation(relationForm);
           if (res.code === "200") {
+            location.reload();
             ElMessage.success("提交成功！");
           }
         } else {
@@ -414,29 +418,20 @@ export default {
       relationFormRef.value.resetFields();
     };
     // 频率删除
-    const relationDelete = (index) => {
+    const relationDelete = (index,data) => {
       // 二次确认删除
       ElMessageBox.confirm("确定要删除吗？", "提示", {
         type: "warning",
       })
           .then(() => {
-            deleteRelation({relationId: data.relationId});
+            deleteRelation({frequencyId: data.frequencyId});
+            location.reload();
             ElMessage.success("删除成功");
-            relationData.value.splice(index, 1);
           })
           .catch(() => {
           });
     };
 
-
-    //获取风险等级
-    const getRiskGrafeData = () => {
-      fetchRiskGradeData(query).then((res) => {
-        riskGradeData.value = res.data.records;
-        pageTotal.value = res.data.pageTotal || 50;
-      });
-    };
-    getRiskGrafeData();
     // 风险等级删除
     const riskGradeDelete = (index) => {
       // 二次确认删除
@@ -445,8 +440,8 @@ export default {
       })
           .then(() => {
             deleteRelation({riskGradeId: data.riskGradeId});
+            location.reload();
             ElMessage.success("删除成功");
-            riskGradeData.value.splice(index, 1);
           })
           .catch(() => {
           });
@@ -462,28 +457,10 @@ export default {
     const riskGradeSaveEdit = async () => {
       editVisible.value = false;
       const res = await updateRiskGrade(riskGradeForm);
+      location.reload();
       ElMessage.success(`修改第 ${idx + 1} 行成功`);
-      Object.keys(riskGradeForm).forEach((item) => {
-        riskGradeData.value[idx][item] = riskGradeForm[item];
-      });
     };
 
-    const message = ref("first");
-
-    const handleDel = (index) => {
-      const item = state.read.splice(index, 1);
-      state.recycle = item.concat(state.recycle);
-    };
-    const handleRestore = (index) => {
-      const item = state.recycle.splice(index, 1);
-      state.read = item.concat(state.read);
-    };
-
-    // 分页导航
-    const handlePageChange = (val) => {
-      query.pageIndex = val;
-      getData();
-    };
     return {
       rules,
       matrixFormRef,
@@ -494,18 +471,9 @@ export default {
       relationFormRef,
       riskGradeForm,
       riskGradeFormRef,
-      message,
       query,
-      matrixData,
-      relationData,
-      riskData,
-      riskGradeData,
-      testDatas,
       columnList,
-      pageTotal,
       editVisible,
-      handleDel,
-      handleRestore,
       matrixOnSubmit,
       matrixOnReset,
       riskOnSubmit,
@@ -517,7 +485,6 @@ export default {
       relationDelete,
       riskGradeHandleEdit,
       riskGradeSaveEdit,
-      handlePageChange,
     };
   },
 };
