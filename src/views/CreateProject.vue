@@ -17,7 +17,7 @@
           <el-form-item label="项目简介" prop="projectDesc">
             <el-input type="textarea" rows="5" v-model="form.projectDesc"></el-input>
           </el-form-item>
-          <el-form-item label="项目封面" prop="projectImage">
+          <el-form-item label="PJG图" prop="projectImage">
             <el-upload class="upload-demo" drag action="http://jsonplaceholder.typicode.com/api/posts/" multiple>
               <i class="el-icon-upload"></i>
               <div class="el-upload__text">
@@ -43,9 +43,11 @@
 import { reactive, ref } from "vue";
 import { ElMessage } from "element-plus";
 import {createProject} from "../api";
+import { useRouter } from 'vue-router'
 export default {
   name: "createProject",
   setup() {
+    const router = useRouter()
     const rules = {
       projectName: [
         { required: true, message: "请输入项目名称", trigger: "blur" },
@@ -66,6 +68,7 @@ export default {
           const res = await createProject(form);
           if (res.code === "200") {
             ElMessage.success("提交成功！");
+            await router.push({path: './projectList'})
           }
         } else {
           return false;

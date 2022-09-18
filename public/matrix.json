@@ -1,0 +1,11 @@
+{
+  "code": "200",
+  "data":[{
+    "matrixName": "安全",
+    "matrixDesc": "1",
+    "horizontal": 2,
+    "longitudinal" : 3
+  }
+  ],
+  "msg": "操作成功"
+}

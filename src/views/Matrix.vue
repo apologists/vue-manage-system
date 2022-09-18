@@ -9,31 +9,45 @@
         <div class="container">
             <el-tabs v-model="riskMessage" @tab-click="handleClick">
                 <el-tab-pane :label="`一般信息`" name="first">
-                  <el-form ref="matrixFormRef" :rules="rules" :model="matrixForm" label-width="80px">
+                  <el-form ref="matrixFormRef" :rules="rules" :model="matrixForm" label-width="80px" :data="matrixFormData">
                     <el-form-item label="矩阵名称" prop="matrixName">
-                      <el-input v-model="matrixForm.matrixName"></el-input>
+                      <template v-if="matrixFormData.matrixName === null">
+                        <el-input v-model="matrixForm.matrixName"></el-input>
+                      </template>
+                      <template v-else>
+                        <el-input type="text" readonly v-model="matrixFormData.matrixName" label="矩阵名称"/>
+                      </template>
                     </el-form-item>
                     <el-form-item label="描述" prop="desc">
-                      <el-input v-model="matrixForm.matrixDesc"></el-input>
+                      <template v-if="matrixFormData.matrixDesc === null">
+                        <el-input v-model="matrixForm.matrixDesc"></el-input>
+                      </template>
+                      <template v-else>
+                        <el-input type="text" readonly v-model="matrixFormData.matrixDesc" label="描述"/>
+                      </template>
                     </el-form-item>
                     <el-form-item label="阶数" prop="matrixUnit">
                       <el-col :span="12">
-                        <el-input
-                            v-model="matrixForm.horizontal"
-                            label="行"
-                        />
+                        <template v-if="matrixFormData.horizontal === null">
+                          <el-input v-model="matrixForm.horizontal" label="行"/>
+                        </template>
+                        <template v-else>
+                          <el-input type="text" readonly v-model="matrixFormData.horizontal" label="行"/>
+                        </template>
                       </el-col>
                       <el-col :span="12">
                         <el-tag> —— </el-tag>
                       </el-col>
                       <el-col :span="12">
-                        <el-input
-                            v-model="matrixForm.longitudinal"
-                            label="列"
-                        />
+                        <template v-if="matrixFormData.longitudinal === null">
+                          <el-input v-model="matrixForm.longitudinal" label="列"/>
+                        </template>
+                        <template v-else>
+                          <el-input type="text" readonly v-model="matrixFormData.longitudinal" label="列"/>
+                        </template>
                       </el-col>
                     </el-form-item>
-                    <el-form-item>
+                    <el-form-item v-show="matrixFormData.matrixDesc === null">
                       <el-button type="primary" @click="matrixOnSubmit">保存</el-button>
                       <el-button @click="matrixOnReset">重置</el-button>
                     </el-form-item>
@@ -131,12 +145,13 @@
                     </el-table>
               </el-tab-pane>
                 <el-tab-pane :label="`风险等级`" name="fourth">
-                    <el-table :data="riskGradeData" border class="table" ref="multipleTable" header-cell-class-name="table-header">
+                    <el-table :data="riskGradeData" border class="table" ref="multipleTable" header-cell-class-name="table-header" :cell-style="tableCellStyle">
                       <el-table-column prop="riskGradeId" label="编号" width="55" align="center"></el-table-column>
                       <el-table-column prop="riskGradeCode" label="Code" align="center"></el-table-column>
                       <el-table-column prop="riskGradeColor" label="Color" width="55" align="center"></el-table-column>
                       <el-table-column prop="riskGradeDesc" label="描述" align="center"></el-table-column>
-                      <el-table-column prop="riskGrade" label="风险等级" width="55" align="center"></el-table-column>
+                      <el-table-column prop="riskGrade" label="风险等级" width="55" align="center">
+                      </el-table-column>
                       <el-table-column prop="riskGradeMeasure" label="应采用的行动/控制措施" align="center"></el-table-column>
                       <el-table-column prop="term" label="实时期限" width="55" align="center"></el-table-column>
                       <el-table-column prop="remark" label="备注" align="center"></el-table-column>
@@ -176,11 +191,11 @@
                     </el-dialog>
                 </el-tab-pane >
                 <el-tab-pane :label="`矩阵`" name="fifth">
-                  <el-table :data="matrixData" border stripe style="width: 100%">
+                  <el-table :data="matrixData" border stripe style="width: 100%" :cell-style="matrixCellStyle">
                     <el-table-column
                         :prop="index"
                         :label="item"
-                        v-for="(item, index) in columnList"
+                        v-for="(item, index) in matrixList"
                         :key="index"
                     >
                     </el-table-column>
@@ -204,7 +219,8 @@ import {
   fetchRelationData,
   fetchRiskData,
   fetchRiskGradeData,
-  updateRiskGrade
+  updateRiskGrade,
+  fetchMatrixSuammryData
 } from "../api";
 
 export default {
@@ -215,7 +231,8 @@ export default {
       relationData:[],
       matrixData:[],
       riskGradeData:[],
-      riskMessage: 'first'
+      riskMessage: 'first',
+      matrixFormData:{},
     }
   },
   methods: {
@@ -223,7 +240,153 @@ export default {
       console.log(tab, event);
       console.log(tab.props.name);
       sessionStorage.setItem('current_name', tab.props.name)
-    }
+    },
+    tableCellStyle ({row, column, rowIndex, columnIndex}) {
+      if(columnIndex === 2) {      // 表格的第11行做处理
+        if(row.riskGrade === '很高') {             // 如果是低风险背景色蓝色，字体色白色
+          return 'background:red'
+        }else if(row.riskGrade === '高') {       // 较大风险
+          return 'background:purple'
+        }else if(row.riskGrade === '中') {       // 较大风险
+            return 'background:yellow'
+        }else if(row.riskGrade === '低') {       // 重大风险
+          return 'background:green'
+        } else {                    // 一般风险
+          return 'background:white'
+        }
+      }else {
+        return ''
+      }
+    },
+    matrixCellStyle ({row, column, rowIndex, columnIndex}) {
+      if(columnIndex === 1) {      // 表格的第11行做处理
+        const str = row[1].split("（")[0];
+        if(str === '很高') {             // 如果是低风险背景色蓝色，字体色白色
+          return 'background:red'
+        }else if(str === '高') {       // 较大风险
+          return 'background:purple'
+        }else if(str === '中') {       // 较大风险
+          return 'background:yellow'
+        }else if(str === '低') {       // 重大风险
+          return 'background:green'
+        } else {                    // 一般风险
+          return 'background:green'
+        }
+      }else if(columnIndex === 2) {      // 表格的第11行做处理
+        const str = row[2].split("（")[0];
+        if(str === '很高') {             // 如果是低风险背景色蓝色，字体色白色
+          return 'background:red'
+        }else if(str === '高') {       // 较大风险
+          return 'background:purple'
+        }else if(str === '中') {       // 较大风险
+          return 'background:yellow'
+        }else if(str === '低') {       // 重大风险
+          return 'background:green'
+        } else {                    // 一般风险
+          return 'background:green'
+        }
+      }else if(columnIndex === 3) {      // 表格的第11行做处理
+        const str = row[3].split("（")[0];
+        if(str === '很高') {             // 如果是低风险背景色蓝色，字体色白色
+          return 'background:red'
+        }else if(str === '高') {       // 较大风险
+          return 'background:purple'
+        }else if(str === '中') {       // 较大风险
+          return 'background:yellow'
+        }else if(str === '低') {       // 重大风险
+          return 'background:green'
+        } else {                    // 一般风险
+          return 'background:green'
+        }
+      }
+      else if(columnIndex === 4) {
+        const str = row[4].split("（")[0];
+        if(str === '很高') {             // 如果是低风险背景色蓝色，字体色白色
+          return 'background:red'
+        }else if(str === '高') {       // 较大风险
+          return 'background:purple'
+        }else if(str === '中') {       // 较大风险
+          return 'background:yellow'
+        }else if(str === '低') {       // 重大风险
+          return 'background:green'
+        } else {                    // 一般风险
+          return 'background:green'
+        }
+      }
+      else if(columnIndex === 5) {
+        const str = row[5].split("（")[0];
+        if(str === '很高') {             // 如果是低风险背景色蓝色，字体色白色
+          return 'background:red'
+        }else if(str === '高') {       // 较大风险
+          return 'background:purple'
+        }else if(str === '中') {       // 较大风险
+          return 'background:yellow'
+        }else if(str === '低') {       // 重大风险
+          return 'background:green'
+        } else {                    // 一般风险
+          return 'background:green'
+        }
+      }
+      else if(columnIndex === 6) {
+        const str = row[6].split("（")[0];
+        if(str === '很高') {             // 如果是低风险背景色蓝色，字体色白色
+          return 'background:red'
+        }else if(str === '高') {       // 较大风险
+          return 'background:purple'
+        }else if(str === '中') {       // 较大风险
+          return 'background:yellow'
+        }else if(str === '低') {       // 重大风险
+          return 'background:green'
+        } else {                    // 一般风险
+          return 'background:green'
+        }
+      }
+      else if(columnIndex === 7) {
+        const str = row[7].split("（")[0];
+        if(str === '很高') {             // 如果是低风险背景色蓝色，字体色白色
+          return 'background:red'
+        }else if(str === '高') {       // 较大风险
+          return 'background:purple'
+        }else if(str === '中') {       // 较大风险
+          return 'background:yellow'
+        }else if(str === '低') {       // 重大风险
+          return 'background:green'
+        } else {                    // 一般风险
+          return 'background:green'
+        }
+      }
+      else if(columnIndex === 8) {
+        const str = row[8].split("（")[0];
+        if(str === '很高') {             // 如果是低风险背景色蓝色，字体色白色
+          return 'background:red'
+        }else if(str === '高') {       // 较大风险
+          return 'background:purple'
+        }else if(str === '中') {       // 较大风险
+          return 'background:yellow'
+        }else if(str === '低') {       // 重大风险
+          return 'background:green'
+        } else {                    // 一般风险
+          return 'background:green'
+        }
+      }
+      else if(columnIndex === 9) {
+        const str = row[9].split("（")[0];
+        if(str === '很高') {             // 如果是低风险背景色蓝色，字体色白色
+          return 'background:red'
+        }else if(str === '高') {       // 较大风险
+          return 'background:purple'
+        }else if(str === '中') {       // 较大风险
+          return 'background:yellow'
+        }else if(str === '低') {       // 重大风险
+          return 'background:green'
+        } else {                    // 一般风险
+          return 'background:green'
+        }
+      }
+      else {
+        return ''
+      }
+    },
   },
   created() {
     this.riskMessage = sessionStorage.getItem('current_name')
@@ -238,9 +401,18 @@ export default {
     this.relationForm.projectId = projectId;
     this.riskForm.projectId = projectId;
     this.riskGradeForm.projectId = projectId;
+    this.matrixForm.projectId = projectId;
     const query = reactive({
       projectId:projectId
     });
+
+    const getMatrixData = () => {
+      fetchMatrixData(query).then((res) => {
+        this.matrixList = res.data.matrixList;
+        this.matrixData = res.data.matrixData;
+      });
+    };
+    getMatrixData();
 
     const getRiskData = () => {
       fetchRiskData(query).then((res) => {
@@ -257,18 +429,18 @@ export default {
     getRelationData();
 
     //获取矩阵
-    const getMatrixData = () => {
-      fetchMatrixData(query).then((res) => {
-        this.matrixData = res.data.records;
+    const getMatrixSuammryData = () => {
+      fetchMatrixSuammryData(query).then((res) => {
+        this.matrixFormData = res.data;
+        console.info(this.matrixFormData);
       });
     };
-    getMatrixData();
+    getMatrixSuammryData();
 
     //获取风险等级
     const getRiskGrafeData = () => {
       fetchRiskGradeData(query).then((res) => {
         this.riskGradeData = res.data.records;
-        console.info(this.riskGradeData.value)
       });
     };
     getRiskGrafeData();
@@ -276,6 +448,9 @@ export default {
 
   setup: function () {
     const rules = {
+      riskGrade: [
+        {required: true, message: "请输入风险等级为1~4", trigger: "blur"},
+      ],
       matrixName: [
         {required: true, message: "请输入矩阵名称", trigger: "blur"},
       ],
@@ -304,6 +479,7 @@ export default {
       matrixDesc: "",
       horizontal: "",
       longitudinal: "",
+      projectId:"",
     });
     const riskFormRef = ref(null);
     const riskForm = reactive({
@@ -337,7 +513,6 @@ export default {
     const query = reactive({
       projectId:""
     });
-    const columnList = ref();
 
     // 表格编辑时弹窗和保存
     const editVisible = ref(false);
@@ -370,9 +545,11 @@ export default {
       riskFormRef.value.validate(async (valid) => {
         if (valid) {
           const res = await createRisk(riskForm);
-          if (res.code === "200") {
+          if (res.data != null) {
             location.reload();
             ElMessage.success("提交成功！");
+          }else {
+            ElMessage.error("添加风险严重程度数量超过矩阵行数");
           }
         } else {
           return false;
@@ -404,9 +581,11 @@ export default {
       relationFormRef.value.validate(async (valid) => {
         if (valid) {
           const res = await createRelation(relationForm);
-          if (res.code === "200") {
+          if (res.data != null) {
             location.reload();
             ElMessage.success("提交成功！");
+          }else {
+            ElMessage.error("添加可能性数量超过矩阵列数");
           }
         } else {
           return false;
@@ -472,7 +651,6 @@ export default {
       riskGradeForm,
       riskGradeFormRef,
       query,
-      columnList,
       editVisible,
       matrixOnSubmit,
       matrixOnReset,

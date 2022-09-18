@@ -8,36 +8,70 @@
         <div class="container">
             <el-tabs v-model="variableMessage" @tab-click="handleClick">
                 <el-tab-pane :label="`基本信息`" name="first2">
-                  <el-form ref="formRef" :rules="rules" :model="form" label-width="80px">
+                  <el-form ref="baseFormRef" :rules="rules" :model="baseForm" label-width="80px">
                     <el-form-item label="公司名称" prop="name">
-                      <el-input v-model="form.name"></el-input>
+                      <template v-if="baseFormData.name === null">
+                        <el-input v-model="baseForm.name"></el-input>
+                      </template>
+                      <template v-else>
+                        <el-input type="text" readonly v-model="baseFormData.name"/>
+                      </template>
                     </el-form-item>
                     <el-form-item label="装置" prop="device">
-                      <el-input v-model="form.device"></el-input>
+                      <template v-if="baseFormData.device === null">
+                        <el-input v-model="baseForm.device"></el-input>
+                      </template>
+                      <template v-else>
+                        <el-input type="text" readonly v-model="baseFormData.device"/>
+                      </template>
                     </el-form-item>
                     <el-form-item label="单元" prop="unit">
-                      <el-input v-model="form.unit"></el-input>
+                      <template v-if="baseFormData.unit === null">
+                        <el-input v-model="baseForm.unit"></el-input>
+                      </template>
+                      <template v-else>
+                        <el-input type="text" readonly v-model="baseFormData.unit"/>
+                      </template>
                     </el-form-item>
-                    <el-form-item label="项目编号" prop="projectId">
-                      <el-input v-model="form.projectId"></el-input>
+                    <el-form-item label="项目编号" prop="baseId">
+                      <template v-if="baseFormData.baseId === null">
+                        <el-input v-model="baseForm.baseId"></el-input>
+                      </template>
+                      <template v-else>
+                        <el-input type="text" readonly v-model="baseFormData.baseId"/>
+                      </template>
                     </el-form-item>
-                    <el-form-item label="时间">
+                    <el-form-item label="时间" v-show="baseFormData.name === null">
                       <el-col :span="11">
-                        <el-form-item prop="date1">
-                          <el-date-picker v-model="form.date" type="daterange" range-separator="To" start-placeholder="开始时间" end-placeholder="结束时间" :size="size"
+                        <el-form-item prop="date1" v-show="baseFormData.name === null">
+                          <el-date-picker v-model="timeFrom" @change="setTime"  :clearable="false"
+                                          type="daterange" range-separator="To" start-placeholder="开始时间" end-placeholder="结束时间" :size="size"
                           />
                         </el-form-item>
                       </el-col>
+
                     </el-form-item>
                     <el-form-item label="分析方法" prop="analyticalMethod">
-                      <el-input v-model="form.analyticalMethod"></el-input>
+                      <template v-if="baseFormData.analyticalMethod === null">
+                        <el-input v-model="baseForm.analyticalMethod"></el-input>
+                      </template>
+                      <template v-else>
+                        <el-input type="text" readonly v-model="baseFormData.analyticalMethod"/>
+                      </template>
                     </el-form-item>
                     <el-form-item label="备注" prop="remark">
-                      <el-input type="textarea" rows="5" v-model="form.remark"></el-input>
+                      <template v-if="baseFormData.remark === null">
+                        <el-input v-model="baseForm.remark"></el-input>
+                      </template>
+                      <template v-else>
+                        <el-input type="text" readonly v-model="baseFormData.remark"/>
+                      </template>
                     </el-form-item>
                     <el-form-item>
-                      <el-button type="primary" @click="onSubmit">保存</el-button>
-                      <el-button @click="onReset">重置</el-button>
+                      <el-form-item v-show="baseFormData.name === null">
+                      <el-button type="primary" @click="baseOnSubmit">保存</el-button>
+                      <el-button @click="baseOnReset">重置</el-button>
+                      </el-form-item>
                     </el-form-item>
                   </el-form>
                 </el-tab-pane>
@@ -125,12 +159,12 @@
                   <div>
                     <el-button type="primary" @click="editVisible = true " style="float:right">导出</el-button>
                   </div>
-                  <router-link :to="{path:'./variable2',query:{id:1}}">
+                  <router-link :to="{path:'./variable2',query:{projectId:projectId}}">
                     <el-button type="primary" style="float:right">SDG图</el-button>
                   </router-link>
                 <el-table :data="adverseOutcomesData" border class="table" ref="multipleTable" header-cell-class-name="table-header">
                   <el-table-column prop="adverseOutComesId" label="编号" width="55" align="center"></el-table-column>
-                  <el-table-column prop="pullOffNode" label="原始拉偏点" align="center"></el-table-column>
+                  <el-table-column prop="pullOffNode" label="节点" align="center"></el-table-column>
                   <el-table-column prop="deviate" label="偏离" width="55" align="center"></el-table-column>
                   <el-table-column prop="variableName" label="变量名称" align="center"></el-table-column>
                   <el-table-column prop="deviation" label="偏差" width="55" align="center"></el-table-column>
@@ -146,7 +180,7 @@
                 <!-- 编辑弹出框 -->
                 <el-dialog title="编辑" v-model="editVisible" width="30%">
                   <el-form ref="adverseOutcomesFormRef" :rules="rules" :model="adverseOutcomesForm" label-width="70px">
-                    <el-form-item label="原始拉偏点">
+                    <el-form-item label="节点">
                       <el-input v-model="adverseOutcomesForm.pullOffNode"></el-input>
                     </el-form-item>
                     <el-form-item label="偏离">
@@ -182,7 +216,7 @@
                 </div>
                 <el-table :data="abnormalCausesData" border class="table" ref="multipleTable" header-cell-class-name="table-header">
                   <el-table-column prop="abnormalCausesId" label="编号" width="55" align="center"></el-table-column>
-                  <el-table-column prop="consequenceNode" label="原始拉偏点" align="center"></el-table-column>
+                  <el-table-column prop="consequenceNode" label="节点" align="center"></el-table-column>
                   <el-table-column prop="deviate" label="偏离" width="55" align="center"></el-table-column>
                   <el-table-column prop="variableName" label="变量名称" align="center"></el-table-column>
                   <el-table-column prop="deviation" label="偏差" width="55" align="center"></el-table-column>
@@ -198,7 +232,7 @@
                 <!-- 编辑弹出框 -->
                 <el-dialog title="编辑" v-model="editVisible" width="30%">
                   <el-form ref="abnormalCausesFormRef" :rules="rules" :model="abnormalCausesForm" label-width="70px">
-                    <el-form-item label="原始拉偏点">
+                    <el-form-item label="节点">
                       <el-input v-model="abnormalCausesForm.consequenceNode"></el-input>
                     </el-form-item>
                     <el-form-item label="偏离">
@@ -235,12 +269,11 @@ import { ref, reactive } from "vue";
 import { DataSet, Network } from 'vis';
 import {ElMessage, ElMessageBox} from "element-plus";
 import {
-  fetchData,
   fetchAdverseOutcomesData, deleteAdverseOutcomes, createAdverseOutcomes,
   fetchAbnormalCausesData, deleteAbnormalCauses, createAbnormalCauses,
   fetchVariableData,deleteVariable,createVariable,
   fetchFormulaData,deleteFormula,createFormula,
-  fetchVariableMatrixData,
+  fetchVariableMatrixData,createBase,fetchBaseDate,
 } from "../api";
 export default {
     name: "tabs",
@@ -268,15 +301,17 @@ export default {
           { required: true, message: "请输入备注", trigger: "blur" },
         ],
         };
-        const formRef = ref(null);
-        const form = reactive({
-        name: "",
-        device:"",
-        unit:"",
-        projectId:"",
-        date:"",
-        analyticalMethod:"",
-        remark:""
+        const baseFormRef = ref(null);
+        const baseForm = reactive({
+          baseId:"",
+          name: "",
+          device:"",
+          unit:"",
+          projectId:"",
+          baseBeginTime:"",
+          baseEndTime:"",
+          analyticalMethod:"",
+          remark:""
       });
         //变量
         const variableFormRef = ref(null);
@@ -292,7 +327,6 @@ export default {
           formula:"",
           projectId:""
       });
-        const variableMatrixList = ref();
         //不利结果
         const adverseOutcomesFormRef = ref(null);
         const adverseOutcomesForm = reactive({
@@ -359,8 +393,12 @@ export default {
         // 表单校验
         formulaFormRef.value.validate(async (valid) => {
           if (valid) {
-            await createFormula(formulaForm);
-            ElMessage.success("提交成功！");
+            const res = await createFormula(formulaForm);
+            if (res.data != null) {
+              ElMessage.success("提交成功！");
+            }else {
+              ElMessage.error("请确认变量存在");
+            }
             location.reload();
           } else {
             return false;
@@ -391,8 +429,12 @@ export default {
         // 表单校验
         adverseOutcomesFormRef.value.validate(async (valid) => {
           if (valid) {
-            await createAdverseOutcomes(adverseOutcomesForm);
-            ElMessage.success("提交成功！");
+            const res = await createAdverseOutcomes(adverseOutcomesForm);
+            if (res.data != null) {
+              ElMessage.success("提交成功！");
+            }else {
+              ElMessage.error("请确认拉偏节点存在！");
+            }
             location.reload();
           } else {
             return false;
@@ -423,8 +465,12 @@ export default {
         // 表单校验
         abnormalCausesFormRef.value.validate(async (valid) => {
           if (valid) {
-            await createAbnormalCauses(abnormalCausesForm);
-            ElMessage.success("提交成功！");
+            const res = await createAbnormalCauses(abnormalCausesForm);
+            if (res.data !=null) {
+              ElMessage.success("提交成功！");
+            }else {
+              ElMessage.error("请确定拉偏节点存在");
+            }
             location.reload();
           } else {
             return false;
@@ -448,21 +494,41 @@ export default {
             })
             .catch(() => {});
       };
+
+      // 公式提交
+      const baseOnSubmit = () => {
+        editVisible.value = false;
+        // 表单校验
+        baseFormRef.value.validate(async (valid) => {
+          if (valid) {
+            await createBase(baseForm);
+            ElMessage.success("提交成功！");
+            location.reload();
+          } else {
+            return false;
+          }
+        });
+      };
+      // 公式重置
+      const  baseOnReset = () => {
+        baseFormRef.value.resetFields();
+      };
         return {
             rules,
-            formRef,
-            form,
+            baseFormRef,
+            baseForm,
             message,
             editVisible,
             variableFormRef,
             variableForm,
             formulaFormRef,
             formulaForm,
-            variableMatrixList,
             adverseOutcomesFormRef,
             adverseOutcomesForm,
             abnormalCausesFormRef,
             abnormalCausesForm,
+            baseOnSubmit,
+            baseOnReset,
             variableOnSubmit,
             variableOnReset,
             variableDelete,
@@ -479,20 +545,25 @@ export default {
     },
   data(){
     return{
+      timeFrom:[],
+      baseFormData:{},
       formulaData:[],
       variableMatrixData:[],
       variableData:[],
       adverseOutcomesData:[],
       abnormalCausesData:[],
-      variableMessage: 'first'
+      variableMessage: 'first',
+      projectId:{}
     }
   },
   methods: {
     handleClick(tab, event) {
-      console.log(tab, event);
-      console.log(tab.props.name);
       sessionStorage.setItem('current_name', tab.props.name)
-    }
+    },
+    setTime(e) {
+      this.baseForm.baseBeginTime = e[0]
+      this.baseForm.baseEndTime = e[1]
+    },
   },
   created() {
     this.variableMessage = sessionStorage.getItem('current_name')
@@ -504,11 +575,12 @@ export default {
   },
   mounted() {
     var projectId = this.$route.query.projectId;
-    this.form.projectId = projectId;
+    this.baseForm.projectId = projectId;
     this.adverseOutcomesForm.projectId = projectId;
     this.abnormalCausesForm.projectId = projectId;
     this.formulaForm.projectId = projectId;
     this.variableForm.projectId = projectId;
+    this.projectId = projectId;
     const query = reactive({
       projectId: projectId
     });
@@ -523,7 +595,8 @@ export default {
     //获取变量关系表数据
     const getVariableMatrixData = () => {
       fetchVariableMatrixData(query).then((res) => {
-        this.variableMatrixData = res.data.records;
+        this.variableMatrixData = res.data.variableMatrixData;
+        this.variableMatrixList = res.data.variableMatrixList;
       });
     };
     getVariableMatrixData();
@@ -553,6 +626,14 @@ export default {
       });
     };
     getAbnormalCausesData();
+
+    const getBaseDate = () => {
+      fetchBaseDate(query).then((res) => {
+        console.info(res.data);
+        this.baseFormData = res.data;
+      });
+    };
+    getBaseDate();
   },
 };
 </script>

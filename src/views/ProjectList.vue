@@ -11,7 +11,7 @@
       <el-table :data="tableData" border class="table" ref="multipleTable" header-cell-class-name="table-header">
         <el-table-column prop="projectId" label="项目编号" width="55" align="center"></el-table-column>
         <el-table-column prop="projectName" label="项目名称"></el-table-column>
-        <el-table-column label="项目封面" align="center">
+        <el-table-column label="PJG图" align="center">
           <template #default="scope">
             <el-image class="table-td-thumb" :src="scope.row.thumb" :preview-src-list="[scope.row.thumb]">
             </el-image>

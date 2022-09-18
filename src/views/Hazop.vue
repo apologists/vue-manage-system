@@ -16,7 +16,15 @@
         <el-table-column prop="adverseOutcomes" label="不利后果"></el-table-column>
         <el-table-column prop="relationShips" label="可能性"></el-table-column>
         <el-table-column prop="riskSeverity" label="严重度"></el-table-column>
-        <el-table-column prop="riskGrade" label="风险等级"></el-table-column>
+        <el-table-column prop="riskGrade" label="风险等级">
+          <template #default="scope">
+            <span v-if="scope.row.riskGrade>=0" style="color:green">{{ scope.row.riskGrade }}</span>
+            <span v-if="scope.row.riskGrade>=1" style="color:yellow">{{ scope.row.riskGrade }}</span>
+            <span v-if="scope.row.riskGrade>=2" style="color:purple">{{ scope.row.riskGrade }}</span>
+            <span v-if="scope.row.riskGrade>=3" style="color:red">{{ scope.row.riskGrade }}</span>
+            <span v-else style="color: #37B328">{{ scope.row.riskGrade }}</span>
+          </template>
+        </el-table-column>
         <el-table-column prop="existingMeasures" label="现有措施"></el-table-column>
         <el-table-column prop="suggestedActions" label="建议措施"></el-table-column>
         <el-table-column label="操作" width="180" align="center">

@@ -1,0 +1,23 @@
+{
+    "code": "200",
+    "data": {
+        "nodes": [
+            {"id": 6, "label": "第一", "borderWidth": 2, "shape": "box"},
+            {"id": 7, "label": "box 1", "borderWidth": 2, "shape": "box"},
+            {"id": "F1", "label": "Node 1","borderWidth": 2, "shape": "circle"},
+            {"id": 2, "label": "Node 2","borderWidth": 2, "shape": "circle"},
+            {"id": "T1", "label": "Node 3","borderWidth": 2, "shape": "box"},
+            {"id": 4, "label": "Node 4","borderWidth": 2, "shape": "circle"},
+            {"id": 5, "label": "Node 5","borderWidth": 2, "shape": "circle"}
+        ],
+        "edges": [
+            {"from": "F1", "to": "T1","dashes": false},
+            {"from": 2, "to": 4, "dashes": true },
+            {"from": 2, "to": 5, "dashes": true},
+            {"from": 2, "to": "T1", "dashes": true},
+            {"from": 6, "to": 5, "dashes": true},
+            {"from": 7, "to": 5,"dashes": false}
+        ]
+    },
+    "msg": "操作成功"
+}

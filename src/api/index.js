@@ -33,6 +33,14 @@ export const createMatrix = query => {
     });
 };
 
+export const fetchMatrixSuammryData = query => {
+    return request({
+        url: 'http://localhost:8080/matrixSummary/list',
+        method: 'get',
+        params: query
+    });
+};
+
 export const fetchData = query => {
     return request({
         url: 'http://localhost:8080/projectSummary/page',
@@ -43,7 +51,7 @@ export const fetchData = query => {
 
 export const fetchMatrixData = query => {
     return request({
-        url: 'http://localhost:8080/matrix/page',
+        url: 'http://localhost:8080/matrixSummary/matrix',
         method: 'get',
         params: query
     });
@@ -211,7 +219,7 @@ export const fetchFormulaData = query => {
 
 export const fetchVariableMatrixData = query => {
     return request({
-        url: 'http://localhost:8080/variableMatrix/page',
+        url: 'http://localhost:8080/variable/list',
         method: 'get',
         params: query
     });
@@ -267,7 +275,7 @@ export const deleteLopa = query => {
 
 export const fetchOptions1Data = query => {
     return request({
-        url: './option1.json',
+        url: 'http://localhost:8080/hazop/options1',
         method: 'get',
         params: query
     });
@@ -275,7 +283,7 @@ export const fetchOptions1Data = query => {
 
 export const fetchOptions2Data = query => {
     return request({
-        url: 'http://localhost:8080/lopa/page',
+        url: 'http://localhost:8080/hazop/options2',
         method: 'get',
         params: query
     });
@@ -283,7 +291,33 @@ export const fetchOptions2Data = query => {
 
 export const fetchOptions3Data = query => {
     return request({
-        url: 'http://localhost:8080/lopa/page',
+        url: 'http://localhost:8080/hazop/options3',
+        method: 'get',
+        params: query
+    });
+};
+
+export const createBase = query => {
+    return request({
+        url: 'http://localhost:8080/baseSummary/save',
+        method: 'post',
+        params: query
+    });
+};
+
+
+export const fetchBaseDate = query => {
+    return request({
+        url: 'http://localhost:8080/baseSummary/list',
+        method: 'get',
+        params: query
+    });
+};
+
+export const fetchSDGData = query => {
+    return request({
+        url: 'http://localhost:8080/variable/sdg',
+        // url: './option2.json',
         method: 'get',
         params: query
     });
