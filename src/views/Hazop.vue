@@ -13,7 +13,7 @@
         <el-table-column prop="pullOffNode" label="原始拉偏点"></el-table-column>
         <el-table-column prop="deviation" label="偏差"></el-table-column>
         <el-table-column prop="abnormalCauses" label="非正常原因"></el-table-column>
-        <el-table-column prop="adverseOutcomes" label="不利后果"></el-table-column>
+        <el-table-column prop="adverseOutComes" label="不利后果"></el-table-column>
         <el-table-column prop="relationShips" label="可能性"></el-table-column>
         <el-table-column prop="riskSeverity" label="严重度"></el-table-column>
         <el-table-column prop="riskGrade" label="风险等级">
@@ -41,6 +41,9 @@
     <!-- 编辑弹出框 -->
     <el-dialog title="编辑" v-model="editVisible" width="30%">
       <el-form label-width="70px">
+        <el-form-item label="原始拉偏点">
+          <el-input v-model="form.pullOffNode"></el-input>
+        </el-form-item>
         <el-form-item label="可能性">
           <el-input v-model="form.relationShips"></el-input>
         </el-form-item>
@@ -108,6 +111,7 @@ export default {
     // 表格编辑时弹窗和保存
     const editVisible = ref(false);
     let form = reactive({
+      pullOffNode:"",
       relationShips: "",
       riskSeverity: "",
       riskGrade:"",

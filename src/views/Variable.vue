@@ -142,6 +142,9 @@
                   </div>
               </el-tab-pane>
                 <el-tab-pane :label="`变量关系表`" name="variableMatrix">
+                  <router-link :to="{path:'./variable2',query:{projectId:projectId}}">
+                    <el-button type="primary" style="float:right">SDG图</el-button>
+                  </router-link>
                 <el-table :data="variableMatrixData" border stripe style="width: 100%">
                   <el-table-column
                       :prop="index"
@@ -159,7 +162,7 @@
                   <div>
                     <el-button type="primary" @click="editVisible = true " style="float:right">导出</el-button>
                   </div>
-                  <router-link :to="{path:'./variable2',query:{projectId:projectId}}">
+                  <router-link :to="{path:'./variable3',query:{projectId:projectId}}">
                     <el-button type="primary" style="float:right">SDG图</el-button>
                   </router-link>
                 <el-table :data="adverseOutcomesData" border class="table" ref="multipleTable" header-cell-class-name="table-header">

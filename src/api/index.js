@@ -322,3 +322,12 @@ export const fetchSDGData = query => {
         params: query
     });
 };
+
+export const fetchSDGDetailData = query => {
+    return request({
+        url: 'http://localhost:8080/variable/sdgDetail',
+        //url: './option2.json',
+        method: 'get',
+        params: query
+    });
+};

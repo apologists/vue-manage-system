@@ -12,7 +12,7 @@
         <el-table-column prop="lopaId" label="编号" v-if="false" align="center"></el-table-column>
         <el-table-column prop="scenarioDesc" label="场景描述" width="55" align="center"></el-table-column>
         <el-table-column prop="consequencesDesc" label="后果描述"></el-table-column>
-        <el-table-column prop="eventIE" label="初始事件IE"></el-table-column>
+        <el-table-column prop="eventIe" label="初始事件IE"></el-table-column>
         <el-table-column prop="ignitionProbability" label="点火概率"></el-table-column>
         <el-table-column prop="exposureProbability" label="人员暴露概率"></el-table-column>
         <el-table-column prop="lethalityRate" label="致死率"></el-table-column>
@@ -20,7 +20,7 @@
         <el-table-column prop="protectionRate" label="独立保护层总丢失概率"></el-table-column>
         <el-table-column prop="accidentRate" label="事故发生概率"></el-table-column>
         <el-table-column prop="allowAccidentRate" label="可容许事故发生概率"></el-table-column>
-        <el-table-column prop="SILGrade" label="需求SIL等级"></el-table-column>
+        <el-table-column prop="silGrade" label="需求SIL等级"></el-table-column>
         <el-table-column label="操作" width="180" align="center">
           <template #default="scope">
             <el-button type="text" icon="el-icon-edit" @click="handleEdit(scope.$index, scope.row)">编辑
@@ -35,6 +35,10 @@
     <!-- 编辑弹出框 -->
     <el-dialog title="编辑" v-model="editVisible" width="30%">
       <el-form label-width="70px">
+        <el-form-item label="要求等级">
+          <el-radio v-model="form.level" label=2>高</el-radio>
+          <el-radio v-model="form.level" label=1>低</el-radio>
+        </el-form-item>
         <el-form-item label="场景描述">
           <el-input v-model="form.scenarioDesc"></el-input>
         </el-form-item>
@@ -129,7 +133,8 @@ export default {
       allowAccidentRate: "",
       accidentRate:"",
       SILGrade:"",
-      projectId:""
+      projectId:"",
+      level:""
     });
     let idx = -1;
     const handleEdit = (index, row) => {
@@ -140,6 +145,7 @@ export default {
       editVisible.value = true;
     };
     const saveEdit = async () => {
+      console.info("修改成功")
       editVisible.value = false;
       await updateLopa(form);
       ElMessage.success(`修改第 ${idx + 1} 行成功`);
