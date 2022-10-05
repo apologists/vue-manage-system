@@ -331,3 +331,12 @@ export const fetchSDGDetailData = query => {
         params: query
     });
 };
+
+export const fetchCaseData = query => {
+    return request({
+        url: 'http://localhost:8080/hazop/case',
+        //url: './option2.json',
+        method: 'get',
+        params: query
+    });
+};
