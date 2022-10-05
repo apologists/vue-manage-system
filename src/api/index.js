@@ -195,7 +195,7 @@ export const deleteVariable = query => {
 
 export const createFormula = query => {
     return request({
-        url: 'http://localhost:8080v/formula/save',
+        url: 'http://localhost:8080/formula/save',
         method: 'post',
         params: query
     });
