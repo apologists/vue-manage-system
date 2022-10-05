@@ -341,10 +341,26 @@ export const fetchCaseData = query => {
     });
 };
 
+export const saveCase = query => {
+    return request({
+        url: 'http://localhost:8080/caseSummary/save',
+        method: 'post',
+        params: query
+    });
+};
+
 export const updateCase = query => {
     return request({
-        url: 'http://localhost:8080/caseSummary/update',
-        method: 'post',
+        url: 'http://localhost:8080/caseSummary/saveHazop',
+        method: 'get',
+        params: query
+    });
+};
+
+export const deleteCase = query => {
+    return request({
+        url: 'http://localhost:8080/caseSummary/remove',
+        method: 'get',
         params: query
     });
 };

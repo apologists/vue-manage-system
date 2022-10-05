@@ -74,7 +74,8 @@
             <el-button type="primary" icon="el-icon-search" @click="handleSearch">搜索</el-button>
           </div>
           <el-table :data="caseData" border class="table" ref="multipleTable" header-cell-class-name="table-header">
-            <el-table-column prop="hazopId" label="项目编号" width="55" align="center"></el-table-column>
+            <el-table-column v-if="false" prop="projectId" label="项目编号" width="55" align="center"></el-table-column>
+            <el-table-column prop="caseId" label="项目编号" width="55" align="center"></el-table-column>
             <el-table-column prop="pullOffNode" label="原始拉偏点"></el-table-column>
             <el-table-column prop="deviation" label="偏差"></el-table-column>
             <el-table-column prop="abnormalCauses" label="非正常原因"></el-table-column>
@@ -94,8 +95,8 @@
             <el-table-column prop="suggestedActions" label="建议措施"></el-table-column>
             <el-table-column label="操作" width="180" align="center">
               <template #default="scope">
-                <el-button type="text" icon="el-icon-edit" @click="handleCaseEdit(scope.$index, scope.row)">添加</el-button>
-                <el-button type="text" icon="el-icon-delete" class="red" @click="handleDelete(scope.$index, scope.row)">删除</el-button>
+                <el-button type="text" icon="el-icon-edit" @click="updateEdit(scope.$index, scope.row)">添加</el-button>
+                <el-button type="text" icon="el-icon-delete" class="red" @click="handleCaseDelete(scope.$index, scope.row)">删除</el-button>
               </template>
             </el-table-column>
           </el-table>
@@ -120,11 +121,17 @@
               <el-form-item label="风险等级">
                 <el-input v-model="caseForm.riskGrade"></el-input>
               </el-form-item>
+              <el-form-item label="现有措施">
+                <el-input v-model="caseForm.existingMeasures"></el-input>
+              </el-form-item>
+              <el-form-item label="建议措施">
+                <el-input v-model="caseForm.suggestedActions"></el-input>
+              </el-form-item>
             </el-form>
             <template #footer>
                 <span class="dialog-footer">
                     <el-button @click="editVisible = false">取 消</el-button>
-                    <el-button type="primary" @click="saveEdit">确 定</el-button>
+                    <el-button type="primary" @click="saveCaseEdit">确 定</el-button>
                 </span>
             </template>
           </el-dialog>
@@ -137,19 +144,28 @@
 <script>
 import { ref, reactive } from "vue";
 import { ElMessage, ElMessageBox } from "element-plus";
-import {deleteHazop, updateHazop, fetchHazopData,updateCase,fetchCaseData} from "../api/index";
+import {deleteHazop, updateHazop, fetchHazopData,updateCase,fetchCaseData,saveCase,deleteCase} from "../api/index";
 
 export default {
   name: "projectList",
   data(){
     return{
       hazopMessage: 'first',
-      tableData:[]
+      tableData:[],
+      projectId:""
     }
   },
   methods: {
     handleClick(tab, event) {
       sessionStorage.setItem('current_name', tab.props.name)
+    },
+
+    async updateEdit(index, data) {
+      var projectId = this.$route.query.projectId;
+      console.info(projectId);
+      await updateCase({caseId: data.caseId, projectId: projectId})
+      ElMessage.success(`修改第 ${idx + 1} 行成功`);
+      location.reload();
     },
   },
   mounted() {
@@ -190,7 +206,7 @@ export default {
       riskGrade:"",
       existingMeasures: "",
       suggestedActions: "",
-      hazopId:"",
+      caseId:"",
       projectId:"",
     });
     let idx = -1;
@@ -215,7 +231,7 @@ export default {
       riskGrade:"",
       existingMeasures: "",
       suggestedActions: "",
-      hazopId:"",
+      caseId:"",
       projectId:"",
       adverseOutComes:"",
       abnormalCauses:""
@@ -229,13 +245,26 @@ export default {
     };
     const saveCaseEdit = async () => {
       editVisible.value = false;
-      await updateCase(caseForm);
-      ElMessage.success(`修改第 ${idx + 1} 行成功`);
+      await saveCase(caseForm);
       location.reload();
+    };
+
+    const handleCaseDelete = (index,data) => {
+      // 二次确认删除
+      ElMessageBox.confirm("确定要删除吗？", "提示", {
+        type: "warning",
+      })
+          .then(async () => {
+            await deleteCase({caseId: data.caseId});
+            ElMessage.success("删除成功");
+            location.reload();
+          })
+          .catch(() => {});
     };
 
     const query = reactive({
       pullOffNode: "",
+      projectId:"",
     });
     const caseData = ref([]);
     // 获取表格数据
@@ -259,11 +288,13 @@ export default {
       caseForm,
       caseData,
       query,
+      saveCaseEdit,
       handleCaseEdit,
       handleSearch,
       handleDelete,
       handleEdit,
       saveEdit,
+      handleCaseDelete,
     };
   },
 };
