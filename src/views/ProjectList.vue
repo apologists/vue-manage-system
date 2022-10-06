@@ -37,6 +37,9 @@
             <router-link :to="{path:'./charts',query:{projectId:scope.row.projectId}}">
               <el-button type="text" icon="el-icon-edit">schart图表</el-button>
             </router-link>
+            <router-link :to="{path:'./SIL',query:{projectId:scope.row.projectId}}">
+              <el-button type="text" icon="el-icon-edit">SIL验算</el-button>
+            </router-link>
             <el-button type="text" icon="el-icon-delete" class="red"
                        @click="handleDelete(scope.row)">删除</el-button>
           </template>

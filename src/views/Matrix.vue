@@ -8,7 +8,28 @@
         </div>
         <div class="container">
             <el-tabs v-model="riskMessage" @tab-click="handleClick">
-                <el-tab-pane :label="`一般信息`" name="first">
+                <el-tab-pane :label="`矩阵复用`" name="first">
+                  <div class="handle-box">
+                    <div>
+                      <el-input v-model="query2.matrixName" placeholder="矩阵名称" class="handle-input mr10" :inline="true" style="width:30%;"></el-input>
+                      <el-button type="primary" icon="el-icon-search" @click="handleSearch" :inline="true">搜索</el-button>
+                    </div>
+                  </div>
+                  <el-table :data="caseData" border class="table" ref="multipleTable" header-cell-class-name="table-header">
+                    <el-table-column v-if="false" prop="projectId" label="项目编号" width="55" align="center"></el-table-column>
+                    <el-table-column v-if="false" prop="matrixId" label="矩阵名称" width="55" align="center"></el-table-column>
+                    <el-table-column prop="matrixName" label="矩阵名称" width="55" align="center"></el-table-column>
+                    <el-table-column prop="matrixDesc" label="描述"></el-table-column>
+                    <el-table-column prop="horizontal" label="行"></el-table-column>
+                    <el-table-column prop="longitudinal" label="列"></el-table-column>
+                    <el-table-column label="操作" width="180" align="center">
+                      <template #default="scope">
+                        <el-button type="text" icon="el-icon-delete" class="red" @click="updateEdit(scope.$index, scope.row)">复用</el-button>
+                      </template>
+                    </el-table-column>
+                  </el-table>
+              </el-tab-pane>
+                <el-tab-pane :label="`一般信息`" name="second">
                   <el-form ref="matrixFormRef" :rules="rules" :model="matrixForm" label-width="80px" :data="matrixFormData">
                     <el-form-item label="矩阵名称" prop="matrixName">
                       <template v-if="matrixFormData.matrixName === null">
@@ -53,7 +74,7 @@
                     </el-form-item>
                   </el-form>
                 </el-tab-pane>
-                <el-tab-pane :label="`风险严重度`" name="second">
+                <el-tab-pane :label="`风险严重度`" name="third">
                   <div>
                     <el-button type="primary" @click="editVisible = true " style="float:right">新增</el-button>
                   </div>
@@ -110,7 +131,7 @@
                     </template>
                   </el-dialog>
               </el-tab-pane>
-                <el-tab-pane :label="`可能性`" name="third">
+                <el-tab-pane :label="`可能性`" name="fourth">
                       <el-button type="primary" @click="editVisible = true " style="float:right">新增</el-button>
                       <el-dialog title="编辑" v-model="editVisible" width="30%">
                       <el-form ref="relationFormRef" :model="relationForm" label-width="80px">
@@ -144,7 +165,7 @@
                       </el-table-column>
                     </el-table>
               </el-tab-pane>
-                <el-tab-pane :label="`风险等级`" name="fourth">
+                <el-tab-pane :label="`风险等级`" name="fifth">
                     <el-table :data="riskGradeData" border class="table" ref="multipleTable" header-cell-class-name="table-header" :cell-style="tableCellStyle">
                       <el-table-column prop="riskGradeId" label="编号" width="55" align="center"></el-table-column>
                       <el-table-column prop="riskGradeCode" label="Code" align="center"></el-table-column>
@@ -190,7 +211,7 @@
                       </template>
                     </el-dialog>
                 </el-tab-pane >
-                <el-tab-pane :label="`矩阵`" name="fifth">
+                <el-tab-pane :label="`矩阵`" name="f">
                   <el-table :data="matrixData" border stripe style="width: 100%" :cell-style="matrixCellStyle">
                     <el-table-column
                         :prop="index"
@@ -220,7 +241,9 @@ import {
   fetchRiskData,
   fetchRiskGradeData,
   updateRiskGrade,
-  fetchMatrixSuammryData
+  fetchMatrixSuammryData,
+  fetchMatrixData2,
+  SaveMatrix,
 } from "../api";
 
 export default {
@@ -233,9 +256,16 @@ export default {
       riskGradeData:[],
       riskMessage: 'first',
       matrixFormData:{},
+      projectId:""
     }
   },
   methods: {
+    async updateEdit(index, data) {
+      var projectId = this.$route.query.projectId;
+      console.info(projectId);
+      await SaveMatrix({matrixId: data.matrixId, projectId: projectId})
+      location.reload();
+    },
     handleClick(tab, event) {
       console.log(tab, event);
       console.log(tab.props.name);
@@ -432,7 +462,6 @@ export default {
     const getMatrixSuammryData = () => {
       fetchMatrixSuammryData(query).then((res) => {
         this.matrixFormData = res.data;
-        console.info(this.matrixFormData);
       });
     };
     getMatrixSuammryData();
@@ -640,7 +669,28 @@ export default {
       ElMessage.success(`修改第 ${idx + 1} 行成功`);
     };
 
+
+    const query2 = reactive({
+      matrixName:""
+    });
+    const caseData = ref([]);
+    // 获取表格数据
+    const getMatrixSummaryData = () => {
+      fetchMatrixData2(query2).then((res) => {
+        console.info(res);
+        caseData.value = res.data.records;
+      });
+    };
+    getMatrixSummaryData();
+
+    // 查询操作
+    const handleSearch = () => {
+      query.pageIndex = 1;
+      getMatrixSummaryData();
+    };
+
     return {
+      query2,
       rules,
       matrixFormRef,
       matrixForm,
@@ -652,6 +702,7 @@ export default {
       riskGradeFormRef,
       query,
       editVisible,
+      caseData,
       matrixOnSubmit,
       matrixOnReset,
       riskOnSubmit,
@@ -663,6 +714,8 @@ export default {
       relationDelete,
       riskGradeHandleEdit,
       riskGradeSaveEdit,
+      getMatrixSummaryData,
+      handleSearch,
     };
   },
 };

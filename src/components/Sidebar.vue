@@ -68,36 +68,36 @@ export default {
             //     index: "/tabs",
             //     title: "tab选项卡",
             // },
+          // {
+          //   icon: "el-icon-lx-copy",
+          //   // index: "/matrix",
+          //   title: "风险矩阵",
+          // },
+          // {
+          //   icon: "el-icon-lx-copy",
+          //   // index: "/variable",
+          //   title: "变量",
+          // },
           {
             icon: "el-icon-lx-copy",
-            // index: "/matrix",
-            title: "风险矩阵",
+            index: "/hazop2",
+            title: "案例库",
           },
-          {
-            icon: "el-icon-lx-copy",
-            // index: "/variable",
-            title: "变量",
-          },
-          {
-            icon: "el-icon-lx-copy",
-            // index: "/hazop",
-            title: "hazop分析",
-          },
-          {
-            icon: "el-icon-lx-copy",
-            // index: "/lopa",
-            title: "lopa分析",
-          },
-          {
-            icon: "el-icon-lx-copy",
-            index: "/variable2",
-            title: "variable2",
-          },
-          {
-            icon: "el-icon-lx-copy",
-            index: "/table",
-            title: "lopa分析",
-          },
+          // {
+          //   icon: "el-icon-lx-copy",
+          //   // index: "/lopa",
+          //   title: "lopa分析",
+          // },
+          // {
+          //   icon: "el-icon-lx-copy",
+          //   index: "/variable2",
+          //   title: "variable2",
+          // },
+          // {
+          //   icon: "el-icon-lx-copy",
+          //   index: "/table",
+          //   title: "lopa分析",
+          // },
             // {
             //     icon: "el-icon-lx-calendar",
             //     index: "3",
@@ -132,11 +132,11 @@ export default {
             //     index: "/icon",
             //     title: "自定义图标",
             // },
-            {
-                icon: "el-icon-pie-chart",
-                // index: "/charts",
-                title: "schart图表",
-            },
+            // {
+            //     icon: "el-icon-pie-chart",
+            //     // index: "/charts",
+            //     title: "schart图表",
+            // },
             // {
             //     icon: "el-icon-lx-global",
             //     index: "/i18n",

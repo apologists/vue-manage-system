@@ -108,6 +108,21 @@ const routes = [
                 component: () => import ( /* webpackChunkName: "tabs" */ "../views/Hazop.vue")
             },
             {
+                path: "/hazop2",
+                name: "hazop2",
+                meta: {
+                    title: '案例库'
+                },
+                component: () => import ( /* webpackChunkName: "tabs" */ "../views/Hazop2.vue")
+            },{
+                path: "/SIL",
+                name: "SIL",
+                meta: {
+                    title: 'SIL'
+                },
+                component: () => import ( /* webpackChunkName: "tabs" */ "../views/SIL.vue")
+            },
+            {
                 path: "/donate",
                 name: "donate",
                 meta: {
