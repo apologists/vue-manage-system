@@ -7,7 +7,7 @@
         </div>
         <div class="container">
             <el-tabs v-model="variableMessage" @tab-click="handleClick">
-                <el-tab-pane :label="`基本信息`" name="first2">
+                <el-tab-pane :label="`基本信息`" name="frist">
                   <el-form ref="baseFormRef" :rules="rules" :model="baseForm" label-width="80px">
                     <el-form-item label="公司名称" prop="name">
                       <template v-if="baseFormData.name === null">
@@ -75,13 +75,14 @@
                     </el-form-item>
                   </el-form>
                 </el-tab-pane>
-                <el-tab-pane :label="`变量设置`" name="variableInfo">
+                <el-tab-pane :label="`变量设置`" name="second">
                   <div class="container">
                     <div>
                       <el-button type="primary" @click="editVisible = true" style="float:right">新增</el-button>
                     </div>
                     <el-table :data="variableData" border class="table" ref="multipleTable" header-cell-class-name="table-header">
-                      <el-table-column prop="variableId" label="变量编号" width="55" align="center"></el-table-column>
+                      <el-table-column prop="date" label="项目编号" width="55" align="center" type="index"></el-table-column>
+                      <el-table-column v-if="false" prop="variableId" label="变量编号" width="55" align="center"></el-table-column>
                       <el-table-column prop="variableCn" label="中文名称"></el-table-column>
                       <el-table-column prop="variableEn" label="英文缩写"></el-table-column>
                       <el-table-column label="操作" width="180" align="center">
@@ -110,13 +111,14 @@
                     </el-dialog>
                   </div>
                 </el-tab-pane>
-                <el-tab-pane :label="`变量关系`" name="formula">
+                <el-tab-pane :label="`变量关系`" name="third">
                   <div class="container">
                     <div>
                       <el-button type="primary" @click="editVisible = true" style="float:right">新增</el-button>
                     </div>
                     <el-table :data="formulaData" border class="table" ref="multipleTable" header-cell-class-name="table-header">
-                      <el-table-column prop="formulaId" label="变量公式编号" width="55" align="center"></el-table-column>
+                      <el-table-column prop="date" label="项目编号" width="55" align="center" type="index"></el-table-column>
+                      <el-table-column v-if="false" prop="formulaId" label="变量公式编号" width="55" align="center"></el-table-column>
                       <el-table-column prop="formula" label="变量公式" align="center"></el-table-column>
                       <el-table-column label="操作" width="180" align="center">
                         <template #default="scope">
@@ -146,6 +148,7 @@
                     <el-button type="primary" style="float:right">SDG图</el-button>
                   </router-link>
                 <el-table :data="variableMatrixData" border stripe style="width: 100%">
+
                   <el-table-column
                       :prop="index"
                       :label="item"
@@ -159,14 +162,12 @@
                   <div>
                     <el-button type="primary" @click="editVisible = true " style="float:right">新增</el-button>
                   </div>
-                  <div>
-                    <el-button type="primary" @click="editVisible = true " style="float:right">导出</el-button>
-                  </div>
                   <router-link :to="{path:'./variable3',query:{projectId:projectId}}">
                     <el-button type="primary" style="float:right">SDG图</el-button>
                   </router-link>
                 <el-table :data="adverseOutcomesData" border class="table" ref="multipleTable" header-cell-class-name="table-header">
-                  <el-table-column prop="adverseOutComesId" label="编号" width="55" align="center"></el-table-column>
+                  <el-table-column prop="date" label="项目编号" width="55" align="center" type="index"></el-table-column>
+                  <el-table-column v-if="false" prop="adverseOutComesId" label="编号" width="55" align="center"></el-table-column>
                   <el-table-column prop="pullOffNode" label="节点" align="center"></el-table-column>
                   <el-table-column prop="deviate" label="偏离" width="55" align="center"></el-table-column>
                   <el-table-column prop="variableName" label="变量名称" align="center"></el-table-column>
@@ -211,14 +212,15 @@
                 </el-dialog>
               </el-tab-pane>
                 <el-tab-pane :label="`非正常因素`" name="abnormalCauses">
-                  <div>
-                    <el-button type="primary" @click="editVisible = true " style="float:right">导出</el-button>
-                  </div>
+                  <router-link :to="{path:'./variable3',query:{projectId:projectId}}">
+                    <el-button type="primary" style="float:right">SDG图</el-button>
+                  </router-link>
                 <div>
                   <el-button type="primary" @click="editVisible = true " style="float:right">新增</el-button>
                 </div>
                 <el-table :data="abnormalCausesData" border class="table" ref="multipleTable" header-cell-class-name="table-header">
-                  <el-table-column prop="abnormalCausesId" label="编号" width="55" align="center"></el-table-column>
+                  <el-table-column prop="date" label="项目编号" width="55" align="center" type="index"></el-table-column>
+                  <el-table-column v-if="false" prop="abnormalCausesId" label="编号" width="55" align="center"></el-table-column>
                   <el-table-column prop="consequenceNode" label="节点" align="center"></el-table-column>
                   <el-table-column prop="deviate" label="偏离" width="55" align="center"></el-table-column>
                   <el-table-column prop="variableName" label="变量名称" align="center"></el-table-column>

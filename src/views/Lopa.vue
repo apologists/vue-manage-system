@@ -9,6 +9,7 @@
     </div>
     <div class="container">
       <el-table :data="tableData" border class="table" ref="multipleTable" header-cell-class-name="table-header">
+        <el-table-column prop="date" label="项目编号" width="55" align="center" type="index"></el-table-column>
         <el-table-column prop="lopaId" label="编号" v-if="false" align="center"></el-table-column>
         <el-table-column prop="scenarioDesc" label="场景描述" width="55" align="center"></el-table-column>
         <el-table-column prop="consequencesDesc" label="后果描述"></el-table-column>

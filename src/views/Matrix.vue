@@ -8,7 +8,7 @@
         </div>
         <div class="container">
             <el-tabs v-model="riskMessage" @tab-click="handleClick">
-                <el-tab-pane :label="`矩阵复用`" name="first">
+                <el-tab-pane :label="`矩阵复用`" name="frist">
                   <div class="handle-box">
                     <div>
                       <el-input v-model="query2.matrixName" placeholder="矩阵名称" class="handle-input mr10" :inline="true" style="width:30%;"></el-input>
@@ -75,11 +75,12 @@
                   </el-form>
                 </el-tab-pane>
                 <el-tab-pane :label="`风险严重度`" name="third">
-                  <div>
-                    <el-button type="primary" @click="editVisible = true " style="float:right">新增</el-button>
-                  </div>
+<!--                  <div>-->
+<!--                    <el-button type="primary" @click="editVisible = true " style="float:right">新增</el-button>-->
+<!--                  </div>-->
                   <el-table :data="riskData" border class="table" ref="multipleTable" header-cell-class-name="table-header">
-                    <el-table-column prop="riskId" label="编码" width="55" align="center"></el-table-column>
+                    <el-table-column prop="date" label="项目编号" width="55" align="center" type="index"></el-table-column>
+                    <el-table-column v-if="false" prop="riskId" label="编码" width="55" align="center"></el-table-column>
                     <el-table-column prop="grade" label="等级" align="center"></el-table-column>
                     <el-table-column prop="severity" label="严重程度" width="55" align="center"></el-table-column>
                     <el-table-column prop="personnel" label="人员" align="center"></el-table-column>
@@ -90,6 +91,8 @@
                     <el-table-column prop="lockout" label="停工" align="center"></el-table-column>
                     <el-table-column label="操作" width="180" align="center">
                       <template #default="scope">
+                        <el-button type="text" icon="el-icon-edit" @click="riskHandleEdit(scope.$index, scope.row)">编辑
+                        </el-button>
                         <el-button type="text" icon="el-icon-delete" class="red"
                                    @click="riskDelete(scope.$index,scope.row)">删除</el-button>
                       </template>
@@ -126,13 +129,13 @@
                     <template #footer>
                       <span class="dialog-footer">
                         <el-button @click="editVisible = false">取 消</el-button>
-                        <el-button type="primary" @click="riskOnSubmit">确 定</el-button>
+                        <el-button type="primary" @click="riskSaveEdit">确 定</el-button>
                       </span>
                     </template>
                   </el-dialog>
               </el-tab-pane>
                 <el-tab-pane :label="`可能性`" name="fourth">
-                      <el-button type="primary" @click="editVisible = true " style="float:right">新增</el-button>
+<!--                      <el-button type="primary" @click="editVisible = true " style="float:right">新增</el-button>-->
                       <el-dialog title="编辑" v-model="editVisible" width="30%">
                       <el-form ref="relationFormRef" :model="relationForm" label-width="80px">
                         <el-form-item label="频率等级">
@@ -148,12 +151,13 @@
                       <template #footer>
                       <span class="dialog-footer">
                         <el-button @click="editVisible = false">取 消</el-button>
-                        <el-button type="primary" @click="relationOnSubmit">确 定</el-button>
+                        <el-button type="primary" @click="relationSaveEdit">确 定</el-button>
                       </span>
                         </template>
                       </el-dialog>
                     <el-table :data="relationData" border class="table" ref="multipleTable" header-cell-class-name="table-header">
-                      <el-table-column prop="frequencyId" label="编号" width="55" align="center"></el-table-column>
+                      <el-table-column prop="date" label="项目编号" width="55" align="center" type="index"></el-table-column>
+                      <el-table-column v-if="false" prop="frequencyId" label="编号" width="55" align="center"></el-table-column>
                       <el-table-column prop="frequencyLevel" label="频率等级" align="center"></el-table-column>
                       <el-table-column prop="frequencyValue" label="频率值" width="55" align="center"></el-table-column>
                       <el-table-column prop="frequencyDesc" label="描述" align="center"></el-table-column>
@@ -161,13 +165,16 @@
                         <template #default="scope">
                           <el-button type="text" icon="el-icon-delete" class="red"
                                      @click="relationDelete(scope.$index, scope.row)">删除</el-button>
+                          <el-button type="text" icon="el-icon-edit" @click="relationHandleEdit(scope.$index, scope.row)">编辑
+                          </el-button>
                         </template>
                       </el-table-column>
                     </el-table>
               </el-tab-pane>
                 <el-tab-pane :label="`风险等级`" name="fifth">
                     <el-table :data="riskGradeData" border class="table" ref="multipleTable" header-cell-class-name="table-header" :cell-style="tableCellStyle">
-                      <el-table-column prop="riskGradeId" label="编号" width="55" align="center"></el-table-column>
+                      <el-table-column prop="date" label="项目编号" width="55" align="center" type="index"></el-table-column>
+                      <el-table-column v-if="false" prop="riskGradeId" label="编号" width="55" align="center"></el-table-column>
                       <el-table-column prop="riskGradeCode" label="Code" align="center"></el-table-column>
                       <el-table-column prop="riskGradeColor" label="Color" width="55" align="center"></el-table-column>
                       <el-table-column prop="riskGradeDesc" label="描述" align="center"></el-table-column>
@@ -244,6 +251,8 @@ import {
   fetchMatrixSuammryData,
   fetchMatrixData2,
   SaveMatrix,
+  updateRisk,
+  updateRelation,
 } from "../api";
 
 export default {
@@ -512,6 +521,7 @@ export default {
     });
     const riskFormRef = ref(null);
     const riskForm = reactive({
+      riskId:"",
       grade: "",
       severity: "",
       personnel: "",
@@ -524,6 +534,7 @@ export default {
     });
     const relationFormRef = ref(null);
     const relationForm = reactive({
+      frequencyId:"",
       frequencyLevel: "",
       frequencyValue: "",
       frequencyDesc: "",
@@ -585,6 +596,20 @@ export default {
         }
       });
     };
+    // 风险等级更新
+    const riskHandleEdit = (index, row) => {
+      idx = index;
+      Object.keys(riskForm).forEach((item) => {
+        riskForm[item] = row[item];
+      });
+      editVisible.value = true;
+    };
+    const riskSaveEdit = async () => {
+      editVisible.value = false;
+      const res = await updateRisk(riskForm);
+      location.reload();
+      ElMessage.success(`修改第 ${idx + 1} 行成功`);
+    };
     // 风险重置
     const riskOnReset = () => {
       riskFormRef.value.resetFields();
@@ -639,7 +664,20 @@ export default {
           .catch(() => {
           });
     };
-
+    // 风险等级更新
+    const relationHandleEdit = (index, row) => {
+      idx = index;
+      Object.keys(relationForm).forEach((item) => {
+        relationForm[item] = row[item];
+      });
+      editVisible.value = true;
+    };
+    const relationSaveEdit = async () => {
+      editVisible.value = false;
+      const res = await updateRelation(relationForm);
+      location.reload();
+      ElMessage.success(`修改第 ${idx + 1} 行成功`);
+    };
     // 风险等级删除
     const riskGradeDelete = (index) => {
       // 二次确认删除
@@ -716,6 +754,10 @@ export default {
       riskGradeSaveEdit,
       getMatrixSummaryData,
       handleSearch,
+      riskHandleEdit,
+      riskSaveEdit,
+      relationHandleEdit,
+      relationSaveEdit,
     };
   },
 };

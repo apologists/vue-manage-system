@@ -18,8 +18,9 @@
             <el-button type="primary" icon="el-icon-search" @click="handleSearch">搜索</el-button>
           </div>
           <el-table :data="caseData" border class="table" ref="multipleTable" header-cell-class-name="table-header">
+            <el-table-column prop="date" label="项目编号" width="55" align="center" type="index"></el-table-column>
             <el-table-column v-if="false" prop="projectId" label="项目编号" width="55" align="center"></el-table-column>
-            <el-table-column prop="caseId" label="项目编号" width="55" align="center"></el-table-column>
+            <el-table-column v-if="false" prop="caseId" label="项目编号" width="55" align="center"></el-table-column>
             <el-table-column prop="pullOffNode" label="原始拉偏点"></el-table-column>
             <el-table-column prop="deviation" label="偏差"></el-table-column>
             <el-table-column prop="abnormalCauses" label="非正常原因"></el-table-column>

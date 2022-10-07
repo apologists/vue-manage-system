@@ -12,7 +12,8 @@
         <el-button type="primary" @click="updateEdit" style="float:right">新增</el-button>
       </div>
       <el-table :data="tableData" border class="table" ref="multipleTable" header-cell-class-name="table-header">
-        <el-table-column prop="silSummaryId" label="编号" align="center"></el-table-column>
+        <el-table-column prop="date" label="项目编号" width="55" align="center" type="index"></el-table-column>
+        <el-table-column v-if="false" prop="silSummaryId" label="编号" align="center"></el-table-column>
         <el-table-column label="传感器" width="180" align="center">
           <template #default="scope">
             <el-button type="text" icon="el-icon-edit" @click="handleEdit1(scope.$index, scope.row)">冗余公式1</el-button>

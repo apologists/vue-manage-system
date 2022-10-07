@@ -12,7 +12,8 @@
         <el-tab-pane :label="`Hazop分析`" name="first">
           <el-button type="primary" @click="deliverParams()" style="float:right">新增</el-button>
           <el-table :data="tableData" border class="table" ref="multipleTable" header-cell-class-name="table-header">
-            <el-table-column prop="hazopId" label="项目编号" width="55" align="center"></el-table-column>
+            <el-table-column prop="date" label="项目编号" width="55" align="center" type="index"></el-table-column>
+            <el-table-column prop="hazopId" label="项目编号" width="55" align="center" v-if="false"></el-table-column>
             <el-table-column prop="pullOffNode" label="原始拉偏点"></el-table-column>
             <el-table-column prop="deviation" label="偏差"></el-table-column>
             <el-table-column prop="abnormalCauses" label="非正常原因"></el-table-column>

@@ -2,7 +2,7 @@ import request from '../utils/request';
 
 export const createProject = query => {
     return request({
-        url: 'http://localhost:8080/projectSummary/save',
+        url: 'http://124.223.177.2:8080/projectSummary/save',
         method: 'post',
         params: query
         // params: JSON.stringify(query)
@@ -11,7 +11,7 @@ export const createProject = query => {
 
 export const deleteProject = query => {
     return request({
-        url: 'http://localhost:8080/projectSummary/remove',
+        url: 'http://124.223.177.2:8080/projectSummary/remove',
         method: 'get',
         params: query
     });
@@ -19,7 +19,7 @@ export const deleteProject = query => {
 
 export const updateProject = query => {
     return request({
-        url: 'http://localhost:8080/projectSummary/update',
+        url: 'http://124.223.177.2:8080/projectSummary/update',
         method: 'post',
         params: query
     });
@@ -27,7 +27,7 @@ export const updateProject = query => {
 
 export const createMatrix = query => {
     return request({
-        url: 'http://localhost:8080/matrixSummary/save',
+        url: 'http://124.223.177.2:8080/matrixSummary/save',
         method: 'post',
         params: query
     });
@@ -35,7 +35,7 @@ export const createMatrix = query => {
 
 export const fetchMatrixSuammryData = query => {
     return request({
-        url: 'http://localhost:8080/matrixSummary/list',
+        url: 'http://124.223.177.2:8080/matrixSummary/list',
         method: 'get',
         params: query
     });
@@ -43,7 +43,7 @@ export const fetchMatrixSuammryData = query => {
 
 export const fetchData = query => {
     return request({
-        url: 'http://localhost:8080/projectSummary/page',
+        url: 'http://124.223.177.2:8080/projectSummary/page',
         method: 'get',
         params: query
     });
@@ -51,14 +51,14 @@ export const fetchData = query => {
 
 export const fetchMatrixData = query => {
     return request({
-        url: 'http://localhost:8080/matrixSummary/matrix',
+        url: 'http://124.223.177.2:8080/matrixSummary/matrix',
         method: 'get',
         params: query
     });
 };
 export const createRelation = query => {
     return request({
-        url: 'http://localhost:8080/relation/save',
+        url: 'http://124.223.177.2:8080/relation/save',
         method: 'post',
         params: query
     });
@@ -66,15 +66,23 @@ export const createRelation = query => {
 
 export const deleteRelation = query => {
     return request({
-        url: 'http://localhost:8080/relation/remove',
+        url: 'http://124.223.177.2:8080/relation/remove',
         method: 'get',
+        params: query
+    });
+};
+
+export const updateRelation = query => {
+    return request({
+        url: 'http://124.223.177.2:8080/relation/update',
+        method: 'post',
         params: query
     });
 };
 
 export const fetchRelationData = query => {
     return request({
-        url: 'http://localhost:8080/relation/page',
+        url: 'http://124.223.177.2:8080/relation/page',
         method: 'get',
         params: query
     });
@@ -82,15 +90,23 @@ export const fetchRelationData = query => {
 
 export const fetchRiskData = query => {
     return request({
-        url: 'http://localhost:8080/risk/page',
+        url: 'http://124.223.177.2:8080/risk/page',
         method: 'get',
+        params: query
+    });
+};
+
+export const updateRisk = query => {
+    return request({
+        url: 'http://124.223.177.2:8080/risk/update',
+        method: 'post',
         params: query
     });
 };
 
 export const createRisk = query => {
     return request({
-        url: 'http://localhost:8080/risk/save',
+        url: 'http://124.223.177.2:8080/risk/save',
         method: 'post',
         params: query
     });
@@ -98,7 +114,7 @@ export const createRisk = query => {
 
 export const deleteRisk = query => {
     return request({
-        url: 'http://localhost:8080/risk/remove',
+        url: 'http://124.223.177.2:8080/risk/remove',
         method: 'get',
         params: query
     });
@@ -106,7 +122,7 @@ export const deleteRisk = query => {
 
 export const fetchRiskGradeData = query => {
     return request({
-        url: 'http://localhost:8080/riskGrade/page',
+        url: 'http://124.223.177.2:8080/riskGrade/page',
         method: 'get',
         params: query
     });
@@ -114,7 +130,7 @@ export const fetchRiskGradeData = query => {
 
 export const updateRiskGrade = query => {
     return request({
-        url: 'http://localhost:8080/riskGrade/update',
+        url: 'http://124.223.177.2:8080/riskGrade/update',
         method: 'post',
         params: query
     });
@@ -123,7 +139,7 @@ export const updateRiskGrade = query => {
 
 export const createAdverseOutcomes = query => {
     return request({
-        url: 'http://localhost:8080/adverseOutComes/save',
+        url: 'http://124.223.177.2:8080/adverseOutComes/save',
         method: 'post',
         params: query
     });
@@ -131,14 +147,14 @@ export const createAdverseOutcomes = query => {
 
 export const deleteAdverseOutcomes = query => {
     return request({
-        url: 'http://localhost:8080/adverseOutComes/remove',
+        url: 'http://124.223.177.2:8080/adverseOutComes/remove',
         method: 'get',
         params: query
     });
 };
 export const fetchAdverseOutcomesData = query => {
     return request({
-        url: 'http://localhost:8080/adverseOutComes/page',
+        url: 'http://124.223.177.2:8080/adverseOutComes/page',
         method: 'get',
         params: query
     });
@@ -146,7 +162,7 @@ export const fetchAdverseOutcomesData = query => {
 
 export const fetchAbnormalCausesData = query => {
     return request({
-        url: 'http://localhost:8080/abnormalCauses/page',
+        url: 'http://124.223.177.2:8080/abnormalCauses/page',
         method: 'get',
         params: query
     });
@@ -154,7 +170,7 @@ export const fetchAbnormalCausesData = query => {
 
 export const createAbnormalCauses = query => {
     return request({
-        url: 'http://localhost:8080/abnormalCauses/save',
+        url: 'http://124.223.177.2:8080/abnormalCauses/save',
         method: 'post',
         params: query
     });
@@ -162,7 +178,7 @@ export const createAbnormalCauses = query => {
 
 export const deleteAbnormalCauses = query => {
     return request({
-        url: 'http://localhost:8080/abnormalCauses/remove',
+        url: 'http://124.223.177.2:8080/abnormalCauses/remove',
         method: 'get',
         params: query
     });
@@ -170,7 +186,7 @@ export const deleteAbnormalCauses = query => {
 
 export const fetchVariableData = query => {
     return request({
-        url: 'http://localhost:8080/variable/page',
+        url: 'http://124.223.177.2:8080/variable/page',
         method: 'get',
         params: query
     });
@@ -178,7 +194,7 @@ export const fetchVariableData = query => {
 
 export const createVariable = query => {
     return request({
-        url: 'http://localhost:8080/variable/save',
+        url: 'http://124.223.177.2:8080/variable/save',
         method: 'post',
         params: query
     });
@@ -186,7 +202,7 @@ export const createVariable = query => {
 
 export const deleteVariable = query => {
     return request({
-        url: 'http://localhost:8080/variable/remove',
+        url: 'http://124.223.177.2:8080/variable/remove',
         method: 'get',
         params: query
     });
@@ -195,7 +211,7 @@ export const deleteVariable = query => {
 
 export const createFormula = query => {
     return request({
-        url: 'http://localhost:8080/formula/save',
+        url: 'http://124.223.177.2:8080/formula/save',
         method: 'post',
         params: query
     });
@@ -203,7 +219,7 @@ export const createFormula = query => {
 
 export const deleteFormula = query => {
     return request({
-        url: 'http://localhost:8080/formula/remove',
+        url: 'http://124.223.177.2:8080/formula/remove',
         method: 'get',
         params: query
     });
@@ -211,7 +227,7 @@ export const deleteFormula = query => {
 
 export const fetchFormulaData = query => {
     return request({
-        url: 'http://localhost:8080/formula/page',
+        url: 'http://124.223.177.2:8080/formula/page',
         method: 'get',
         params: query
     });
@@ -219,7 +235,7 @@ export const fetchFormulaData = query => {
 
 export const fetchVariableMatrixData = query => {
     return request({
-        url: 'http://localhost:8080/variable/list',
+        url: 'http://124.223.177.2:8080/variable/list',
         method: 'get',
         params: query
     });
@@ -227,7 +243,7 @@ export const fetchVariableMatrixData = query => {
 
 export const fetchHazopData = query => {
     return request({
-        url: 'http://localhost:8080/hazop/page',
+        url: 'http://124.223.177.2:8080/hazop/page',
         method: 'get',
         params: query
     });
@@ -235,7 +251,7 @@ export const fetchHazopData = query => {
 
 export const updateHazop = query => {
     return request({
-        url: 'http://localhost:8080/caseSummary/update',
+        url: 'http://124.223.177.2:8080/caseSummary/update',
         method: 'post',
         params: query
     });
@@ -243,7 +259,7 @@ export const updateHazop = query => {
 
 export const SaveHazop = query => {
     return request({
-        url: 'http://localhost:8080/hazop/update',
+        url: 'http://124.223.177.2:8080/hazop/update',
         method: 'post',
         params: query
     });
@@ -251,7 +267,7 @@ export const SaveHazop = query => {
 
 export const deleteHazop = query => {
     return request({
-        url: 'http://localhost:8080/hazop/remove',
+        url: 'http://124.223.177.2:8080/hazop/remove',
         method: 'get',
         params: query
     });
@@ -259,7 +275,7 @@ export const deleteHazop = query => {
 
 export const fetchLopaData = query => {
     return request({
-        url: 'http://localhost:8080/lopa/page',
+        url: 'http://124.223.177.2:8080/lopa/page',
         method: 'get',
         params: query
     });
@@ -267,7 +283,7 @@ export const fetchLopaData = query => {
 
 export const updateLopa = query => {
     return request({
-        url: 'http://localhost:8080/lopa/update',
+        url: 'http://124.223.177.2:8080/lopa/update',
         method: 'post',
         params: query
     });
@@ -275,7 +291,7 @@ export const updateLopa = query => {
 
 export const deleteLopa = query => {
     return request({
-        url: 'http://localhost:8080/lopa/remove',
+        url: 'http://124.223.177.2:8080/lopa/remove',
         method: 'get',
         params: query
     });
@@ -283,7 +299,7 @@ export const deleteLopa = query => {
 
 export const fetchOptions1Data = query => {
     return request({
-        url: 'http://localhost:8080/hazop/options1',
+        url: 'http://124.223.177.2:8080/hazop/options1',
         method: 'get',
         params: query
     });
@@ -291,7 +307,7 @@ export const fetchOptions1Data = query => {
 
 export const fetchOptions2Data = query => {
     return request({
-        url: 'http://localhost:8080/hazop/options2',
+        url: 'http://124.223.177.2:8080/hazop/options2',
         method: 'get',
         params: query
     });
@@ -299,7 +315,7 @@ export const fetchOptions2Data = query => {
 
 export const fetchOptions3Data = query => {
     return request({
-        url: 'http://localhost:8080/hazop/options3',
+        url: 'http://124.223.177.2:8080/hazop/options3',
         method: 'get',
         params: query
     });
@@ -307,7 +323,7 @@ export const fetchOptions3Data = query => {
 
 export const createBase = query => {
     return request({
-        url: 'http://localhost:8080/baseSummary/save',
+        url: 'http://124.223.177.2:8080/baseSummary/save',
         method: 'post',
         params: query
     });
@@ -316,7 +332,7 @@ export const createBase = query => {
 
 export const fetchBaseDate = query => {
     return request({
-        url: 'http://localhost:8080/baseSummary/list',
+        url: 'http://124.223.177.2:8080/baseSummary/list',
         method: 'get',
         params: query
     });
@@ -324,7 +340,7 @@ export const fetchBaseDate = query => {
 
 export const fetchSDGData = query => {
     return request({
-        url: 'http://localhost:8080/variable/sdg',
+        url: 'http://124.223.177.2:8080/variable/sdg',
         // url: './option2.json',
         method: 'get',
         params: query
@@ -333,7 +349,7 @@ export const fetchSDGData = query => {
 
 export const fetchSDGDetailData = query => {
     return request({
-        url: 'http://localhost:8080/variable/sdgDetail',
+        url: 'http://124.223.177.2:8080/variable/sdgDetail',
         //url: './option2.json',
         method: 'get',
         params: query
@@ -342,7 +358,7 @@ export const fetchSDGDetailData = query => {
 
 export const fetchCaseData = query => {
     return request({
-        url: 'http://localhost:8080/caseSummary/list',
+        url: 'http://124.223.177.2:8080/caseSummary/list',
         //url: './option2.json',
         method: 'get',
         params: query
@@ -351,7 +367,7 @@ export const fetchCaseData = query => {
 
 export const saveCase = query => {
     return request({
-        url: 'http://localhost:8080/caseSummary/save',
+        url: 'http://124.223.177.2:8080/caseSummary/save',
         method: 'post',
         params: query
     });
@@ -359,7 +375,7 @@ export const saveCase = query => {
 
 export const updateCase = query => {
     return request({
-        url: 'http://localhost:8080/caseSummary/saveHazop',
+        url: 'http://124.223.177.2:8080/caseSummary/saveHazop',
         method: 'get',
         params: query
     });
@@ -367,7 +383,7 @@ export const updateCase = query => {
 
 export const deleteCase = query => {
     return request({
-        url: 'http://localhost:8080/caseSummary/remove',
+        url: 'http://124.223.177.2:8080/caseSummary/remove',
         method: 'get',
         params: query
     });
@@ -375,7 +391,7 @@ export const deleteCase = query => {
 
 export const fetchMatrixData2 = query => {
     return request({
-        url: 'http://localhost:8080/matrixSummary/page',
+        url: 'http://124.223.177.2:8080/matrixSummary/page',
         method: 'get',
         params: query
     });
@@ -383,7 +399,7 @@ export const fetchMatrixData2 = query => {
 
 export const SaveMatrix = query => {
     return request({
-        url: 'http://localhost:8080/matrixSummary/saveMatrix',
+        url: 'http://124.223.177.2:8080/matrixSummary/saveMatrix',
         method: 'get',
         params: query
     });
@@ -391,7 +407,7 @@ export const SaveMatrix = query => {
 
 export const updateSil1 = query => {
     return request({
-        url: 'http://localhost:8080/silSummary/updateSil1',
+        url: 'http://124.223.177.2:8080/silSummary/updateSil1',
         method: 'post',
         params: query
     });
@@ -399,7 +415,7 @@ export const updateSil1 = query => {
 
 export const updateSil2 = query => {
     return request({
-        url: 'http://localhost:8080/silSummary/updateSil2',
+        url: 'http://124.223.177.2:8080/silSummary/updateSil2',
         method: 'post',
         params: query
     });
@@ -407,7 +423,7 @@ export const updateSil2 = query => {
 
 export const updateSil3 = query => {
     return request({
-        url: 'http://localhost:8080/silSummary/updateSil3',
+        url: 'http://124.223.177.2:8080/silSummary/updateSil3',
         method: 'post',
         params: query
     });
@@ -415,7 +431,7 @@ export const updateSil3 = query => {
 
 export const updateSil4 = query => {
     return request({
-        url: 'http://localhost:8080/silSummary/updateSil4',
+        url: 'http://124.223.177.2:8080/silSummary/updateSil4',
         method: 'post',
         params: query
     });
@@ -423,7 +439,7 @@ export const updateSil4 = query => {
 
 export const updateSil5 = query => {
     return request({
-        url: 'http://localhost:8080/silSummary/updateSil5',
+        url: 'http://124.223.177.2:8080/silSummary/updateSil5',
         method: 'post',
         params: query
     });
@@ -431,7 +447,7 @@ export const updateSil5 = query => {
 
 export const fetchSilSummaryData = query => {
     return request({
-        url: 'http://localhost:8080/silSummary/list',
+        url: 'http://124.223.177.2:8080/silSummary/list',
         method: 'get',
         params: query
     });
@@ -439,7 +455,7 @@ export const fetchSilSummaryData = query => {
 
 export const deleteSilSummary = query => {
     return request({
-        url: 'http://localhost:8080/silSummary/remove',
+        url: 'http://124.223.177.2:8080/silSummary/remove',
         method: 'get',
         params: query
     });
@@ -447,7 +463,7 @@ export const deleteSilSummary = query => {
 
 export const SaveSilSummary = query => {
     return request({
-        url: 'http://localhost:8080/silSummary/save',
+        url: 'http://124.223.177.2:8080/silSummary/save',
         method: 'post',
         params: query
     });

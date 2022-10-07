@@ -9,7 +9,8 @@
     </div>
     <div class="container">
       <el-table :data="tableData" border class="table" ref="multipleTable" header-cell-class-name="table-header">
-        <el-table-column prop="projectId" label="项目编号" width="55" align="center"></el-table-column>
+        <el-table-column prop="date" label="项目编号" width="55" align="center" type="index"></el-table-column>
+        <el-table-column v-if="false" prop="projectId" label="项目编号" width="55" align="center"></el-table-column>
         <el-table-column prop="projectName" label="项目名称"></el-table-column>
         <el-table-column label="PJG图" align="center">
           <template #default="scope">
@@ -26,7 +27,7 @@
               <el-button type="text" icon="el-icon-edit">风险矩阵</el-button>
             </router-link>
             <router-link :to="{path:'./variable',query:{projectId:scope.row.projectId}}">
-              <el-button type="text" icon="el-icon-edit">变量</el-button>
+              <el-button type="text" icon="el-icon-edit">SDG建模</el-button>
             </router-link>
             <router-link :to="{path:'./hazop',query:{projectId:scope.row.projectId}}">
               <el-button type="text" icon="el-icon-edit">hazop分析</el-button>
