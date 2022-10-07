@@ -80,7 +80,7 @@ export default {
           // },
           {
             icon: "el-icon-lx-copy",
-            index: "/hazop2",
+            index: "/hazop3",
             title: "案例库",
           },
           // {

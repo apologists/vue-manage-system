@@ -39,12 +39,14 @@
             <el-table-column prop="suggestedActions" label="建议措施"></el-table-column>
             <el-table-column label="操作" width="180" align="center">
               <template #default="scope">
+                <el-button type="text" icon="el-icon-edit" @click="handleUpdate(scope.$index, scope.row)">编辑</el-button>
+                <el-button type="text" icon="el-icon-edit" @click="updateEdit(scope.$index, scope.row)">添加</el-button>
                 <el-button type="text" icon="el-icon-delete" class="red" @click="handleCaseDelete(scope.$index, scope.row)">删除</el-button>
               </template>
             </el-table-column>
           </el-table>
           <!-- 编辑弹出框 -->
-          <el-dialog title="编辑" v-model="editVisible" width="30%">
+          <el-dialog title="新增" v-model="editVisible" width="30%">
             <el-form label-width="70px">
               <el-form-item label="原始拉偏点">
                 <el-input v-model="caseForm.pullOffNode"></el-input>
@@ -78,6 +80,40 @@
                 </span>
             </template>
           </el-dialog>
+          <el-dialog title="编辑" v-model="editVisible2" width="30%">
+          <el-form ref="caseFormRef"  :model="caseForm" label-width="70px">
+            <el-form-item label="原始拉偏点">
+              <el-input v-model="caseForm.pullOffNode"></el-input>
+            </el-form-item>
+            <el-form-item label="可能性">
+              <el-input v-model="caseForm.relationShips"></el-input>
+            </el-form-item>
+            <el-form-item label="严重度">
+              <el-input v-model="caseForm.riskSeverity"></el-input>
+            </el-form-item>
+            <el-form-item label="非正常原因">
+              <el-input v-model="caseForm.abnormalCauses"></el-input>
+            </el-form-item>
+            <el-form-item label="不利后果">
+              <el-input v-model="caseForm.adverseOutComes"></el-input>
+            </el-form-item>
+            <el-form-item label="风险等级">
+              <el-input v-model="caseForm.riskGrade"></el-input>
+            </el-form-item>
+            <el-form-item label="现有措施">
+              <el-input v-model="caseForm.existingMeasures"></el-input>
+            </el-form-item>
+            <el-form-item label="建议措施">
+              <el-input v-model="caseForm.suggestedActions"></el-input>
+            </el-form-item>
+          </el-form>
+          <template #footer>
+                <span class="dialog-footer">
+                    <el-button @click="editVisible2 = false">取 消</el-button>
+                    <el-button type="primary" @click="saveUpdate">确 定</el-button>
+                </span>
+          </template>
+        </el-dialog>
         </el-tab-pane>
       </el-tabs>
     </div>
@@ -87,7 +123,7 @@
 <script>
 import { ref, reactive } from "vue";
 import { ElMessage, ElMessageBox } from "element-plus";
-import {deleteHazop, updateHazop, fetchHazopData,updateCase,fetchCaseData,saveCase,deleteCase} from "../api/index";
+import {deleteHazop, SaveHazop,updateHazop, fetchHazopData,updateCase,fetchCaseData,saveCase,deleteCase} from "../api/index";
 
 export default {
   name: "projectList",
@@ -102,13 +138,17 @@ export default {
     handleClick(tab, event) {
       sessionStorage.setItem('current_name', tab.props.name)
     },
-
+    deliverParams () {
+      var projectId = this.$route.params.projectId;
+      this.$router.push({
+        path:`/hazop4/${projectId}`
+      })
+    },
     async updateEdit(index, data) {
-      var projectId = this.$route.query.projectId;
-      console.info(projectId);
+      var projectId = this.$route.params.projectId;
       await updateCase({caseId: data.caseId, projectId: projectId})
-      ElMessage.success(`修改第 ${idx + 1} 行成功`);
-      location.reload();
+      ElMessage.success(`添加成功`);
+      this.deliverParams();
     },
   },
   mounted() {
@@ -142,6 +182,7 @@ export default {
 
     // 表格编辑时弹窗和保存
     const editVisible = ref(false);
+    const editVisible2 = ref(false);
     let form = reactive({
       pullOffNode:"",
       relationShips: "",
@@ -153,6 +194,21 @@ export default {
       projectId:"",
     });
     let idx = -1;
+    const riskFormRef = ref(null);
+    const handleUpdate = (index, row) => {
+      idx = index;
+      Object.keys(caseForm).forEach((item) => {
+        caseForm[item] = row[item];
+      });
+      editVisible2.value = true;
+    };
+    const saveUpdate = async () => {
+      editVisible2.value = false;
+      await updateHazop(caseForm);
+      ElMessage.success(`修改第 ${idx + 1} 行成功`);
+      location.reload();
+    };
+
     const handleEdit = (index, row) => {
       idx = index;
       Object.keys(form).forEach((item) => {
@@ -162,7 +218,7 @@ export default {
     };
     const saveEdit = async () => {
       editVisible.value = false;
-      await updateHazop(form);
+      await SaveHazop(form);
       ElMessage.success(`修改第 ${idx + 1} 行成功`);
       location.reload();
     };
@@ -227,6 +283,7 @@ export default {
 
     return {
       editVisible,
+      editVisible2,
       form,
       caseForm,
       caseData,
@@ -238,6 +295,8 @@ export default {
       handleEdit,
       saveEdit,
       handleCaseDelete,
+      saveUpdate,
+      handleUpdate,
     };
   },
 };

@@ -235,6 +235,14 @@ export const fetchHazopData = query => {
 
 export const updateHazop = query => {
     return request({
+        url: 'http://localhost:8080/caseSummary/update',
+        method: 'post',
+        params: query
+    });
+};
+
+export const SaveHazop = query => {
+    return request({
         url: 'http://localhost:8080/hazop/update',
         method: 'post',
         params: query

@@ -10,6 +10,7 @@
     <div class="container">
       <el-tabs v-model="hazopMessage" @tab-click="handleClick">
         <el-tab-pane :label="`Hazop分析`" name="first">
+          <el-button type="primary" @click="deliverParams()" style="float:right">新增</el-button>
           <el-table :data="tableData" border class="table" ref="multipleTable" header-cell-class-name="table-header">
             <el-table-column prop="hazopId" label="项目编号" width="55" align="center"></el-table-column>
             <el-table-column prop="pullOffNode" label="原始拉偏点"></el-table-column>
@@ -65,77 +66,77 @@
             </template>
           </el-dialog>
         </el-tab-pane>
-        <el-tab-pane :label="`案件库`" name="secend">
-          <div>
-            <el-button type="primary" @click="editVisible = true " style="float:right">新增</el-button>
-          </div>
-          <div class="handle-box">
-            <el-input v-model="query.pullOffNode" placeholder="关键字" class="handle-input mr10"></el-input>
-            <el-button type="primary" icon="el-icon-search" @click="handleSearch">搜索</el-button>
-          </div>
-          <el-table :data="caseData" border class="table" ref="multipleTable" header-cell-class-name="table-header">
-            <el-table-column v-if="false" prop="projectId" label="项目编号" width="55" align="center"></el-table-column>
-            <el-table-column prop="caseId" label="项目编号" width="55" align="center"></el-table-column>
-            <el-table-column prop="pullOffNode" label="原始拉偏点"></el-table-column>
-            <el-table-column prop="deviation" label="偏差"></el-table-column>
-            <el-table-column prop="abnormalCauses" label="非正常原因"></el-table-column>
-            <el-table-column prop="adverseOutComes" label="不利后果"></el-table-column>
-            <el-table-column prop="relationShips" label="可能性"></el-table-column>
-            <el-table-column prop="riskSeverity" label="严重度"></el-table-column>
-            <el-table-column prop="riskGrade" label="风险等级">
-              <template #default="scope">
-                <span v-if="scope.row.riskGrade>=0" style="color:green">{{ scope.row.riskGrade }}</span>
-                <span v-if="scope.row.riskGrade>=1" style="color:yellow">{{ scope.row.riskGrade }}</span>
-                <span v-if="scope.row.riskGrade>=2" style="color:purple">{{ scope.row.riskGrade }}</span>
-                <span v-if="scope.row.riskGrade>=3" style="color:red">{{ scope.row.riskGrade }}</span>
-                <span v-else style="color: #37B328">{{ scope.row.riskGrade }}</span>
-              </template>
-            </el-table-column>
-            <el-table-column prop="existingMeasures" label="现有措施"></el-table-column>
-            <el-table-column prop="suggestedActions" label="建议措施"></el-table-column>
-            <el-table-column label="操作" width="180" align="center">
-              <template #default="scope">
-                <el-button type="text" icon="el-icon-edit" @click="updateEdit(scope.$index, scope.row)">添加</el-button>
-                <el-button type="text" icon="el-icon-delete" class="red" @click="handleCaseDelete(scope.$index, scope.row)">删除</el-button>
-              </template>
-            </el-table-column>
-          </el-table>
-          <!-- 编辑弹出框 -->
-          <el-dialog title="编辑" v-model="editVisible" width="30%">
-            <el-form label-width="70px">
-              <el-form-item label="原始拉偏点">
-                <el-input v-model="caseForm.pullOffNode"></el-input>
-              </el-form-item>
-              <el-form-item label="可能性">
-                <el-input v-model="caseForm.relationShips"></el-input>
-              </el-form-item>
-              <el-form-item label="严重度">
-                <el-input v-model="caseForm.riskSeverity"></el-input>
-              </el-form-item>
-              <el-form-item label="非正常原因">
-                <el-input v-model="caseForm.abnormalCauses"></el-input>
-              </el-form-item>
-              <el-form-item label="不利后果">
-                <el-input v-model="caseForm.adverseOutComes"></el-input>
-              </el-form-item>
-              <el-form-item label="风险等级">
-                <el-input v-model="caseForm.riskGrade"></el-input>
-              </el-form-item>
-              <el-form-item label="现有措施">
-                <el-input v-model="caseForm.existingMeasures"></el-input>
-              </el-form-item>
-              <el-form-item label="建议措施">
-                <el-input v-model="caseForm.suggestedActions"></el-input>
-              </el-form-item>
-            </el-form>
-            <template #footer>
-                <span class="dialog-footer">
-                    <el-button @click="editVisible = false">取 消</el-button>
-                    <el-button type="primary" @click="saveCaseEdit">确 定</el-button>
-                </span>
-            </template>
-          </el-dialog>
-        </el-tab-pane>
+<!--        <el-tab-pane :label="`案件库`" name="secend">-->
+<!--          <div>-->
+<!--            <el-button type="primary" @click="editVisible = true " style="float:right">新增</el-button>-->
+<!--          </div>-->
+<!--          <div class="handle-box">-->
+<!--            <el-input v-model="query.pullOffNode" placeholder="关键字" class="handle-input mr10"></el-input>-->
+<!--            <el-button type="primary" icon="el-icon-search" @click="handleSearch">搜索</el-button>-->
+<!--          </div>-->
+<!--          <el-table :data="caseData" border class="table" ref="multipleTable" header-cell-class-name="table-header">-->
+<!--            <el-table-column v-if="false" prop="projectId" label="项目编号" width="55" align="center"></el-table-column>-->
+<!--            <el-table-column prop="caseId" label="项目编号" width="55" align="center"></el-table-column>-->
+<!--            <el-table-column prop="pullOffNode" label="原始拉偏点"></el-table-column>-->
+<!--            <el-table-column prop="deviation" label="偏差"></el-table-column>-->
+<!--            <el-table-column prop="abnormalCauses" label="非正常原因"></el-table-column>-->
+<!--            <el-table-column prop="adverseOutComes" label="不利后果"></el-table-column>-->
+<!--            <el-table-column prop="relationShips" label="可能性"></el-table-column>-->
+<!--            <el-table-column prop="riskSeverity" label="严重度"></el-table-column>-->
+<!--            <el-table-column prop="riskGrade" label="风险等级">-->
+<!--              <template #default="scope">-->
+<!--                <span v-if="scope.row.riskGrade>=0" style="color:green">{{ scope.row.riskGrade }}</span>-->
+<!--                <span v-if="scope.row.riskGrade>=1" style="color:yellow">{{ scope.row.riskGrade }}</span>-->
+<!--                <span v-if="scope.row.riskGrade>=2" style="color:purple">{{ scope.row.riskGrade }}</span>-->
+<!--                <span v-if="scope.row.riskGrade>=3" style="color:red">{{ scope.row.riskGrade }}</span>-->
+<!--                <span v-else style="color: #37B328">{{ scope.row.riskGrade }}</span>-->
+<!--              </template>-->
+<!--            </el-table-column>-->
+<!--            <el-table-column prop="existingMeasures" label="现有措施"></el-table-column>-->
+<!--            <el-table-column prop="suggestedActions" label="建议措施"></el-table-column>-->
+<!--            <el-table-column label="操作" width="180" align="center">-->
+<!--              <template #default="scope">-->
+<!--                <el-button type="text" icon="el-icon-edit" @click="updateEdit(scope.$index, scope.row)">添加</el-button>-->
+<!--                <el-button type="text" icon="el-icon-delete" class="red" @click="handleCaseDelete(scope.$index, scope.row)">删除</el-button>-->
+<!--              </template>-->
+<!--            </el-table-column>-->
+<!--          </el-table>-->
+<!--          &lt;!&ndash; 编辑弹出框 &ndash;&gt;-->
+<!--          <el-dialog title="编辑" v-model="editVisible" width="30%">-->
+<!--            <el-form label-width="70px">-->
+<!--              <el-form-item label="原始拉偏点">-->
+<!--                <el-input v-model="caseForm.pullOffNode"></el-input>-->
+<!--              </el-form-item>-->
+<!--              <el-form-item label="可能性">-->
+<!--                <el-input v-model="caseForm.relationShips"></el-input>-->
+<!--              </el-form-item>-->
+<!--              <el-form-item label="严重度">-->
+<!--                <el-input v-model="caseForm.riskSeverity"></el-input>-->
+<!--              </el-form-item>-->
+<!--              <el-form-item label="非正常原因">-->
+<!--                <el-input v-model="caseForm.abnormalCauses"></el-input>-->
+<!--              </el-form-item>-->
+<!--              <el-form-item label="不利后果">-->
+<!--                <el-input v-model="caseForm.adverseOutComes"></el-input>-->
+<!--              </el-form-item>-->
+<!--              <el-form-item label="风险等级">-->
+<!--                <el-input v-model="caseForm.riskGrade"></el-input>-->
+<!--              </el-form-item>-->
+<!--              <el-form-item label="现有措施">-->
+<!--                <el-input v-model="caseForm.existingMeasures"></el-input>-->
+<!--              </el-form-item>-->
+<!--              <el-form-item label="建议措施">-->
+<!--                <el-input v-model="caseForm.suggestedActions"></el-input>-->
+<!--              </el-form-item>-->
+<!--            </el-form>-->
+<!--            <template #footer>-->
+<!--                <span class="dialog-footer">-->
+<!--                    <el-button @click="editVisible = false">取 消</el-button>-->
+<!--                    <el-button type="primary" @click="saveCaseEdit">确 定</el-button>-->
+<!--                </span>-->
+<!--            </template>-->
+<!--          </el-dialog>-->
+<!--        </el-tab-pane>-->
       </el-tabs>
     </div>
   </div>
@@ -156,6 +157,15 @@ export default {
     }
   },
   methods: {
+    deliverParams () {
+      var projectId = this.$route.query.projectId;
+      if(typeof(projectId) == "undefined" || projectId == null){
+        projectId = this.$route.params.projectId;
+      }
+      this.$router.push({
+        path:`/hazop2/${projectId}`
+      })
+    },
     handleClick(tab, event) {
       sessionStorage.setItem('current_name', tab.props.name)
     },

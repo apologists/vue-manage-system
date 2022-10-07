@@ -108,13 +108,30 @@ const routes = [
                 component: () => import ( /* webpackChunkName: "tabs" */ "../views/Hazop.vue")
             },
             {
-                path: "/hazop2",
+                path: "/hazop4/:projectId",
+                name: "hazop4",
+                meta: {
+                    title: 'hazop4分析'
+                },
+                component: () => import ( /* webpackChunkName: "tabs" */ "../views/Hazop.vue")
+            },
+            {
+                path: "/hazop3",
+                name: "hazop3",
+                meta: {
+                    title: '案例库'
+                },
+                component: () => import ( /* webpackChunkName: "tabs" */ "../views/Hazop2.vue")
+            },
+            {
+                path: "/hazop2/:projectId",
                 name: "hazop2",
                 meta: {
                     title: '案例库'
                 },
                 component: () => import ( /* webpackChunkName: "tabs" */ "../views/Hazop2.vue")
-            },{
+            },
+            {
                 path: "/SIL",
                 name: "SIL",
                 meta: {
